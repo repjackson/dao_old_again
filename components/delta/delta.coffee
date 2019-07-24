@@ -215,12 +215,6 @@ if Meteor.isClient
             else
                 # console.log 'false'
                 return false
-
-        model_template: ->
-            current_model = Router.current().params.model_slug
-            "#{current_model}_card_template"
-
-
         result: ->
             if Docs.findOne @_id
                 # console.log 'doc'
@@ -233,6 +227,26 @@ if Meteor.isClient
             else if Meteor.users.findOne @_id
                 # console.log 'user'
                 Meteor.users.findOne @_id
+
+
+
+
+    Template.key_template.helpers
+        key: -> @valueOf()
+        value: -> Template.parentData()["#{@valueOf()}"]
+        meta: ->
+            # console.log Template.parentData()["_#{@valueOf()}"]
+            "#{Template.parentData()["_#{@valueOf()}"].field}_view"
+
+        model_template: ->
+            # console.log @
+            # console.log Template.parentData()
+            # console.log Template.parentData()["#{@valueOf()}"]
+
+            # current_model = Router.current().params.model_slug
+            # "#{current_model}_card_template"
+
+
 
     Template.delta_result.events
         'click .set_model': ->

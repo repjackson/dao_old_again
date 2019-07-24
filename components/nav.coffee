@@ -20,9 +20,14 @@ if Meteor.isClient
             Meteor.call 'set_facets', 'model', ->
                 Session.set 'loading', false
 
-        'click .set_all': ->
+        'click .set_image': ->
             Session.set 'loading', true
-            Meteor.call 'set_facets', 'all', ->
+            Meteor.call 'set_facets', 'image', ->
+                Session.set 'loading', false
+
+        'click .set_video': ->
+            Session.set 'loading', true
+            Meteor.call 'set_facets', 'video', ->
                 Session.set 'loading', false
 
         'click .set_food': ->
@@ -30,14 +35,19 @@ if Meteor.isClient
             Meteor.call 'set_facets', 'food', ->
                 Session.set 'loading', false
 
-        'click .set_food_truck': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'food_truck', ->
-                Session.set 'loading', false
-
-        'click .set_drinks': ->
+        'click .set_drink': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', 'drink', ->
+                Session.set 'loading', false
+
+        'click .set_event': ->
+            Session.set 'loading', true
+            Meteor.call 'set_facets', 'event', ->
+                Session.set 'loading', false
+
+        'click .set_all': ->
+            Session.set 'loading', true
+            Meteor.call 'set_all', 'event', ->
                 Session.set 'loading', false
 
         'click .set_bookmarked_model': ->

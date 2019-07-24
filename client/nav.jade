@@ -5,40 +5,38 @@ template(name='nav')
         if is_loading
             //- .icon.item
             //-     i.big.loading.grey.yin.yang.icon
-            a.item(href='/home' class="{{isActivePath '/home'}}")
-                img.ui.mini.image.rotate(src="{{c.url 'rayback_logo' width=300 height=300 gravity='face' crop='fill'}}")
+            a.icon.item
+                i.yin.yang.loading.big.icon
+                //- img.ui.mini.image.rotate(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
         else
-            a.item(href='/home' class="{{isActivePath '/home'}}")
-                img.ui.mini.image(src="{{c.url 'rayback_logo' width=300 height=300 gravity='face' crop='fill'}}")
+            a.icon.item.set_all(href='/m/all' class="{{isActivePath '/m/all'}}")
+                i.yin.yang.big.icon
+            //- a.icon.item(href='/home' class="{{isActivePath '/home'}}")
+            //-     i.yin.yang.big.icon
+                //- img.ui.mini.image(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
                 //- i.sitemap.large.icon
-        if is_admin
-            a.item.set_model(href='/m/model' class="{{isActivePath '/m/model'}} loading")
-                i.sitemap.large.icon
-        if is_staff
-            a.icon.item(href='/staff' class="{{isActivePath '/staff'}}" title='staff')
-                +i name='employee-card'
-            a.icon.item(href='/admin' class="{{isActivePath '/admin'}}" title='admin')
-                +i name='user-shield'
-        a.icon.item(href='/dashboard' class="{{isActivePath '/dashboard'}}" title='dashboard')
-            +i name='dashboard'
-        a.icon.item.set_food_truck(href='/m/food_truck' class="{{isActivePath '/m/food_truck'}} #{loading_class}" title='food')
-            +i name='truck'
+        a.item.set_model(href='/m/model' class="{{isActivePath '/m/model'}} loading")
+            i.sitemap.large.icon
+        //- a.icon.item(href='/dashboard' class="{{isActivePath '/dashboard'}}" title='dashboard')
+        //-     +i name='dashboard'
+        //- a.icon.item.set_food(href='/m/food' class="{{isActivePath '/m/food'}} #{loading_class}" title='food')
+        //-     +i name='food'
         //- a.icon.item.set_food(href='/m/food' class="{{isActivePath '/m/food'}}" title='food')
         //-     +i name='meal'
-        a.icon.item.set_drinks(href='/m/drink' class="{{isActivePath '/m/drink'}} #{loading_class}" title='food')
-            +i name='beer'
+        //- a.icon.item.set_drink(href='/m/drink' class="{{isActivePath '/m/drink'}} #{loading_class}" title='food')
+        //-     +i name='beer'
         //- a.icon.item(href='/groups' class="{{isActivePath '/groups'}} #{loading_class}")
         //-     +i name='groups'
-        a.icon.item(href='/events' class="{{isActivePath '/events'}} #{loading_class}" title='events')
-            +i name='calendar'
-        a.icon.item(href='/drink_categories' class="{{isActivePath '/drink_categories'}} #{loading_class}" title='drink_categories')
-            +i name='cocktail'
-        a.icon.item(href='/gallery' class="{{isActivePath '/gallery'}} #{loading_class}")
-            +i name='gallery'
-        a.icon.item(href='/videos' class="{{isActivePath '/videos'}} #{loading_class}" title='video')
-            +i name='video'
-        a.icon.item(href='/menu' class="{{isActivePath '/menu'}} #{loading_class}" title='menu')
-            +i name='restaurant-menu'
+        //- a.icon.item.set_event(href='/m/event' class="{{isActivePath '/m/event'}} #{loading_class}" title='events')
+        //-     +i name='calendar'
+        //- a.icon.item(href='/drink_categories' class="{{isActivePath '/drink_categories'}} #{loading_class}" title='drink_categories')
+        //-     +i name='cocktail'
+        //- a.icon.item.set_image(href='/m/image' class="{{isActivePath '/m/image'}} #{loading_class}")
+        //-     +i name='gallery'
+        //- a.icon.item.set_video(href='/m/video' class="{{isActivePath '/m/video'}} #{loading_class}" title='video')
+        //-     +i name='video'
+        //- a.icon.item(href='/menu' class="{{isActivePath '/menu'}} #{loading_class}" title='menu')
+        //-     +i name='restaurant-menu'
         //- a.item.set_marketplace(href='/m/marketplace' class="{{isActivePath '/m/marketplace'}}")
         //-     +i name='shop'
         .right.menu

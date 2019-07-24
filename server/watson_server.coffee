@@ -97,12 +97,12 @@ Meteor.methods
         parameters =
             features:
                 entities:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     # limit: 2
                 keywords:
-                    emotion: true
-                    sentiment: true
+                    emotion: false
+                    sentiment: false
                     # limit: 2
                 concepts: {}
                 categories: {}
@@ -110,7 +110,7 @@ Meteor.methods
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                sentiment: {}
+                # sentiment: {}
 
         switch mode
             when 'html'
@@ -129,7 +129,9 @@ Meteor.methods
 
                 for entity in response.entities
                     Docs.update { _id: doc_id },
-                        $addToSet: "#{entity.type}":entity.text
+                        $addToSet:
+                            "#{entity.type}":entity.text
+                            tags:entity.text.toLowerCase()
 
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
@@ -139,9 +141,19 @@ Meteor.methods
                         watson: response
                         watson_concepts: lowered_concepts
                         watson_keywords: lowered_keywords
-                        doc_sentiment_score: response.sentiment.document.score
-                        doc_sentiment_label: response.sentiment.document.label
+                        # doc_sentiment_score: response.sentiment.document.score
+                        # doc_sentiment_label: response.sentiment.document.label
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:lowered_concepts
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:lowered_keywords
+
+
+
         )
+
         # Meteor.call 'call_personality', doc_id, ->
         # Meteor.call 'call_tone', doc_id, key, mode, ->
 

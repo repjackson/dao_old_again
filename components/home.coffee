@@ -20,10 +20,16 @@ if Meteor.isClient
     Template.home.helpers
         role_models: ->
             # console.log Meteor.user().roles
-            Docs.find {
-                model:'model'
-                view_roles:$in:Meteor.user().roles
-            }, sort:title:1
+            if Meteor.user()
+                Docs.find {
+                    model:'model'
+                    view_roles:$in:Meteor.user().roles
+                }, sort:title:1
+            else
+                Docs.find {
+                    model:'model'
+                    view_roles:$in:['user']
+                }, sort:title:1
 
         marketplace_items: ->
             # console.log Meteor.user().roles

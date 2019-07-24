@@ -89,11 +89,18 @@ Template.registerHelper 'fields', () ->
         model:'model'
         slug:Router.current().params.model_slug
     if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            view_roles:$in:Meteor.user().roles
-        }, sort:rank:1
+        if Meteor.user()
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+                view_roles:$in:Meteor.user().roles
+            }, sort:rank:1
+        else
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+                view_roles:$in:['user']
+            }, sort:rank:1
 
 Template.registerHelper 'edit_fields', () ->
     model = Docs.findOne
@@ -151,7 +158,7 @@ Template.registerHelper 'is_user', () ->
 
 Template.registerHelper 'user_is_user', () -> if @roles and 'user' in @roles then true else false
 
-Template.registerHelper 'is_eric', () -> if Meteor.userId() and 'gMdCLyaaSS9DbqZTT' is Meteor.userId() then true else false
+Template.registerHelper 'is_eric', () -> if Meteor.userId() and 'CFTSK5ZtNpMpZFMwi' is Meteor.userId() then true else false
 
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
 Template.registerHelper 'is_current_user', () ->  Meteor.user().username is Router.current().params.username
@@ -183,20 +190,31 @@ Template.registerHelper 'user_from_username_param', () ->
     # console.log found
     found
 Template.registerHelper 'field_value', () ->
-    # console.log @
-    parent = Template.parentData()
-    parent5 = Template.parentData(5)
-    parent6 = Template.parentData(6)
+    # console.log @valueOf()
+    # parent = Template.parentData()
+    # console.log Template.parentData(1)
+    # console.log Template.parentData(2)
+    # console.log Template.parentData(3)
+    # console.log Template.parentData(4)
+    # console.log Template.parentData(5)
+    # console.log Template.parentData(6)
+    # parent5 = Template.parentData(5)
+    # # parent6 = Template.parentData(6)
+    #
+    # console.log parent
+    # console.log parent5
+    # console.log parent6
 
 
-    if @direct
-        parent = Template.parentData()
-    else if parent5._id
-        parent = Template.parentData(5)
-    else if parent6._id
-        parent = Template.parentData(6)
+    parent = Template.parentData(5)
+    # if @direct
+    #     parent = Template.parentData()
+    # else if parent5._id
+    #     parent = Template.parentData(5)
+    # else if parent6._id
+    #     parent = Template.parentData(6)
     if parent
-        parent["#{@key}"]
+        parent["#{@valueOf()}"]
 
 
 Template.registerHelper 'is_marketplace', () -> @model is 'marketplace'

@@ -13,7 +13,7 @@ force_loggedin =  ()->
 Router.onBeforeAction(force_loggedin, {
   # only: ['admin']
   # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
-  except: ['register','forgot_password','reset_password','delta','doc_view','verify-email','front','shop','events']
+  except: ['register','forgot_password','reset_password','delta','doc_view','verify-email','home','front','shop','events']
 });
 
 Router.route '/add_karma', -> @render 'add_karma'

@@ -762,7 +762,7 @@ Template.single_doc_edit.onCreated ->
     else
         parent = Template.parentData(5)
     @autorun => Meteor.subscribe 'doc', parent["#{@data.key}"]
-    console.log @
+    # console.log @
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
     @doc_results = new ReactiveVar
 Template.single_doc_edit.helpers

@@ -9,17 +9,6 @@ Meteor.methods
         else
             Throw.new Meteor.Error 'err creating user'
 
-    parse_keys: ->
-        cursor = Docs.find
-            model:'key'
-        for key in cursor.fetch()
-            # new_building_number = parseInt key.building_number
-            new_unit_number = parseInt key.unit_number
-            Docs.update key._id,
-                $set:
-                    unit_number:new_unit_number
-
-
     change_username:  (user_id, new_username) ->
         user = Meteor.users.findOne user_id
         Accounts.setUsername(user._id, new_username)
@@ -57,32 +46,6 @@ Meteor.methods
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
                     "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
-
-    checkout_members: ()->
-        now = Date.now()
-        # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-        checkedin_sessions = Docs.find(model:'healthclub_session',active:true).fetch()
-
-
-        for session in checkedin_sessions
-            # checkedin_doc =
-            #     Docs.findOne
-            #         user_id:member._id
-            #         model:'healthclub_checkin'
-            #         active:true
-            diff = now-session._timestamp
-            minute_difference = diff/1000/60
-            if minute_difference>60
-                # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
-                Docs.update session._id,
-                    $set:
-                        active:false
-                        logout_timestamp:Date.now()
-                # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-
-    check_resident_status: (user_id)->
-        user = Meteor.users.findOne user_id
-
 
 
     lookup_user: (username_query, role_filter)->
@@ -142,6 +105,31 @@ Meteor.methods
     set_password: (user_id, new_password)->
         Accounts.setPassword(user_id, new_password)
 
+    crawl: (specific_key)->
+        start = Date.now()
+
+        if specific_key
+            filter =
+                "#{specific_key}": $exists:true
+                _keys: $nin: ["#{specific_key}"]
+        else
+            filter = {_detected:$ne:1}
+
+        found_cursor = Docs.find filter, { fields:{_id:1},limit:10000 }
+
+        count = found_cursor.count()
+        current_number = 0
+
+        for found in found_cursor.fetch()
+            res = Meteor.call 'detect_fields', found._id
+            console.log 'detected',res, current_number, 'of', count
+            current_number++
+                # console.log Docs.findOne res
+        stop = Date.now()
+
+        diff = stop - start
+        doc_count = found_cursor.count()
+        console.log 'duration', moment(diff).format("HH:mm:ss:SS"), 'for', doc_count, 'docs'
 
 
     keys: (specific_key)->
@@ -247,16 +235,20 @@ Meteor.methods
                     meta.length = value.length
                     meta.array_element_type = typeof value[0]
                     meta.field = 'array'
+                    console.log 'found array'
                 else
                     if key is 'watson'
                         meta.field = 'object'
                         # meta.field = 'watson'
+                        console.log 'found watson object'
                     else
                         meta.field = 'object'
+                        console.log 'found object'
 
             else if js_type is 'boolean'
                 meta.boolean = true
                 meta.field = 'boolean'
+                console.log 'found boolean'
 
             else if js_type is 'number'
                 meta.number = true
@@ -272,6 +264,7 @@ Meteor.methods
                 if integer
                     meta.integer = true
                 meta.field = 'number'
+                console.log 'found number'
 
 
             else if js_type is 'string'
@@ -287,12 +280,14 @@ Meteor.methods
                 youtube_check = /((\w|-){11})(?:\S+)?$/
                 youtube_result = youtube_check.test value
 
-                if key is 'html'
+                if key in ['html','content','description']
                     meta.html = true
                     meta.field = 'html'
+                    console.log 'found html'
                 if key is 'youtube_id'
                     meta.youtube = true
                     meta.field = 'youtube'
+                    console.log 'found youtube'
                 else if html_result
                     meta.html = true
                     meta.field = 'html'
@@ -302,14 +297,17 @@ Meteor.methods
                     if image_check
                         meta.image = true
                         meta.field = 'image'
+                        console.log 'found image'
                     else
                         meta.field = 'url'
+                        console.log 'found link'
                 # else if youtube_result
                 #     meta.youtube = true
                 #     meta.field = 'youtube'
                 else if Meteor.users.findOne value
                     meta.user_id = true
                     meta.field = 'user_ref'
+                    console.log 'found user ref'
                 else if Docs.findOne value
                     meta.doc_id = true
                     meta.field = 'doc_ref'
@@ -317,13 +315,15 @@ Meteor.methods
                     meta.field = 'image'
                 else if meta.length > 20
                     meta.field = 'textarea'
+                    console.log 'found textarea'
                 else
                     meta.field = 'text'
+                    console.log 'found text'
 
             Docs.update doc_id,
                 $set: "_#{key}": meta
 
-        # Docs.update doc_id,
-        #     $set:_detected:1
+        Docs.update doc_id,
+            $set:_detected:1
 
         return doc_id

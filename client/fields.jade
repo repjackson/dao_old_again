@@ -62,7 +62,7 @@ template(name='icon_edit')
     .ui.right.icon.input
         if field_value
             //- i.large.icon(class=field_value)
-            img(src="https://img.icons8.com/cotton/48/000000/#{field_value}.png")
+            img(src="https://img.icons8.com/color/48/000000/#{field_value}.png")
         input.icon_val(type='text' value=field_value placeholder='icon8 class' autocomplete="off")
 
 
@@ -307,10 +307,10 @@ template(name='html_view')
         //-     |#{this}
         |!{field_value}
     //- +call_watson mode='html'
-    if is_dev
-        if parent.watson
-            with parent
-                +watson_view
+    //- if is_dev
+    //-     if parent.watson
+    //-         with parent
+    //-             +watson_view
 
 
 template(name='document_edit')
@@ -761,6 +761,7 @@ template(name='array_edit')
                 |#{this}
                 
 template(name='array_view')
+    //- if field_value
     if field_value
         div
         .ui.inline.small.header
