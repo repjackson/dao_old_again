@@ -1,23 +1,8 @@
-template(name='docs')
-    .ui.container
-        div
-            #add.ui.green.button
-                i.plus.icon
-                | Full Add
-            .ui.icon.input
-                i.lightning.icon
-                input#quick_add(type='text' placeholder='Quick Add')
-        +doc_cloud
-        each docs
-            +view
-
-        
-
 template(name='view')
-    with doc
+    with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
-                .column.scrolling
+            .row
+                .four.wide.column
                     .ui.basic.segment.large150
                         .ui.header
                             if icon
@@ -36,25 +21,27 @@ template(name='view')
                                     i.pencil.icon
                             +detect
                         +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='Bookmark' remove_label='Unbookmark' color='red' big=true
+                        +voting_full
+                        +comments
                         //- +clone_button
-                        if watson
-                            +doc_sentiment
-                            +doc_emotion
-                            +concepts
-                            +categories
-                            +entities
-                            +semantic_roles
-                            +keyword_list
-                            +keywords
-                            +concept_list
-                            +relations
-                            +personality
-                            +consumption_preferences
-                .column.scrolling
+                        //- if watson
+                        //-     +doc_sentiment
+                        //-     +doc_emotion
+                        //-     +concepts
+                        //-     +categories
+                        //-     +entities
+                        //-     +semantic_roles
+                        //-     +keyword_list
+                        //-     +keywords
+                        //-     +concept_list
+                        //-     +relations
+                        //-     +personality
+                        //-     +consumption_preferences
+                .twelve.wide.column
                     .ui.basic.segment.large150
                         each _keys
                             //- .ui.label #{this}
-                            +key_view
+                            +key_view_template
                         //- .ui.hidden.divider
                         if analyzed_text
                             |#{nl2br analyzed_text}
@@ -62,14 +49,14 @@ template(name='view')
                         div
                         +comments
                         +voting
-                .column.scrolling
-                    .ui.basic.segment.large150
-                        if watson
-                            +tone
-                            +keywords
-                        //- +watson_view
-                        if visual_classes
-                            +visual_classes
+                //- .column.scrolling
+                //-     .ui.basic.segment.large150
+                //-         if watson
+                //-             +tone
+                //-             +keywords
+                //-         //- +watson_view
+                //-         if visual_classes
+                //-             +visual_classes
 
 
 
@@ -96,11 +83,64 @@ template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
-                h1.ui.header Edit
-                a.ui.green.big.icon.button(href="/m/#{type}") 
+                h1.ui.header edit
+                a.ui.green.big.icon.button(href="/view/#{_id}") 
                     i.large.checkmark.icon
                 #delete_model.ui.red.icon.button
                     i.remove.icon
             .twelve.wide.column
+                +field_menu                
                 each _keys
-                    +key_edit_template
+                    +field_edit
+
+
+
+
+
+template(name='field_menu')
+    i.grey.plus.large.icon(title='add field')
+        //- |brick
+    each fields
+        .ui.large.circular.button.add_field
+            //- i.icon(class=icon)
+            +i name=icon classes='ui avatar image'
+            |#{slug}
+
+
+template(name='field_edit')
+    .ui.secondary.segment
+        i.remove.icon.large.link.remove_field(title='remove field')
+        .ui.inline.header(title='name') #{key}
+        .ui.input
+            input.change_key(type='text' placeholder='key' value=key)
+
+        .ui.divider
+        +key_edit_template
+        //- 
+        //- with context
+            +Template.dynamic template=field_edit
+        //- .ui.divider
+        //- +jsonView json=meta
+
+
+
+
+
+
+
+                    
+template(name='key_view_template')
+    //- .ui.header #{key}: #{value}
+    //- .ui.blue.header #{meta}
+    
+    +Template.dynamic template=meta
+                    
+                        
+template(name='key_edit_template')
+    //- .ui.header #{key}
+    //- .ui.header #{key}: #{value}
+    //- .ui.blue.header #{meta}
+    
+    +Template.dynamic template=meta
+                    
+                        

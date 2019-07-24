@@ -60,6 +60,7 @@ Router.route '/model/edit/:doc_id', -> @render 'model_edit'
 
 
 Router.route '/edit/:doc_id', -> @render 'edit'
+Router.route '/view/:doc_id', -> @render 'view'
 
 
 # Router.route '/user/:username', -> @render 'user'

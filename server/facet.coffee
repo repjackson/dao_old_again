@@ -42,6 +42,15 @@ Meteor.methods
                 filters:[]
                 res:[]
             }
+            {
+                title:'model'
+                icon:'block'
+                key:'model'
+                rank:13
+                field_type:'array'
+                filters:[]
+                res:[]
+            }
         ]
 
         Docs.update delta._id,
@@ -114,7 +123,7 @@ Meteor.methods
         modifier =
             {
                 fields:_id:1
-                limit:1
+                limit:10
                 sort:_timestamp:-1
             }
 

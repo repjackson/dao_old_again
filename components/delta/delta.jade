@@ -122,24 +122,6 @@ template(name='delta_result')
                         +voting_full
                             
                     
-                    
-template(name='key_view_template')
-    //- .ui.header #{key}: #{value}
-    //- .ui.blue.header #{meta}
-    
-    +Template.dynamic template=meta
-                    
-                        
-template(name='key_edit_template')
-    .ui.header #{key}
-    //- .ui.header #{key}: #{value}
-    //- .ui.blue.header #{meta}
-    
-    +Template.dynamic template=meta
-                    
-                        
-
-
 
 template(name='user_card_template')
     .ui.result.stackable.grid.segment(class=loading_class)

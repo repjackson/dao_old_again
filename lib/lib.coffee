@@ -137,23 +137,18 @@ Meteor.methods
             $pull: "facets.$.filters": filter
         Meteor.call 'fa', alpha_id, (err,res)->
 
+    rename_key:(old_key,new_key,parent)->
+        Docs.update parent._id,
+            $pull:_keys:old_key
+        Docs.update parent._id,
+            $addToSet:_keys:new_key
+        Docs.update parent._id,
+            $rename:
+                "#{old_key}": new_key
+                "_#{old_key}": "_#{new_key}"
+
 
 if Meteor.isClient
-    Template.docs.onCreated ->
-        @autorun -> Meteor.subscribe('docs', selected_tags.array())
-
-    Template.docs.helpers
-        docs: ->
-            Docs.find { },
-                sort:
-                    tag_count: 1
-                limit: 1
-
-        tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else 'basic'
-
-        selected_tags: -> selected_tags.array()
-
-
     Template.view.helpers
         tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else 'basic'
         when: -> moment(@_timestamp).fromNow()
@@ -163,22 +158,17 @@ if Meteor.isClient
 
         'click .edit': -> Router.go("/edit/#{@_id}")
 
-    Template.docs.events
-        'click #add': ->
-            Meteor.call 'add', (err,id)->
-                Router.go "/edit/#{id}"
-
-        'keyup #quick_add': (e,t)->
-            e.preventDefault
-            tag = $('#quick_add').val().toLowerCase()
-            if e.which is 13
-                if tag.length > 0
-                    split_tags = tag.match(/\S+/g)
-                    $('#quick_add').val('')
-                    Meteor.call 'add', split_tags
-                    selected_tags.clear()
-                    for tag in split_tags
-                        selected_tags.push tag
+        # 'keyup #quick_add': (e,t)->
+        #     e.preventDefault
+        #     tag = $('#quick_add').val().toLowerCase()
+        #     if e.which is 13
+        #         if tag.length > 0
+        #             split_tags = tag.match(/\S+/g)
+        #             $('#quick_add').val('')
+        #             Meteor.call 'add', split_tags
+        #             selected_tags.clear()
+        #             for tag in split_tags
+        #                 selected_tags.push tag
 
 
 
