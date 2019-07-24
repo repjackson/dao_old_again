@@ -96,11 +96,11 @@ template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
             .four.wide.column
-                h1.ui.header Edit #{type}
+                h1.ui.header Edit
                 a.ui.green.big.icon.button(href="/m/#{type}") 
                     i.large.checkmark.icon
                 #delete_model.ui.red.icon.button
                     i.remove.icon
             .twelve.wide.column
-                //- each fields
-                +Template.dynamic template=edit_template
+                each _keys
+                    +key_edit_template

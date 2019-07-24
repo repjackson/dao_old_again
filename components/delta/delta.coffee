@@ -1,12 +1,10 @@
 if Meteor.isClient
     Template.delta.onCreated ->
-        @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
+        # @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
+        # @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
 
     Template.delta.helpers
-        selected_tags: -> selected_tags.list()
-
         current_delta: ->
             Docs.findOne
                 model:'delta'
@@ -18,7 +16,6 @@ if Meteor.isClient
                     model:'delta'
                     _author_id:Meteor.userId()
             if current_delta
-                # console.log _.sortBy current_delta.facets,'rank'
                 _.sortBy current_delta.facets,'rank'
 
         global_tags: ->
@@ -231,7 +228,7 @@ if Meteor.isClient
 
 
 
-    Template.key_template.helpers
+    Template.key_view_template.helpers
         key: -> @valueOf()
         value: -> Template.parentData()["#{@valueOf()}"]
         meta: ->
@@ -245,6 +242,14 @@ if Meteor.isClient
 
             # current_model = Router.current().params.model_slug
             # "#{current_model}_card_template"
+
+    Template.key_edit_template.helpers
+        key: -> @valueOf()
+        value: -> Template.parentData()["#{@valueOf()}"]
+        meta: ->
+            # console.log Template.parentData()["_#{@valueOf()}"]
+            "#{Template.parentData()["_#{@valueOf()}"].field}_edit"
+
 
 
 
