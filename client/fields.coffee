@@ -206,12 +206,6 @@ Template.array_edit.events
             console.log @
             console.log element_val
             parent = Template.parentData(5)
-            console.log Template.parentData(1)
-            console.log Template.parentData(2)
-            console.log Template.parentData(3)
-            console.log Template.parentData(4)
-            console.log Template.parentData(5)
-            console.log Template.parentData(6)
 
             doc = Docs.findOne parent._id
             Docs.update parent._id,
@@ -221,15 +215,20 @@ Template.array_edit.events
     'click .remove_element': (e,t)->
         element = @valueOf()
         field = Template.currentData()
-        if field.direct
-            parent = Template.parentData()
-        else
-            parent = Template.parentData(5)
+        console.log Template.parentData(1)
+        console.log Template.parentData(2)
+        console.log Template.parentData(3)
+        console.log Template.parentData(4)
+        console.log Template.parentData(5)
+        console.log Template.parentData(6)
+        console.log field
+        console.log element
+        parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
         Docs.update parent._id,
-            $pull:"#{field.key}":element
-
+            $pull:"#{field}":element
+        #
         t.$('.new_element').focus()
         t.$('.new_element').val(element)
 
