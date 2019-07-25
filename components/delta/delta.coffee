@@ -34,11 +34,11 @@ if Meteor.isClient
                 model:'delta'
                 model_filter: Router.current().params.model_slug
 
-        'keyup .import_subreddit': (e,t)->
-            if e.which is 13
-                val = t.$('.import_subreddit').val()
-                Meteor.call 'pull_subreddit', val, (err,res)->
-                    console.log res
+        # 'keyup .import_subreddit': (e,t)->
+        #     if e.which is 13
+        #         val = t.$('.import_subreddit').val()
+        #         Meteor.call 'pull_subreddit', val, (err,res)->
+        #             console.log res
 
 
         'click .print_delta': (e,t)->
@@ -83,7 +83,22 @@ if Meteor.isClient
             #         model:model.slug
             #     Router.go "/shop/#{new_doc_id}/edit"
             # else
-            new_doc_id = Docs.insert {}
+            new_doc_id = Docs.insert {
+                "fields": [
+                    "html",
+                    "array"
+                ],
+                "_keys": [
+                    "new_html",
+                    "tags"
+                ],
+                "_new_html": {
+                    "field": "html"
+                },
+                "_tags": {
+                    "field": "array"
+                }
+            }
             Router.go "/edit/#{new_doc_id}"
 
 
