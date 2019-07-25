@@ -29,7 +29,6 @@ momentjs:moment
 reactive-var@1.0.11
 raix:handlebar-helpers
 matb33:collection-hooks
-mizzao:autocomplete
 dynamic-import@0.5.1
 froala:editor-reactive@=2.4.2
 mquandalle:jade
@@ -40,4 +39,3 @@ reywood:publish-composite
 lookback:emails
 http
 modules
-yasinuslu:json-view
