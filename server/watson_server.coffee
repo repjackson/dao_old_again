@@ -162,6 +162,7 @@ Meteor.methods
 
 
     pull_site: (doc_id, url)->
+        console.log 'pulling site', doc_id, url
         this_id = doc_id
         doc = Docs.findOne doc_id
         parameters =
@@ -182,7 +183,7 @@ Meteor.methods
                 # relations: {}
                 # semantic_roles: {}
                 # sentiment: {}
-            # return_analyzed_text: true
+            return_analyzed_text: true
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) =>
             if err
@@ -193,13 +194,29 @@ Meteor.methods
 
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
+
+                for entity in response.entities
+                    Docs.update { _id: doc_id },
+                        $addToSet:
+                            "#{entity.type}":entity.text
+                            tags:entity.text.toLowerCase()
+
+
+
                 Docs.update {_id:this_id},
                     $set:
                         # model:'website'
-                        watson: response
-                        watson_keywords: lowered_keywords
-                        watson_concepts: lowered_concepts
-                        doc_sentiment_score: response.sentiment.document.score
-                        doc_sentiment_label: response.sentiment.document.label
-                        html: response.analyzed_text
+                        # watson: response
+                        # watson_keywords: lowered_keywords
+                        # watson_concepts: lowered_concepts
+                        # doc_sentiment_score: response.sentiment.document.score
+                        # doc_sentiment_label: response.sentiment.document.label
+                        new_html: response.analyzed_text
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:lowered_concepts
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:lowered_keywords
+
         )

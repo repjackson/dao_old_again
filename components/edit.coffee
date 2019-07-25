@@ -11,6 +11,16 @@ if Meteor.isClient
             if confirm 'delete?'
                 Docs.remove Router.current().params.doc_id
                 Router.go "/"
+        'keyup .new_site':(e,t)->
+            if e.which is 13
+                doc_id = Router.current().params.doc_id
+                site = t.$('.new_site').val()
+                console.log site
+                Meteor.call 'pull_site', doc_id, site,->
+                # t.$('.add_comment').val('')
+
+
+
     Template.edit.helpers
         current_doc: ->
             Docs.findOne Router.current().params.doc_id

@@ -106,7 +106,10 @@ template(name='edit')
                     i.large.checkmark.icon
                 #delete_doc.ui.red.icon.button
                     i.remove.icon
-                +field_menu                
+                +field_menu   
+                .ui.header import site
+                .ui.fluid.input
+                    input.new_site(type='text')
                 each _keys
                     +field_edit
 
