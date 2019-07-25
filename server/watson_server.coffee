@@ -93,6 +93,9 @@ Meteor.methods
 
     call_watson: (doc_id, key, mode) ->
         self = @
+        console.log doc_id
+        console.log key
+        console.log mode
         doc = Docs.findOne doc_id
         parameters =
             features:
@@ -135,12 +138,12 @@ Meteor.methods
 
                 concept_array = _.pluck(response.concepts, 'text')
                 lowered_concepts = concept_array.map (concept)-> concept.toLowerCase()
-                Docs.update { _id: doc_id },
-                    $set:
-                        analyzed_text:response.analyzed_text
-                        watson: response
-                        watson_concepts: lowered_concepts
-                        watson_keywords: lowered_keywords
+                # Docs.update { _id: doc_id },
+                #     $set:
+                #         analyzed_text:response.analyzed_text
+                #         watson: response
+                #         watson_concepts: lowered_concepts
+                #         watson_keywords: lowered_keywords
                         # doc_sentiment_score: response.sentiment.document.score
                         # doc_sentiment_label: response.sentiment.document.label
                 Docs.update { _id: doc_id },
@@ -178,8 +181,8 @@ Meteor.methods
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
-                sentiment: {}
-            return_analyzed_text: true
+                # sentiment: {}
+            # return_analyzed_text: true
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) =>
             if err

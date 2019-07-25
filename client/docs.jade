@@ -47,8 +47,12 @@ template(name='view')
                             |#{nl2br analyzed_text}
                             .ui.hidden.divider
                         div
-                        +comments
-                        +voting
+                    .ui.inline.header top matches
+                    .ui.icon.button.calculate
+                        i.refresh.icon
+                    each sorted_matches
+                        +doc_match
+                
                 //- .column.scrolling
                 //-     .ui.basic.segment.large150
                 //-         if watson
@@ -58,6 +62,18 @@ template(name='view')
                 //-         if visual_classes
                 //-             +visual_classes
 
+template(name='doc_match')
+    .ui.tertiary.segment.pointer.doc_match
+        //- |tag matches: #{tag_match_count}
+        with matching_doc
+            img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id }}")
+            if youtube_id
+                +youtube_view key='youtube_id' icon='youtube' direct=true
+            if body
+                .ui.basic.segment {{nl2br body}}
+            each tags
+                .ui.small.label(class=matching_tag_class) #{this}
+            +author_info
 
 
 //- template(name='view')
@@ -82,13 +98,12 @@ template(name='view')
 template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
-            .four.wide.column
+            .sixteen.wide.column
                 h1.ui.header edit
                 a.ui.green.big.icon.button(href="/view/#{_id}") 
                     i.large.checkmark.icon
                 #delete_model.ui.red.icon.button
                     i.remove.icon
-            .twelve.wide.column
                 +field_menu                
                 each _keys
                     +field_edit

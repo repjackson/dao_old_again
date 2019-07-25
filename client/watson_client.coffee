@@ -27,24 +27,19 @@ Template.doc_emotion.helpers
     anger_percent: -> (@anger*100).toFixed()
     fear_percent: -> (@fear*100).toFixed()
 
-
     sentiment_score_percent: ->
         if @doc_sentiment_score > 0
             (@doc_sentiment_score*100).toFixed()
         else
             (@doc_sentiment_score*-100).toFixed()
 
-
     sentiment_bar_class: -> if @doc_sentiment_label is 'positive' then 'green' else 'red'
-
     is_positive: -> if @doc_sentiment_label is 'positive' then true else false
 
 
 Template.keywords.helpers
     relevance_percent: -> (@relevance*100).toFixed()
-
-    sentiment_percent: ->
-        (@sentiment.score*100).toFixed()
+    sentiment_percent: -> (@sentiment.score*100).toFixed()
 
     sadness_percent: -> (@sadness*100).toFixed()
     # joy_percent: -> (@joy*100).toFixed()
@@ -69,8 +64,10 @@ Template.call_watson.events
         # console.log Template.parentData(1)
         # console.log Template.parentData(2)
         # console.log Template.parentData(3)
+        # console.log Template.parentData(4)
+        # console.log Template.parentData(5)
         parent = Template.parentData()
-        Meteor.call 'call_watson', Router.current().params.doc_id, parent.key, @mode, ->
+        Meteor.call 'call_watson', Router.current().params.doc_id, parent, 'html', ->
 
 
 

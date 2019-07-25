@@ -33,24 +33,24 @@ Meteor.methods
                 filters:[]
                 res:[]
             }
-            {
-                title:'_keys'
-                icon:'key'
-                key:'_keys'
-                rank:10
-                field_type:'array'
-                filters:[]
-                res:[]
-            }
-            {
-                title:'model'
-                icon:'block'
-                key:'model'
-                rank:13
-                field_type:'array'
-                filters:[]
-                res:[]
-            }
+            # {
+            #     title:'_keys'
+            #     icon:'key'
+            #     key:'_keys'
+            #     rank:10
+            #     field_type:'array'
+            #     filters:[]
+            #     res:[]
+            # }
+            # {
+            #     title:'model'
+            #     icon:'block'
+            #     key:'model'
+            #     rank:13
+            #     field_type:'array'
+            #     filters:[]
+            #     res:[]
+            # }
         ]
 
         Docs.update delta._id,
@@ -123,7 +123,7 @@ Meteor.methods
         modifier =
             {
                 fields:_id:1
-                limit:10
+                limit:1
                 sort:_timestamp:-1
             }
 
@@ -154,7 +154,7 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key)->
-        limit=42
+        limit=100
         options = { explain:false }
         pipe =  [
             { $match: query }

@@ -203,8 +203,8 @@ Template.array_edit.events
     'keyup .new_element': (e,t)->
         if e.which is 13
             element_val = t.$('.new_element').val().trim().toLowerCase()
-            console.log @
-            console.log element_val
+            # console.log @
+            # console.log element_val
             parent = Template.parentData(5)
 
             doc = Docs.findOne parent._id
@@ -215,14 +215,14 @@ Template.array_edit.events
     'click .remove_element': (e,t)->
         element = @valueOf()
         field = Template.currentData()
-        console.log Template.parentData(1)
-        console.log Template.parentData(2)
-        console.log Template.parentData(3)
-        console.log Template.parentData(4)
-        console.log Template.parentData(5)
-        console.log Template.parentData(6)
-        console.log field
-        console.log element
+        # console.log Template.parentData(1)
+        # console.log Template.parentData(2)
+        # console.log Template.parentData(3)
+        # console.log Template.parentData(4)
+        # console.log Template.parentData(5)
+        # console.log Template.parentData(6)
+        # console.log field
+        # console.log element
         parent = Template.parentData(5)
 
         doc = Docs.findOne parent._id
