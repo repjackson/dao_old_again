@@ -51,7 +51,7 @@ template(name='facet')
         //- div
         each filtering_res
             if name
-                .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                .selector.ui.compact.circular.button.toggle_selection(class=toggle_value_class)
                     strong #{name}
                     if is_admin
                         small #{cal_count} #{count}
@@ -114,8 +114,9 @@ template(name='delta_result')
                                 a.ui.large.icon.basic.button(href="/edit/#{_id}" title='edit')
                                     i.pencil.large.icon
                                     |edit
-                            //- a.ui.icon.large.basic.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
-                            //-     i.right.chevron.large.icon
+                            a.ui.icon.huge.basic.button(href="/view/#{_id}" title='view')
+                                i.right.chevron.large.icon
+                                |view
                         if _author_id
                             +author_info
                         +creation_info

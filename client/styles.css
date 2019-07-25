@@ -63,7 +63,7 @@ input{
 .shadowed{
     box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2) !important;
 }
-.button, .segment, .label{
+.segment, .label{
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
     border-radius: 10px !important;

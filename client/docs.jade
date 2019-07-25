@@ -38,7 +38,7 @@ template(name='view')
                         //-     +personality
                         //-     +consumption_preferences
                 .twelve.wide.column
-                    .ui.basic.segment.large150
+                    .ui.segment.large150
                         each _keys
                             //- .ui.label #{this}
                             +key_view_template
@@ -47,7 +47,9 @@ template(name='view')
                             |#{nl2br analyzed_text}
                             .ui.hidden.divider
                         div
-                    .ui.inline.header top matches
+                    .ui.inline.header 
+                        +i name='merge'
+                        |top matches
                     .ui.icon.button.calculate
                         i.refresh.icon
                     each sorted_matches
@@ -63,7 +65,7 @@ template(name='view')
                 //-             +visual_classes
 
 template(name='doc_match')
-    .ui.tertiary.segment.pointer.doc_match
+    .ui.secondary.segment.pointer.doc_match
         //- |tag matches: #{tag_match_count}
         with matching_doc
             img.ui.centered.rounded.medium.invert.image(src="{{c.url image_id }}")
