@@ -98,6 +98,8 @@ Meteor.methods
         console.log mode
         doc = Docs.findOne doc_id
         parameters =
+            concepts:
+                limit:20
             features:
                 entities:
                     emotion: false
@@ -108,8 +110,8 @@ Meteor.methods
                     sentiment: false
                     # limit: 2
                 concepts: {}
-                categories: {}
-                emotion: {}
+                # categories: {}
+                # emotion: {}
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
@@ -178,12 +180,13 @@ Meteor.methods
                     # limit: 2
                 concepts: {}
                 # categories: {}
-                emotion: {}
+                # emotion: {}
                 # metadata: {}
                 # relations: {}
                 # semantic_roles: {}
                 # sentiment: {}
             return_analyzed_text: true
+            clean:true
 
         natural_language_understanding.analyze parameters, Meteor.bindEnvironment((err, response) =>
             if err
