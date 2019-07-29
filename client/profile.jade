@@ -1,6 +1,6 @@
 template(name='user_layout')
     +nav
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'raybackback' width=1000 height=1000 crop='crop'}}")
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'raybackback' width=1000 height=1000 crop='crop'}}")
     with user_from_username_param
         .ui.padded.stackable.grid.global_container
             .ui.hidden.divider
@@ -32,13 +32,14 @@ template(name='user_layout')
                             +i name='settings'
                     else if is_current_user
                         a.ui.icon.button.item(href="/user/#{user_from_username_param.username}/edit" title='settings')
-                            +i name='settings'
-                    .ui.icon.button.direct_message
-                        +i name='new-message'
+                            i.cog.icon
+                    //- .ui.icon.button.direct_message
+                    //-     +i name='new-message'
                         //- |direct message
                     if is_current_user
                         .ui.icon.button.logout(title='log out')
-                            +i name='exit-sign'
+                            //- +i name='exit-sign'
+                            i.sign.out.alternate.icon
                         a.ui.small.button.logout_other_clients(href="#")
                             |logout other clients
                     if is_admin
@@ -50,30 +51,28 @@ template(name='user_layout')
                             each roles
                                 .ui.basic.label #{this}
                 .twelve.wide.column.shadowed-box
-                    a.ui.icon.button(href="/user/#{username}" class="{{isActiveRoute 'user_about'}}" title='info')
-                        +i name='info'
+                    //- a.ui.icon.button(href="/user/#{username}" class="{{isActiveRoute 'user_about'}}" title='info')
+                    //-     +i name='info'
                     //- a.ui.icon.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}" title='info')
                     //-     +i name='dashboard'
-                    a.ui.icon.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}" title='social')
-                        +i name='collaboration'
-                    a.ui.icon.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}" title='gallery')
-                        +i name='gallery'
-                    a.ui.icon.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}" title='bookmarks')
-                        +i name='star'
-                    a.ui.icon.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}" title='contact')
-                        +i name='phone'
-                    a.ui.icon.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}" title='events')
-                        +i name='calendar'
-                    a.ui.icon.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}" title='comparison')
-                        +i name='meeting'
-                    a.ui.icon.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}" title='tags')
-                        +i name='tags'
-                    a.ui.icon.button(href="/user/#{username}/drinks" class="{{isActiveRoute 'user_drinks'}}" title='tags')
-                        +i name='beer'
-                    a.ui.icon.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}" title='votes')
-                        +i name='elections'
-                    a.ui.icon.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}" title='money')
-                         +i name='appointment-reminders'
+                    //- a.ui.icon.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}" title='social')
+                    //-     +i name='collaboration'
+                    //- a.ui.icon.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}" title='gallery')
+                    //-     +i name='gallery'
+                    //- a.ui.icon.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}" title='bookmarks')
+                    //-     +i name='star'
+                    //- a.ui.icon.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}" title='contact')
+                    //-     +i name='phone'
+                    //- a.ui.icon.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}" title='events')
+                    //-     +i name='calendar'
+                    //- a.ui.icon.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}" title='comparison')
+                    //-     +i name='meeting'
+                    //- a.ui.icon.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}" title='tags')
+                    //-     +i name='tags'
+                    //- a.ui.icon.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}" title='votes')
+                    //-     +i name='elections'
+                    //- a.ui.icon.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}" title='money')
+                    //-      +i name='appointment-reminders'
                     +yield
     //- +footer 
 

@@ -181,11 +181,11 @@ template(name='user_list_toggle')
 template(name='voting')
     if points
         strong #{points}
-    .ui.icon.basic.basic.button.upvote(class=upvote_class title='upvote')
+    .ui.icon.circular.button.upvote(class=upvote_class title='upvote')
         i.thumbs.up.icon
     //- each upvoter_ids
     //-     +user_info
-    .ui.icon.basic.basic.button.downvote(title='downvote' class=downvote_class)
+    .ui.icon.circular.button.downvote(title='downvote' class=downvote_class)
         i.thumbs.down.icon
     //- each downvoter_ids
     //-     +user_info
@@ -193,15 +193,15 @@ template(name='voting')
 
 
 template(name='voting_full')
-    .ui.header 
-        +i name='elections'
-        |voting
+    //- .ui.header 
+    //-     +i name='elections'
+    //-     |voting
     if points
         strong #{points}
     .ui.icon.compact.small.button.upvote(class=upvote_class title='upvote')
-        +i name='chevron-up' classes='ui avatar image'
+        i.chevron.up.icon
     .ui.icon.compact.small.button.downvote(title='downvote' class=downvote_class)
-        +i name='chevron-down' classes='ui avatar image'
+        i.chevron.down.icon
     if upvoter_ids
         .ui.small.header upvoters
         each upvoter_ids
@@ -220,7 +220,7 @@ template(name='view_button')
 
 
 template(name='remove_button')
-    a.ui.icon.large.button.remove_doc(title='delete')
+    a.ui.icon.circular.large.button.remove_doc(title='delete')
         i.remove.red.icon
         //- |Delete
 

@@ -1,6 +1,7 @@
 template(name='view')
     with current_doc
         .ui.stackable.padded.grid
+            +nav
             .row
                 .four.wide.column
                     .ui.basic.segment.large150
@@ -21,7 +22,7 @@ template(name='view')
                                     i.pencil.icon
                             +detect
                         +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='Bookmark' remove_label='Unbookmark' color='red' big=true
-                        +voting_full
+                        +voting
                         +comments
                         //- +clone_button
                         //- if watson
@@ -37,8 +38,8 @@ template(name='view')
                         //-     +relations
                         //-     +personality
                         //-     +consumption_preferences
-                .twelve.wide.column
-                    .ui.segment.large150
+                .twelve.wide.column.scrolling
+                    .large150
                         each _keys
                             //- .ui.label #{this}
                             +key_view_template
@@ -75,7 +76,7 @@ template(name='doc_match')
                 .ui.basic.segment {{nl2br body}}
             each tags
                 .ui.small.label(class=matching_tag_class) #{this}
-            +author_info
+            //- +author_info
 
 
 //- template(name='view')
@@ -101,15 +102,15 @@ template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
             .sixteen.wide.column
-                h1.ui.header edit
-                a.ui.green.big.icon.button(href="/view/#{_id}") 
+                h1.ui.inline.header edit
+                a.ui.green.big.icon.circular.button(href="/view/#{_id}") 
                     i.large.checkmark.icon
-                #delete_doc.ui.red.icon.button
+                #delete_doc.ui.red.icon.circular.button
                     i.remove.icon
                 +field_menu   
-                .ui.header import site
-                .ui.fluid.input
-                    input.new_site(type='text')
+                //- .ui.header import site
+                //- .ui.fluid.input
+                //-     input.new_site(type='text')
                 each _keys
                     +field_edit
 
@@ -122,8 +123,8 @@ template(name='field_menu')
         //- |brick
     each fields
         .ui.large.circular.button.add_field
-            //- i.icon(class=icon)
-            +i name=icon classes='ui avatar image'
+            i.icon(class=icon)
+            //- +i name=icon classes='ui avatar image'
             |#{slug}
 
 

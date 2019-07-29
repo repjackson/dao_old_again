@@ -1,9 +1,22 @@
 if Meteor.isClient
+    Template.delta_result.onCreated ->
+        # @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
+        # @autorun -> Meteor.subscribe 'schema', Router.current().params.doc_id
+
+    Template.delta_result.helpers
+        sorted_matches: ->
+            # console.log @
+            sorted_matches = _.sortBy @matches, 'tag_match_count'
+            sorted_matches.reverse()[..2]
+
+    Template.delta_result.events
+        'click .calculate': ->
+            # console.log @
+            Meteor.call 'related_posts', @_id
+
+
     Template.view.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun -> Meteor.subscribe 'schema', Router.current().params.doc_id
-
-
 
     Template.view.helpers
         sorted_matches: ->
@@ -17,8 +30,7 @@ if Meteor.isClient
 
     # Template.related_posts.helpers
     #     related_posts: ->
-    #         doc_id = Router.current().params.doc_id
-    #         post = Docs.findOne doc_id
+    #         post = DocsfindOne @_id
     #         if post.related_ids
     #             Docs.find
     #                 _id:$in:post.related_ids

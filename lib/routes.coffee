@@ -73,6 +73,8 @@ Router.route '/forgot_password', -> @render 'forgot_password'
 
 Router.route '/user/:username/edit', -> @render 'user_edit'
 Router.route '/p/:slug', -> @render 'page'
+Router.route '/give', -> @render 'give'
+Router.route '/want', -> @render 'want'
 Router.route '/settings', -> @render 'settings'
 Router.route '/users', -> @render 'users'
 # Router.route "/meal/:meal_id", -> @render 'meal_doc'

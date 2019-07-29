@@ -233,6 +233,19 @@ Template.array_edit.events
         t.$('.new_element').val(element)
 
 
+
+    'keyup #quick_add': (e,t)->
+        e.preventDefault
+        tag = $('#quick_add').val().toLowerCase()
+        if e.which is 13
+            if tag.length > 0
+                split_tags = tag.match(/\S+/g)
+                $('#quick_add').val('')
+                parent = Template.parentData(5)
+                doc = Docs.findOne parent._id
+                Docs.update parent._id,
+                    $addToSet:tags:$each:split_tags
+
 # Template.textarea.onCreated ->
 #     @editing = new ReactiveVar false
 

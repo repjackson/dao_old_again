@@ -138,11 +138,11 @@ Meteor.methods
         results_cursor = Docs.find built_query, modifier
 
 
-        # if total is 1
-        #     result_ids = results_cursor.fetch()
-        # else
-        #     result_ids = []
-        result_ids = results_cursor.fetch()
+        if total < 3
+            result_ids = results_cursor.fetch()
+        else
+            result_ids = []
+        # result_ids = results_cursor.fetch()
 
 
         Docs.update {_id:delta._id},

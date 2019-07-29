@@ -81,11 +81,11 @@ template(name='icolor')
     img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
 
 template(name='i')
-    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+    //- img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/dusk/64/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/pastel-glyph/64/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
-    //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
+    img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
 
 template(name='ismall')
     img(src="https://img.icons8.com/color/24/000000/#{name}.png" class=classes title=title)
@@ -752,6 +752,8 @@ template(name='array_edit')
                 |#{key}
     .ui.fluid.input
         input.new_element(type='text' placeholder='+' autocomplete="off")
+    .ui.fluid.input
+        input#quick_add(type='text' placeholder='quick add' autocomplete="off")
         //- +clear_value                
     div
     if field_value
@@ -776,7 +778,7 @@ template(name='array_view')
             else
                 |#{this}
         each field_value
-            .ui.large.basic.label #{this}
+            .ui.large.basic.circular.label #{this}
 
 
 template(name='children_edit')
@@ -956,8 +958,8 @@ template(name='single_doc_edit')
     div
     .ui.tiny.header(title=key) 
         if icon
-            +ismall name=icon
-            //- i.icon(class=icon)
+            //- +ismall name=icon
+            i.icon(class=icon)
         |#{label} #{title}
     .ui.input
         input#single_doc_input(type='text' placeholder='lookup doc...')
@@ -987,8 +989,8 @@ template(name='multi_doc_edit')
     div
     .ui.tiny.header(title=key)
         if icon
-            +ismall name=icon classes='ui avatar image'
-            //- i.icon(class=icon)
+            //- +ismall name=icon classes='ui avatar image'
+            i.icon(class=icon)
         |#{title} #{label}    
     each choices
         .ui.circular.compact.button.select_choice(class=choice_class)

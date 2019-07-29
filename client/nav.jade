@@ -1,61 +1,63 @@
 template(name='nav')
-    .ui.borderless.attached.menu.topnav
-        //- a.toggle_sidebar.icon.item.sidebar_on
-        //-     i.large.sidebar.icon
-        if is_loading
-            //- .icon.item
-            //-     i.big.loading.grey.yin.yang.icon
-            a.icon.item
-                i.yin.yang.loading.big.icon
-                //- img.ui.mini.image.rotate(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
-        else
-            //- a.icon.item.set_all(href='/m/all' class="{{isActivePath '/m/all'}}")
-            //-     i.yin.yang.big.icon
-            a.icon.item(href='/' class="{{isActivePath '/'}}")
-                i.yin.yang.large.icon
-                //- img.ui.mini.image(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
-                //- i.sitemap.large.icon
-                //- img.ui.mini.image(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
-                //- i.sitemap.large.icon
-        .right.menu
-            if currentUser
-                //- a.icon.item(href='/users' class="{{isActivePath '/users'}}")
-                //-     +i name='groups'
-                unless logging_out
-                    //- a.ui.icon.item(href="/user/#{currentUser.username}/notifications" class="{{isActiveRoute regex='notifications'}}")
-                    //-     i.large.alarm.icon
-                        //- .menu
-                        //-     if notifications
-                        //-         each notifications
-                        //-             .ui.button #{text}
-                        //-     else 
-                        //-         |no notifications
-                    if is_user
-                        //- a.icon.item(href="/chat" class="{{isActivePath '/chat'}}" title='chat')
-                        //-     +i name='chat'
-                            //- i.chat.large.icon
-                    //- if is_admin
-                    //-     a.icon.item(href='/admin' class="{{isActivePath '/admin'}}")
-                    //-         +i name='user shield'
-                    //-         //- i.user.shield.icon
-                    a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
-                        //- if currentUser.image_id
-                        //-     img.ui.inline.circular.tiny.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                        //- else
-                        //- +i name='user' classes='ui inline mini image'
-                        i.user.large.icon
-                        | #{currentUser.username}
+    //- .topnav
+    //- a.toggle_sidebar.icon.item.sidebar_on
+    //-     i.large.sidebar.icon
+    if is_loading
+        //- .icon.item
+        //-     i.big.loading.grey.yin.yang.icon
+        i.yin.yang.loading.grey.big.icon
+            //- img.ui.mini.image.rotate(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
+    else
+        //- a.icon.ui.button.set_all(href='/m/all' class="{{isActivePath '/m/all'}}")
+            //- i.yin.yang..icon
+        a.ui.icon.circular.button(href='/' class="{{isActivePath '/'}}")
+            i.home.large.grey.icon
+        //- a.icon.ui.button(href='/give' class="{{isActivePath '/give'}}")
+        //-     i.chevron.right.icon
+        //- a.icon.ui.button(href='/want' class="{{isActivePath '/sale'}}")
+        //-     i.chevron.left.icon
+        //- a.icon.ui.button(href='/m/model' class="{{isActivePath '/m/model'}}")
+        //-     i.sitemap.large.icon
+        //]- img.ui.mini.image(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
+            //- i.sitemap.large.icon
+        if currentUser
+            //- a.icon.ui.button(href='/users' class="{{isActivePath '/users'}}")
+            //-     +i name='groups'
+            unless logging_out
+                //- a.ui.icon.ui.button(href="/user/#{currentUser.username}/notifications" class="{{isActiveRoute regex='notifications'}}")
+                //-     i.large.alarm.icon
+                    //- .menu
+                    //-     if notifications
+                    //-         each notifications
+                    //-             .ui.button #{text}
+                    //-     else 
+                    //-         |no notifications
+                if is_user
+                    //- a.icon.ui.button(href="/chat" class="{{isActivePath '/chat'}}" title='chat')
+                    //-     +i name='chat'
+                        //- i.chat.large.icon
+                //- if is_admin
+                //-     a.icon.ui.button(href='/admin' class="{{isActivePath '/admin'}}")
+                //-         +i name='user shield'
+                //-         //- i.user.shield.icon
+                a.ui.circular.button(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
+                    //- if currentUser.image_id
+                    //-     img.ui.inline.circular.tiny.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    //- else
+                    //- +i name='user' classes='ui inline mini image'
+                    i.user.large.icon
+                    | #{currentUser.username}
 
-                if logging_out
-                    .item
-                        i.large.loading.circle.notch.icon
-                //- else
-                //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
-                //-         i.sign.out.large.icon
-            else
-                a.item(href='/login' title='login') 
-                    i.sign.in.large.icon
-                    //- +i name='enter-2' classes='ui avatar image'
+            if logging_out
+                .ui.button
+                    i.large.loading.circle.notch.icon
+            //- else
+            //-     a#logout.ui.mobile.hidden.icon.ui.button(href='#' title='Log Out')
+            //-         i.sign.out.large.icon
+        else
+            a.ui.circular.icon.button(href='/login' title='login') 
+                i.sign.in.large.icon
+                //- +i name='enter-2' classes='ui avatar image'
 
 
 
@@ -66,16 +68,17 @@ template(name='footer')
                 //- with currentUser
                     //- if is_dev
                     //-     +textarea_edit key='notes' direct=true
-                    //- form(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
-                    //-     input(type='hidden', name='cmd', value='_s-xclick')
-                    //-     input(type='hidden', name='hosted_button_id', value='AUVHGYNUW5LVE')
-                    //-     <input type="hidden" name="hosted_button_id" value="7SENHECABERS6" />
-                    //-     // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
-                    //-     //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-                    //-     img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
-                    //-     button.ui.large.icon.button(type='submit')
-                    //-         //- i.pied.piper.alternate.large.icon
-                    //-         +i name='donate'
+                form(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
+                    input(type='hidden', name='cmd', value='_s-xclick')
+                    input(type='hidden', name='hosted_button_id', value='BUX7ZDWUFLVDQ')
+                    //- // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
+                    //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
+                    button.ui.circular.icon.button(type='submit')
+                        i.pied.piper.alternate.large.icon
+                        //- +ismall name='donate'
+                
+                
                 
                 if is_dev    
                     with current_user
@@ -100,21 +103,20 @@ template(name='footer')
 
 
 template(name='role_switcher')
-    .ui.segment
-        .ui.grey.inline.center.aligned.small.header 
-            //- +i name='anonymous-mask'
-            i.shield.icon(title='role switcher')
-            |#{username} role switcher
-        //- if is_eric
-        //-     +user_array_element_toggle key='roles' value='dev' user=currentUser
-        //- if current_user
-        //-     with current_user
-        //-         +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
-        //- else if currentUser
-        //-     with currentUser
-        +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
-        //- +user_array_element_toggle key='roles' value='admin' user=currentUser
-        //- +user_array_element_toggle key='roles' value='user' user=currentUser
-        //- +user_array_element_toggle key='roles' value='staff' user=currentUser
-        //- +user_array_element_toggle key='roles' value='resident' user=currentUser
-        //- +user_array_element_toggle key='roles' value='owner' user=currentUser
+    .ui.grey.inline.center.aligned.small.header 
+        //- +i name='anonymous-mask'
+        i.shield.icon(title='role switcher')
+        |#{username} role switcher
+    //- if is_eric
+    //-     +user_array_element_toggle key='roles' value='dev' user=currentUser
+    //- if current_user
+    //-     with current_user
+    //-         +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+    //- else if currentUser
+    //-     with currentUser
+    +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+    //- +user_array_element_toggle key='roles' value='admin' user=currentUser
+    //- +user_array_element_toggle key='roles' value='user' user=currentUser
+    //- +user_array_element_toggle key='roles' value='staff' user=currentUser
+    //- +user_array_element_toggle key='roles' value='resident' user=currentUser
+    //- +user_array_element_toggle key='roles' value='owner' user=currentUser

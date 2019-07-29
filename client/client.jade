@@ -17,10 +17,10 @@ head
 
 
 template(name='layout')
-    +nav
-    .global_container
-        +yield
-    img.ui.fluid.image.checkin_banner(src="{{c.url 'boulderbg' width=1000 height=1000 crop='crop'}}")
+    //- +nav
+    //- .global_container
+    +yield
+    //- img.ui.fluid.image.checkin_banner(src="{{c.url 'boulderbg' width=1000 height=1000 crop='crop'}}")
     //- if is_eric
     +footer 
 
