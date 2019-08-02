@@ -17,8 +17,10 @@ Meteor.publish 'tags', (selected_tags)->
     self = @
     match = {}
 
-    # match.tags = $all: selected_tags
-    if selected_tags.length > 0 then match.tags = $all: selected_tags
+    match.tags = $all: ['food']
+    # if selected_tags.length > 0 then match.tags = $all: selected_tags
+    # if selected_tags.length > 0 then match.tags = $all: ['food']
+    console.log 'match', match
     cloud = Docs.aggregate [
         { $match: match }
         { $project: tags: 1 }
