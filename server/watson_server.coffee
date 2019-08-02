@@ -189,7 +189,7 @@ Meteor.methods
                     sentiment: false
                     # limit: 2
                 concepts: {}
-                # categories: {}
+                categories: {}
                 # emotion: {}
                 # metadata: {}
                 # relations: {}
@@ -202,6 +202,17 @@ Meteor.methods
             if err
                 console.error err
             else
+                adding_tags = []
+                for category in response.categories
+                    console.log category.label.split('/')
+                    for tag in category.label.split('/')
+                        if tag.length > 0 then adding_tags.push tag
+                console.log 'adding tags', adding_tags
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:adding_tags
+
+
                 keyword_array = _.pluck(response.keywords, 'text')
                 lowered_keywords = keyword_array.map (keyword)-> keyword.toLowerCase()
 
@@ -213,7 +224,6 @@ Meteor.methods
                         $addToSet:
                             "#{entity.type}":entity.text
                             tags:entity.text.toLowerCase()
-
 
 
                 Docs.update {_id:this_id},

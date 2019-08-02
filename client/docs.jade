@@ -22,8 +22,8 @@ template(name='view')
                                     i.pencil.icon
                             +detect
                         +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='Bookmark' remove_label='Unbookmark' color='red' big=true
-                        +voting
-                        +comments
+                        //- +voting
+                        //- +comments
                         //- +clone_button
                         //- if watson
                         //-     +doc_sentiment
@@ -108,8 +108,8 @@ template(name='edit')
                     i.remove.icon
                 //- +field_menu   
                 //- .ui.header import site
-                //- .ui.fluid.input
-                //-     input.new_site(type='text')
+                .ui.fluid.input
+                    input.new_site(type='text')
                 each _keys
                     +field_edit
 

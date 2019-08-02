@@ -1,6 +1,5 @@
 @Docs = new Meteor.Collection 'docs'
-# @Tags = new Meteor.Collection 'tags'
-@User_tags = new Meteor.Collection 'user_tags'
+@Tags = new Meteor.Collection 'tags'
 
 # Meteor.users.helpers
 #     name: ->
@@ -168,18 +167,13 @@ if Meteor.isServer
         # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
         remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
-    Meteor.publish 'docs', (selected_tags, filter)->
-        # user = Meteor.users.findOne @userId
-        # console.log selected_tags
-        # console.log filter
+    Meteor.publish 'docs', (selected_tags)->
+        console.log selected_tags
         self = @
         match = {}
-        # if filter is 'shop'
-        #     match.active = true
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
 
-        Docs.find match, sort:_timestamp:-1
+        Docs.find match
 
 
     Meteor.publish 'doc', (id)->

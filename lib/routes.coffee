@@ -100,7 +100,7 @@ Router.route '/home', -> @render 'home'
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'delta'
+    @render 'cloud'
     ), name:'front'
 
 Router.route '/user/:username', (->

@@ -1,12 +1,12 @@
 if Meteor.isClient
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter)
-        @autorun -> Meteor.subscribe 'me'
+        @autorun -> Meteor.subscribe('tags', selected_tags.array())
+        # @autorun -> Meteor.subscribe('docs', selected_tags.array())
 
 
     Template.cloud.helpers
         all_tags: ->
-            doc_count = Docs.find(model:'shop_item').count()
+            doc_count = Docs.find({}).count()
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         cloud_tag_class: ->
@@ -35,6 +35,24 @@ if Meteor.isClient
         'click .select_tag': -> selected_tags.push @name
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
+        'click .add_doc': ->
+            new_doc_id = Docs.insert {
+                "fields": [
+                    "html",
+                    "array"
+                ],
+                "_keys": [
+                    "new_html",
+                    "tags"
+                ],
+                "_new_html": {
+                    "field": "html"
+                },
+                "_tags": {
+                    "field": "array"
+                }
+            }
+            Router.go "/edit/#{new_doc_id}"
 
 
         'keyup #search': (e,t)->
@@ -72,7 +90,7 @@ if Meteor.isServer
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
+            { $limit: 42 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->
