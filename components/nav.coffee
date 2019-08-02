@@ -15,45 +15,6 @@ if Meteor.isClient
         #     # Router.go "/shop/#{new_id}/edit"
         #     Router.go "/hi"
 
-        'click .set_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'model', ->
-                Session.set 'loading', false
-
-        'click .set_image': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'image', ->
-                Session.set 'loading', false
-
-        'click .set_video': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'video', ->
-                Session.set 'loading', false
-
-        'click .set_food': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'food', ->
-                Session.set 'loading', false
-
-        'click .set_drink': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'drink', ->
-                Session.set 'loading', false
-
-        'click .set_event': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'event', ->
-                Session.set 'loading', false
-
-        'click .set_all': ->
-            Session.set 'loading', true
-            Meteor.call 'set_all', 'event', ->
-                Session.set 'loading', false
-
-        'click .set_bookmarked_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
 
     Template.nav.onRendered ->
         # @autorun =>
@@ -71,7 +32,7 @@ if Meteor.isClient
 
 
     Template.nav.onCreated ->
-        @autorun -> Meteor.subscribe 'me'
+        # @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'my_cart'
 
@@ -79,92 +40,40 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
-        notifications: ->
-            Docs.find
-                model:'notification'
-
-        models: ->
-            Docs.find
-                model:'model'
-
-        unread_count: ->
-            unread_count = Docs.find({
-                model:'message'
-                to_username:Meteor.user().username
-                read_by_ids:$nin:[Meteor.userId()]
-            }).count()
-
-        loading_class: ->
-            if Session.get('loading') then 'disabled' else ''
-
-        cart_amount: ->
-            cart_amount = Docs.find({
-                model:'cart_item'
-                _author_id:Meteor.userId()
-            }).count()
-
-        mail_icon_class: ->
-            unread_count = Docs.find({
-                model:'message'
-                to_username:Meteor.user().username
-                read_by_ids:$nin:[Meteor.userId()]
-            }).count()
-            if unread_count then 'red' else ''
 
 
-        bookmarked_models: ->
-            if Meteor.userId()
-                Docs.find
-                    model:'model'
-                    bookmark_ids:$in:[Meteor.userId()]
-
-    Template.nav.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.context .ui.sidebar')
-        #         .sidebar({
-        #             context: $('.context .segment')
-        #             dimPage: false
-        #             transition:  'push'
-        #         })
-        #         .sidebar('attach events', '.context .menu .toggle_sidebar.item')
-        # , 1000
-
-    Template.nav.events
-
-
-
-if Meteor.isServer
-    Meteor.publish 'my_notifications', ->
-        Docs.find
-            model:'notification'
-            user_id: Meteor.userId()
-
-    Meteor.publish 'bookmarked_models', ->
-        if Meteor.userId()
-            Docs.find
-                model:'model'
-                bookmark_ids:$in:[Meteor.userId()]
-
-
-    Meteor.publish 'my_cart', ->
-        if Meteor.userId()
-            Docs.find
-                model:'cart_item'
-                _author_id:Meteor.userId()
-
-    Meteor.publish 'unread_messages', (username)->
-        if Meteor.userId()
-            Docs.find {
-                model:'message'
-                to_username:username
-                read_ids:$nin:[Meteor.userId()]
-            }, sort:_timestamp:-1
-
-
-    Meteor.publish 'me', ->
-        Meteor.users.find @userId
-
-    Meteor.publish 'current_tribe', ->
-        Docs.find
-            model:'tribe'
-            slug:Meteor.user().current_tribe
+# if Meteor.isServer
+#     Meteor.publish 'my_notifications', ->
+#         Docs.find
+#             model:'notification'
+#             user_id: Meteor.userId()
+#
+#     Meteor.publish 'bookmarked_models', ->
+#         if Meteor.userId()
+#             Docs.find
+#                 model:'model'
+#                 bookmark_ids:$in:[Meteor.userId()]
+#
+#
+#     Meteor.publish 'my_cart', ->
+#         if Meteor.userId()
+#             Docs.find
+#                 model:'cart_item'
+#                 _author_id:Meteor.userId()
+#
+#     Meteor.publish 'unread_messages', (username)->
+#         if Meteor.userId()
+#             Docs.find {
+#                 model:'message'
+#                 to_username:username
+#                 read_ids:$nin:[Meteor.userId()]
+#             }, sort:_timestamp:-1
+#
+#
+#     Meteor.publish 'me', ->
+#         Meteor.users.find @userId
+#
+#     Meteor.publish 'current_tribe', ->
+#         Docs.find
+#             model:'tribe'
+#             slug:Meteor.user().current_tribe

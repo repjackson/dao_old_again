@@ -1,12 +1,12 @@
 if Meteor.isClient
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter)
-        @autorun -> Meteor.subscribe 'me'
+        @autorun => Meteor.subscribe('tags', selected_tags.array())
+        @autorun => Meteor.subscribe('docs', selected_tags.array())
 
 
     Template.cloud.helpers
         all_tags: ->
-            doc_count = Docs.find(model:'shop_item').count()
+            doc_count = Docs.find({}).count()
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         cloud_tag_class: ->
@@ -35,49 +35,3 @@ if Meteor.isClient
         'click .select_tag': -> selected_tags.push @name
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
-
-
-        'keyup #search': (e,t)->
-            e.preventDefault()
-            val = $('#search').val().toLowerCase().trim()
-            switch e.which
-                when 13 #enter
-                    switch val
-                        when 'clear'
-                            selected_tags.clear()
-                            $('#search').val ''
-                        else
-                            unless val.length is 0
-                                selected_tags.push val.toString()
-                                $('#search').val ''
-                when 8
-                    if val.length is 0
-                        selected_tags.pop()
-
-        'autocompleteselect #search': (event, template, doc) ->
-            selected_tags.push doc.name
-            $('#search').val ''
-
-
-if Meteor.isServer
-    Meteor.publish 'tags', (selected_tags, filter)->
-        self = @
-        match = {}
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
-        cloud = Docs.aggregate [
-            { $match: match }
-            { $project: tags: 1 }
-            { $unwind: "$tags" }
-            { $group: _id: '$tags', count: $sum: 1 }
-            { $match: _id: $nin: selected_tags }
-            { $sort: count: -1, _id: 1 }
-            { $limit: 10 }
-            { $project: _id: 0, name: '$_id', count: 1 }
-            ]
-        cloud.forEach (tag, i) ->
-            self.added 'tags', Random.id(),
-                name: tag.name
-                count: tag.count
-                index: i
-        self.ready()

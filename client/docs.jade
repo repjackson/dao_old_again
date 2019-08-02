@@ -10,34 +10,11 @@ template(name='view')
                                 i.blue.icon(class=icon)
                             |#{title}
                         if is_dev
-                            //- +clone_button
-                            //- div
-                            //- +author_info
-                            //- div
-                            //- +creation_info
                             div
                             if is_author
                                 //- +edit_button
                                 a.ui.big.icon.button(href="/edit/#{_id}")
                                     i.pencil.icon
-                            +detect
-                        +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='Bookmark' remove_label='Unbookmark' color='red' big=true
-                        +voting
-                        +comments
-                        //- +clone_button
-                        //- if watson
-                        //-     +doc_sentiment
-                        //-     +doc_emotion
-                        //-     +concepts
-                        //-     +categories
-                        //-     +entities
-                        //-     +semantic_roles
-                        //-     +keyword_list
-                        //-     +keywords
-                        //-     +concept_list
-                        //-     +relations
-                        //-     +personality
-                        //-     +consumption_preferences
                 .twelve.wide.column
                     .large150
                         each _keys
@@ -55,14 +32,6 @@ template(name='view')
                         i.refresh.icon
                     each sorted_matches
                         +doc_match
-                //- .column.scrolling
-                //-     .ui.basic.segment.large150
-                //-         if watson
-                //-             +tone
-                //-             +keywords
-                //-         //- +watson_view
-                //-         if visual_classes
-                //-             +visual_classes
 
 template(name='doc_match')
     .ui.secondary.segment.pointer.doc_match
@@ -108,8 +77,8 @@ template(name='edit')
                     i.remove.icon
                 //- +field_menu   
                 //- .ui.header import site
-                //- .ui.fluid.input
-                //-     input.new_site(type='text')
+                .ui.fluid.input
+                    input.new_site(type='text')
                 each _keys
                     +field_edit
 

@@ -1,6 +1,5 @@
+@Tags = new Meteor.Collection 'tags'
 @Docs = new Meteor.Collection 'docs'
-# @Tags = new Meteor.Collection 'tags'
-@User_tags = new Meteor.Collection 'user_tags'
 
 # Meteor.users.helpers
 #     name: ->
@@ -40,16 +39,16 @@ Docs.before.insert (userId, doc)->
     # doc.upvoters = []
     return
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.cloudinary_key
-        api_secret: Meteor.settings.cloudinary_secret
+# if Meteor.isClient
+#     # console.log $
+#     $.cloudinary.config
+#         cloud_name:"facet"
+#
+# if Meteor.isServer
+#     Cloudinary.config
+#         cloud_name: 'facet'
+#         api_key: Meteor.settings.cloudinary_key
+#         api_secret: Meteor.settings.cloudinary_secret
 
 
 
@@ -168,18 +167,12 @@ if Meteor.isServer
         # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
         remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
 
-    Meteor.publish 'docs', (selected_tags, filter)->
-        # user = Meteor.users.findOne @userId
-        # console.log selected_tags
-        # console.log filter
-        self = @
+    Meteor.publish 'docs', (selected_tags)->
+        console.log selected_tags
         match = {}
-        # if filter is 'shop'
-        #     match.active = true
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
-
-        Docs.find match, sort:_timestamp:-1
+        # if selected_tags.length > 0 then match.tags = $all: selected_tags
+        console.log match
+        Docs.find match
 
 
     Meteor.publish 'doc', (id)->

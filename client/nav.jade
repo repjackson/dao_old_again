@@ -8,9 +8,9 @@ template(name='nav')
         i.yin.yang.loading.grey.big.icon
             //- img.ui.mini.image.rotate(src="{{c.url 'boulderlogo' width=400 height=400 gravity='face' crop='fill'}}")
     else
-        //- a.icon.ui.button.set_all(href='/m/all' class="{{isActivePath '/m/all'}}")
+        //- a.icon.ui.button.set_all(href='/m/all')
             //- i.yin.yang..icon
-        a.ui.icon.circular.button(href='/' class="{{isActivePath '/'}}")
+        a.ui.icon.circular.button(href='/')
             i.home.large.grey.icon
         //- a.icon.ui.button(href='/give' class="{{isActivePath '/give'}}")
         //-     i.chevron.right.icon
@@ -40,13 +40,13 @@ template(name='nav')
                 //-     a.icon.ui.button(href='/admin' class="{{isActivePath '/admin'}}")
                 //-         +i name='user shield'
                 //-         //- i.user.shield.icon
-                a.ui.circular.button(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
-                    //- if currentUser.image_id
-                    //-     img.ui.inline.circular.tiny.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                    //- else
-                    //- +i name='user' classes='ui inline mini image'
-                    i.user.large.icon
-                    | #{currentUser.username}
+                //- a.ui.circular.button(href="/user/#{currentUser.username}")
+                //-     //- if currentUser.image_id
+                //-     //-     img.ui.inline.circular.tiny.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                //-     //- else
+                //-     //- +i name='user' classes='ui inline mini image'
+                //-     i.user.large.icon
+                //-     | #{currentUser.username}
 
             if logging_out
                 .ui.button
@@ -80,21 +80,21 @@ template(name='footer')
                 
                 
                 
-                if is_dev    
-                    with current_user
-                        +role_switcher
+                //- if is_dev    
+                //-     with current_user
+                //-         +role_switcher
             .eight.wide.column
                 //- unless currentUser
                 //-     a.ui.big.basic.button(href='/login')
                 //-         i.sign.in.icon
                 //-         |login
-                if is_eric
-                    with currentUser
-                        +role_switcher
+                //- if is_eric
+                //-     with currentUser
+                //-         +role_switcher
                         //- +tribe_switcher
-                else if is_dev
-                    with currentUser
-                        +role_switcher
+                //- else if is_dev
+                //-     with currentUser
+                //-         +role_switcher
         //- if is_user
         //-     .row
         //-         .ui.center.aligned.inverted.header

@@ -189,7 +189,7 @@ Meteor.methods
                     sentiment: false
                     # limit: 2
                 concepts: {}
-                # categories: {}
+                categories: {}
                 # emotion: {}
                 # metadata: {}
                 # relations: {}
@@ -211,9 +211,17 @@ Meteor.methods
                 for entity in response.entities
                     Docs.update { _id: doc_id },
                         $addToSet:
-                            "#{entity.type}":entity.text
+                            # "#{entity.type}":entity.text
                             tags:entity.text.toLowerCase()
 
+                adding_tags = []
+                for category in response.categories
+                    console.log category.label.split('/')
+                    for tag in category.label.split('/')
+                        if tag.length > 0 then adding_tags.push tag
+                Docs.update { _id: doc_id },
+                    $addToSet:
+                        tags:$each:adding_tags
 
 
                 Docs.update {_id:this_id},
