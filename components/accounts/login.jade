@@ -29,12 +29,11 @@ template(name='login')
                         //- i.right.chevron.icon
                 else
                     if username
-                        .ui.center.aligned.segment
-                            .ui.small.header no '#{username}' user
-                            a.ui.button(href='/register')
-                                i.user.plus.icon
-                                //- +i name='enter-2' classes='ui mini inline image'                    
-                                //- | register
+                        .ui.small.header no '#{username}' user
+                        a.ui.button(href='/register')
+                            i.user.plus.icon
+                            //- +i name='enter-2' classes='ui mini inline image'                    
+                            //- | register
                 .ui.center.aligned.basic.segment    
                     a.ui.large.icon.circular.button(href='/forgot_password')
                         //- +i name='forgot-password' classes='ui mini inline image'

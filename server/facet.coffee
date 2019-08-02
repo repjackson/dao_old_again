@@ -123,7 +123,7 @@ Meteor.methods
         modifier =
             {
                 fields:_id:1
-                limit:1
+                limit:5
                 sort:_timestamp:-1
             }
 
@@ -138,11 +138,11 @@ Meteor.methods
         results_cursor = Docs.find built_query, modifier
 
 
-        if total < 3
+        if total < 4
             result_ids = results_cursor.fetch()
         else
             result_ids = []
-        # result_ids = results_cursor.fetch()
+        result_ids = results_cursor.fetch()
 
 
         Docs.update {_id:delta._id},
@@ -154,7 +154,7 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key)->
-        limit=100
+        limit=42
         options = { explain:false }
         pipe =  [
             { $match: query }

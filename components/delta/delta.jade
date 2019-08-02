@@ -25,13 +25,15 @@ template(name='delta')
                     +facet
         .row
             .sixteen.wide.column
-                each current_delta.result_ids
-                    //- .column
-                    +delta_result
+                if single_doc
+                    each current_delta.result_ids
+                        +delta_result
             
 
 
 template(name='facet')
+    each filters
+        .ui.active.large.button.remove_facet_filter #{this}
     if filtering_res
         //- .ui.hidden.divider
         //- .ui.accordion

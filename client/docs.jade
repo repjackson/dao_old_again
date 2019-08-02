@@ -38,7 +38,7 @@ template(name='view')
                         //-     +relations
                         //-     +personality
                         //-     +consumption_preferences
-                .twelve.wide.column.scrolling
+                .twelve.wide.column
                     .large150
                         each _keys
                             //- .ui.label #{this}
@@ -55,7 +55,6 @@ template(name='view')
                         i.refresh.icon
                     each sorted_matches
                         +doc_match
-                
                 //- .column.scrolling
                 //-     .ui.basic.segment.large150
                 //-         if watson
@@ -107,7 +106,7 @@ template(name='edit')
                     i.large.checkmark.icon
                 #delete_doc.ui.red.icon.circular.button
                     i.remove.icon
-                +field_menu   
+                //- +field_menu   
                 //- .ui.header import site
                 //- .ui.fluid.input
                 //-     input.new_site(type='text')
@@ -129,13 +128,13 @@ template(name='field_menu')
 
 
 template(name='field_edit')
-    .ui.secondary.segment
-        i.remove.icon.large.link.remove_field(title='remove field')
-        .ui.inline.header(title='name') #{key}
-        .ui.input
-            input.change_key(type='text' placeholder='key' value=key)
-
-        .ui.divider
+    .ui.basic.segment
+        //- i.remove.icon.large.link.remove_field(title='remove field')
+        //- .ui.inline.header(title='name') #{key}
+        //- .ui.input
+        //-     input.change_key(type='text' placeholder='key' value=key)
+        //- 
+        //- .ui.divider
         +key_edit_template
         //- 
         //- with context

@@ -10,6 +10,13 @@ if Meteor.isClient
                 model:'delta'
                 _author_id:Meteor.userId()
 
+        one_result: ->
+            current_delta =
+                Docs.findOne
+                    model:'delta'
+                    _author_id:Meteor.userId()
+            if current_delta and current_delta.result_ids and current_delta.result_ids.length is 1 then true else false
+
         sorted_facets: ->
             current_delta =
                 Docs.findOne
@@ -24,8 +31,9 @@ if Meteor.isClient
 
         single_doc: ->
             delta = Docs.findOne model:'delta'
-            count = delta.result_ids.length
-            if count is 1 then true else false
+            if delta
+                count = delta.result_ids.length
+                if count is 1 then true else false
 
 
     Template.delta.events
@@ -167,6 +175,14 @@ if Meteor.isClient
                 Meteor.call 'add_facet_filter', delta._id, facet.key, @name, ->
                     Session.set 'loading', false
 
+        'click .remove_facet_filter': ->
+            delta = Docs.findOne model:'delta'
+            facet = Template.currentData()
+            console.log @
+            Session.set 'loading', true
+            Meteor.call 'remove_facet_filter', delta._id, facet.key, @valueOf(), ->
+                Session.set 'loading', false
+
         'keyup .add_filter': (e,t)->
             # console.log @
             if e.which is 13
@@ -185,6 +201,10 @@ if Meteor.isClient
 
 
     Template.facet.helpers
+        filters: ->
+            # console.log @
+            @filters
+
         filtering_res: ->
             delta = Docs.findOne model:'delta'
             filtering_res = []
@@ -192,10 +212,12 @@ if Meteor.isClient
                 @res
             else
                 for filter in @res
+                    # if filter.name in @filters
+                    #     # console.log 'looking at filter', filter
+                    #     filtering_res.push filter
                     if filter.count < delta.total
                         filtering_res.push filter
-                    else if filter.name in @filters
-                        filtering_res.push filter
+                # console.log 'filtering res', filtering_res
                 filtering_res
 
 
