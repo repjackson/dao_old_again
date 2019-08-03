@@ -39,19 +39,6 @@ Docs.before.insert (userId, doc)->
     # doc.upvoters = []
     return
 
-if Meteor.isClient
-    # console.log $
-    $.cloudinary.config
-        cloud_name:"facet"
-
-if Meteor.isServer
-    Cloudinary.config
-        cloud_name: 'facet'
-        api_key: Meteor.settings.cloudinary_key
-        api_secret: Meteor.settings.cloudinary_secret
-
-
-
 
 # Docs.after.insert (userId, doc)->
 #     console.log doc.tags
@@ -82,13 +69,6 @@ Docs.helpers
                 downvoter = Meteor.users.findOne downvoter_id
                 downvoters.push downvoter
             downvoters
-Meteor.users.helpers
-    email_address: -> if @emails then @emails[0].address
-    email_verified: -> if @emails and @emails[0] then @emails[0].verified
-    five_tags: -> if @tags then @tags[..4]
-    three_tags: -> if @tags then @tags[..2]
-    last_name_initial: -> if @last_name then @last_name.charAt 0
-
 Meteor.methods
     add_facet_filter: (delta_id, key, filter)->
         if key is '_keys'

@@ -15,7 +15,7 @@ if Meteor.isClient
             if e.which is 13
                 doc_id = Router.current().params.doc_id
                 site = t.$('.new_site').val()
-                console.log site
+                # console.log site
                 Meteor.call 'pull_site', doc_id, site,->
                 # t.$('.add_comment').val('')
 

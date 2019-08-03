@@ -38,7 +38,7 @@ if Meteor.isClient
         'click .add_doc': ->
             new_doc_id = Docs.insert {
                 "fields": [
-                    "html",
+                    "textarea",
                     "array"
                 ],
                 "_keys": [
@@ -46,7 +46,7 @@ if Meteor.isClient
                     "tags"
                 ],
                 "_new_html": {
-                    "field": "html"
+                    "field": "textarea"
                 },
                 "_tags": {
                     "field": "array"
@@ -90,7 +90,7 @@ if Meteor.isServer
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 100 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
         cloud.forEach (tag, i) ->
