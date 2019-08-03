@@ -50,25 +50,6 @@ Docs.before.insert (userId, doc)->
 # ), fetchPrevious: true
 
 
-Docs.helpers
-    author: ->
-        console.log @
-        Meteor.users.findOne @_author_id
-    when: -> moment(@_timestamp).fromNow()
-    upvoters: ->
-        if @upvoter_ids
-            upvoters = []
-            for upvoter_id in @upvoter_ids
-                upvoter = Meteor.users.findOne upvoter_id
-                upvoters.push upvoter
-            upvoters
-    downvoters: ->
-        if @downvoter_ids
-            downvoters = []
-            for downvoter_id in @downvoter_ids
-                downvoter = Meteor.users.findOne downvoter_id
-                downvoters.push downvoter
-            downvoters
 Meteor.methods
     add_facet_filter: (delta_id, key, filter)->
         if key is '_keys'
@@ -125,17 +106,6 @@ Meteor.methods
             $rename:
                 "#{old_key}": new_key
                 "_#{old_key}": "_#{new_key}"
-
-
-if Meteor.isClient
-    Template.view.helpers
-        tag_class: -> if @valueOf() in selected_tags.array() then 'primary' else 'basic'
-        when: -> moment(@_timestamp).fromNow()
-
-    Template.view.events
-        'click .tag': -> if @valueOf() in selected_tags.array() then selected_tags.remove(@valueOf()) else selected_tags.push(@valueOf())
-
-        'click .edit': -> Router.go("/edit/#{@_id}")
 
 
 
