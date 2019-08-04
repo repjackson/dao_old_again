@@ -1,15 +1,21 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
+Router.configure
+    layoutTemplate: 'layout'
+    notFoundTemplate: 'not_found'
 
-# Meteor.users.helpers
-#     name: ->
-#         if @profile.first_name and @profile.last_name
-#             "#{@profile.first_name}  #{@profile.last_name}"
+
+Router.route '/edit/:doc_id', -> @render 'edit'
+Router.route '/view/:doc_id', -> @render 'view'
+
+Router.route '/', (->
+    @layout 'layout'
+    @render 'cloud'
+    ), name:'front'
 
 
 
 Docs.before.insert (userId, doc)->
-    doc._author_id = Meteor.userId()
     timestamp = Date.now()
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
@@ -30,106 +36,4 @@ Docs.before.insert (userId, doc)->
     # console.log date_array
         doc._timestamp_tags = date_array
 
-    doc._author_id = Meteor.userId()
-    if Meteor.user()
-        doc._author_username = Meteor.user().username
-
-    # doc.points = 0
-    # doc.downvoters = []
-    # doc.upvoters = []
     return
-
-
-# Docs.after.insert (userId, doc)->
-#     console.log doc.tags
-#     return
-
-# Docs.after.update ((userId, doc, fieldNames, modifier, options) ->
-#     doc.tag_count = doc.tags?.length
-#     # Meteor.call 'generate_authored_cloud'
-# ), fetchPrevious: true
-
-
-Meteor.methods
-    add_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:delta_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:delta_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fum', delta_id, (err,res)->
-
-    add_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:alpha_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fa', alpha_id, (err,res)->
-
-
-    remove_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:delta_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:delta_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fum', delta_id, (err,res)->
-
-
-    remove_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:alpha_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fa', alpha_id, (err,res)->
-
-    rename_key:(old_key,new_key,parent)->
-        Docs.update parent._id,
-            $pull:_keys:old_key
-        Docs.update parent._id,
-            $addToSet:_keys:new_key
-        Docs.update parent._id,
-            $rename:
-                "#{old_key}": new_key
-                "_#{old_key}": "_#{new_key}"
-
-
-
-
-if Meteor.isServer
-    Docs.allow
-        insert: (userId, doc) -> doc._author_id is userId
-        update: (userId, doc) -> userId
-        # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-        remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-
-    Meteor.publish 'docs', (selected_tags)->
-        console.log selected_tags
-        self = @
-        match = {}
-        if selected_tags.length > 0 then match.tags = $all: selected_tags
-
-        Docs.find match
-
-
-    Meteor.publish 'doc', (id)->
-        doc = Docs.findOne id
-        user = Meteor.users.findOne id
-        if doc
-            Docs.find id
-        else if user
-            Meteor.users.find id

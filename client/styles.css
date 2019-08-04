@@ -9,4 +9,11 @@ body {
 
 .button {
     margin-bottom: 4px !important;
+    border-radius: 10px !important;
+}
+
+
+.inline {
+    display:inline !important;
+    margin: .5em !important;2
 }
