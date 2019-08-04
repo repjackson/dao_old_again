@@ -6,31 +6,23 @@ Template.array_edit.events
             element_val = t.$('.new_element').val().trim().toLowerCase()
             # console.log @
             # console.log element_val
-            parent = Template.parentData(5)
+            parent = Template.parentData()
 
             doc = Docs.findOne parent._id
             Docs.update parent._id,
-                $addToSet:"#{@valueOf()}":element_val
+                $addToSet:tags:element_val
             t.$('.new_element').val('')
 
     'click .remove_element': (e,t)->
         element = @valueOf()
         field = Template.currentData()
-        # console.log Template.parentData(1)
-        # console.log Template.parentData(2)
-        # console.log Template.parentData(3)
-        # console.log Template.parentData(4)
-        # console.log Template.parentData(5)
-        # console.log Template.parentData(6)
-        # console.log field
-        # console.log element
-        parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         Docs.update parent._id,
-            $pull:"#{field}":element
+            $pull:tags:element
         #
-        t.$('.new_element').focus()
+        # t.$('.new_element').focus()
         t.$('.new_element').val(element)
 
 
@@ -41,11 +33,13 @@ Template.array_edit.events
         if e.which is 13
             if tag.length > 0
                 split_tags = tag.match(/\S+/g)
-                $('#quick_add').val('')
-                parent = Template.parentData(5)
+                parent = Template.parentData()
+                console.log parent
+                console.log split_tags
                 doc = Docs.findOne parent._id
                 Docs.update parent._id,
                     $addToSet:tags:$each:split_tags
+                $('#quick_add').val('')
 
 
 Template.textarea_edit.events
@@ -54,12 +48,11 @@ Template.textarea_edit.events
 
     'blur .edit_textarea': (e,t)->
         textarea_val = t.$('.edit_textarea').val()
-        parent = Template.parentData(5)
+        parent = Template.parentData()
 
         doc = Docs.findOne parent._id
         Docs.update parent._id,
-            $set:"#{@valueOf()}":textarea_val
-
+            $set:"new_html":textarea_val
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
@@ -71,31 +64,8 @@ Template.registerHelper 'current_doc', ->
 Template.registerHelper 'field_value', () ->
     # console.log @valueOf()
     parent = Template.parentData()
-    # console.log Template.parentData(1)
-    # console.log Template.parentData(2)
-    # console.log Template.parentData(3)
-    # console.log Template.parentData(4)
-    # console.log Template.parentData(5)
-    # console.log Template.parentData(6)
-    # parent5 = Template.parentData(5)
-    # # parent6 = Template.parentData(6)
-    #
-    # console.log parent
-    # console.log parent5
-    # console.log parent6
-
-
-    # parent = Template.parentData(5)
-    if @direct
-        parent = Template.parentData()
-    else if parent5._id
-        parent = Template.parentData(5)
-    # else if parent6._id
-    #     parent = Template.parentData(6)
     if @direct
         parent["#{@key}"]
-    else if parent
-        parent["#{@valueOf()}"]
 
 
 Template.registerHelper 'calculated_size', (metric) ->
@@ -142,6 +112,7 @@ Template.cloud.helpers
         limit: 10
         rules: [
             {
+                token: '#'
                 collection: Tags
                 field: 'name'
                 matchAll: true
@@ -210,6 +181,12 @@ Template.edit.events
         if confirm 'delete?'
             Docs.remove Router.current().params.doc_id
             Router.go "/"
+
+    'click .autotag': ->
+        doc = Docs.findOne Router.current().params.doc_id
+        console.log doc.new_html
+        Meteor.call 'call_watson', doc._id, 'new_html', 'text'
+
     'keyup .new_site':(e,t)->
         if e.which is 13
             doc_id = Router.current().params.doc_id

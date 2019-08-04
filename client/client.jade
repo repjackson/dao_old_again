@@ -82,8 +82,8 @@ template(name='array_edit')
     if field_value
         each field_value
             .ui.large.basic.label
-                i.delete.large.icon.remove_element
                 |#{this}
+                i.delete.large.icon.remove_element
                 
 template(name='array_view')
     //- if field_value
@@ -113,7 +113,7 @@ template(name='cloud')
                 i.plus.icon
             .ui.left.icon.transparent.input
                 i.search.icon
-                +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+                +inputAutocomplete settings=settings id="search" class="" placeholder='# for autocomplete' autocomplete="off" 
             if selected_tags
                 #clear_tags.ui.active.icon.large.button
                     i.remove.icon
@@ -191,24 +191,6 @@ template(name='doc_match')
             //- +author_info
 
 
-//- template(name='view')
-//-     .ui.segment.container
-//-         .content
-//-             a(href="/view/#{_id}")
-//-                 .image
-//-                     img.ui.large.centered.image(src="{{c.url image_id }}")
-//-                 h1.ui.header #{title}
-//-             .meta
-//-                 each tags
-//-                     .ui.button.tag(class=tag_class) #{this}
-//-             .description
-//-                 |!{description}
-//-             if can_edit
-//-                 .edit.ui.icon.button
-//-                     i.pencil.icon.icon
-//-             else
-//-                 | by #{author.username} #{when}
-//- 
                 
 template(name='edit')
     with current_doc
@@ -225,6 +207,8 @@ template(name='edit')
                     input.new_site(type='text')
                 +array_edit key='tags' direct=true
                 +textarea_edit key='new_html' direct=true
+                .ui.big.icon.button.autotag
+                    i.chess.icon
                 //- each _keys
                 //-     +field_edit
 
