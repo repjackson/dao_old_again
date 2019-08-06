@@ -90,13 +90,28 @@ Template.registerHelper 'calculated_size', (metric) ->
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 Template.cloud.onCreated ->
     @autorun -> Meteor.subscribe('tags', selected_tags.array())
-    # @autorun -> Meteor.subscribe('docs', selected_tags.array())
 
+Template.docs.onCreated ->
+    @autorun -> Meteor.subscribe('docs', selected_tags.array())
+
+Template.docs.events
+    'click .embed': ->
+        $('.ui.embed').embed();
+
+Template.docs.helpers
+    results: ->
+        Docs.find {}
+
+    one_doc: ->
+        count = Docs.find({}).count()
+        if count is 1 then true else false
+
+    last_doc: -> Docs.findOne({})
 
 Template.cloud.helpers
     all_tags: ->
         doc_count = Docs.find({}).count()
-        if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find({}, limit:100)
+        if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
 
     cloud_tag_class: ->
         button_class = switch
@@ -109,10 +124,11 @@ Template.cloud.helpers
 
     settings: -> {
         position: 'bottom'
-        limit: 10
+        limit: 20
+        noMatchTemplate:'no_match'
         rules: [
             {
-                token: '#'
+                # token: '#'
                 collection: Tags
                 field: 'name'
                 matchAll: true
@@ -204,75 +220,6 @@ Template.edit.helpers
     fields: ->
         Docs.find
             model:'field_type'
-
-Template.field_menu.helpers
-    fields: ->
-        Docs.find
-            model:'field_type'
-
-Template.field_menu.events
-    'click .add_field': ->
-        console.log @
-        Docs.update Router.current().params.doc_id,
-            $push:
-                fields: @slug
-                _keys: "new_#{@slug}"
-            $set:
-                "_new_#{@slug}": { field:@slug }
-
-Template.field_edit.events
-    'blur .change_key': (e,t)->
-        old_string = @valueOf()
-        # console.log old_string
-        new_key = t.$('.change_key').val()
-        parent = Template.parentData()
-        current_keys = Template.parentData()._keys
-
-        Meteor.call 'rename_key', old_string, new_key, parent
-
-
-    'click .remove_field': (e,t)->
-        key_name = @valueOf()
-        console.log @
-        console.log Template.currentData()
-        parent = Template.parentData()
-        field = parent["_#{key_name}"].field
-        if confirm "Remove #{key_name}?"
-            $(e.currentTarget).closest('.segment').transition('fly right')
-            Meteor.setTimeout =>
-                Docs.update parent._id,
-                    $unset:
-                        "#{key_name}": 1
-                        "_#{key_name}": 1
-                    $pull:
-                        _keys: key_name
-                        fields:field
-            , 1000
-
-
-Template.field_edit.helpers
-    key: -> @valueOf()
-
-    meta: ->
-        key_string = @valueOf()
-        parent = Template.parentData()
-        parent["_#{key_string}"]
-
-    context: ->
-        # console.log @
-        {key:@valueOf()}
-
-
-    field_edit: ->
-        # console.log @
-        # console.log Template.parentData(2)
-        # console.log Template.parentData(3)
-        meta = Template.parentData(2)["_#{@key}"]
-        # console.log meta
-        # console.log "#{meta.field}_edit"
-        "#{meta.field}_edit"
-
-
 
 Template.view.onCreated ->
     @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id

@@ -1,6 +1,6 @@
 head
     title dao
-    meta(name='viewport', content='user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, width=device-width')
+    meta(name='viewport', content='user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
     meta(name="theme-color" content="#000000")
@@ -63,16 +63,16 @@ template(name='textarea_edit')
 
 template(name='array_edit')
     div
-        .ui.tiny.header
-            if icon
-                +ismall name=icon
-                //- i.grey.icon(class=icon)
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
+    .ui.tiny.header
+        if icon
+            +ismall name=icon
+            //- i.grey.icon(class=icon)
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
     .ui.fluid.input
         input.new_element(type='text' placeholder='+' autocomplete="off")
     .ui.fluid.input
@@ -81,9 +81,9 @@ template(name='array_edit')
     div
     if field_value
         each field_value
-            .ui.large.basic.label
+            .ui.basic.label
                 |#{this}
-                i.delete.large.icon.remove_element
+                i.delete.icon.remove_element
                 
 template(name='array_view')
     //- if field_value
@@ -101,19 +101,19 @@ template(name='array_view')
             else
                 |#{this}
         each field_value
-            .ui.large.basic.circular.label #{this}
+            .ui.basic.circular.label #{this}
 
 
 
 
 template(name='cloud')
-    .ui.grid
+    .ui.padded.grid
         .sixteen.wide.center.aligned.column
-            .ui.icon.large.button.add_doc
+            .ui.icon.button.add_doc
                 i.plus.icon
             .ui.left.icon.transparent.input
                 i.search.icon
-                +inputAutocomplete settings=settings id="search" class="" placeholder='# for autocomplete' autocomplete="off" 
+                +inputAutocomplete settings=settings id="search" class="" autocomplete="off" autofocus='' 
             if selected_tags
                 #clear_tags.ui.active.icon.large.button
                     i.remove.icon
@@ -121,8 +121,13 @@ template(name='cloud')
                     .unselect_tag.ui.active.large.button
                         strong #{this}
             each all_tags
-                .ui.large.compact.button.select_tag(class=cloud_tag_class) 
+                .ui.compact.large.button.select_tag(class=cloud_tag_class) 
                     strong #{this.name}
+        .sixteen.wide.column
+            +docs
+            .ui.transparent.input
+                input.import_subreddit(type='text' placeholder='import subreddit')
+        .sixteen.wide.center.aligned.column
             form.inline(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
                 input(type='hidden', name='cmd', value='_s-xclick')
                 input(type='hidden', name='hosted_button_id', value='BUX7ZDWUFLVDQ')
@@ -130,13 +135,27 @@ template(name='cloud')
                 //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                 img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
                 button.ui.icon.button(type='submit')
-                    i.pied.piper.alternate.large.icon
+                    i.pied.piper.alternate.icon
+            
+            
+            
+template(name='docs')
+    //- if one_doc
+    //- with last_doc
+    //-     if youtube_id
+    //-         .ui.embed(data-source="youtube" data-id=youtube_id)
+    //- 
+    //-     if youtube
+    //-         .ui.embed(data-source="youtube" data-id=youtube)
+    //- 
+    //-     a.ui.header(href=url) #{url}
+    //-     //- each tags
+    //-     //-     .ui.label #{this}
+    //-     |!{content} !{new_html} !{body}
 
-            .ui.small.input
-                input.import_subreddit(type='text' placeholder='import subreddit')
 
 template(name='tag_result')
-    .ui.large.label #{name}
+    |#{name}
 
 
 
@@ -145,22 +164,21 @@ template(name='view')
     with current_doc
         .ui.stackable.padded.grid
             .sixteen.wide.column
-                a.ui.large.icon.button(href='/')
+                a.ui.icon.button(href='/')
                     i.home.icon
                 //- +edit_button
-                a.ui.large.icon.button(href="/edit/#{_id}")
+                a.ui.icon.button(href="/edit/#{_id}")
                     i.pencil.icon
-                .large150
-                    +array_view key='tags' direct=true
-                    +textarea_view key='new_html' direct=true
-                    //- each _keys
-                    //-     //- .ui.label #{this}
-                    //-     +key_view_template
-                    //- //- .ui.hidden.divider
-                    //- if analyzed_text
-                    //-     |#{nl2br analyzed_text}
-                    //-     .ui.hidden.divider
-                    div
+                +array_view key='tags' direct=true
+                +textarea_view key='new_html' direct=true
+                //- each _keys
+                //-     //- .ui.label #{this}
+                //-     +key_view_template
+                //- //- .ui.hidden.divider
+                //- if analyzed_text
+                //-     |#{nl2br analyzed_text}
+                //-     .ui.hidden.divider
+                div
                 .ui.inline.header 
                     //- +i name='merge'
                     |top matches
@@ -169,7 +187,7 @@ template(name='view')
                 each sorted_matches
                     +doc_match
             //- .column.scrolling
-            //-     .ui.basic.segment.large150
+            //-     .ui.basic.segment150
             //-         if watson
             //-             +tone
             //-             +keywords
@@ -197,8 +215,8 @@ template(name='edit')
         .ui.stackable.padded.grid
             .sixteen.wide.column
                 //- h1.ui.inline.header edit
-                a.ui.green.large.icon.button(href="/view/#{_id}") 
-                    i.large.checkmark.icon
+                a.ui.green.icon.button(href="/view/#{_id}") 
+                    i.checkmark.icon
                 #delete_doc.ui.red.icon.button
                     i.remove.icon
                 //- +field_menu   
@@ -209,57 +227,6 @@ template(name='edit')
                 +textarea_edit key='new_html' direct=true
                 .ui.big.icon.button.autotag
                     i.chess.icon
-                //- each _keys
-                //-     +field_edit
 
 
-
-
-
-template(name='field_menu')
-    i.grey.plus.large.icon(title='add field')
-        //- |brick
-    each fields
-        .ui.large.button.add_field
-            i.icon(class=icon)
-            //- +i name=icon classes='ui avatar image'
-            |#{slug}
-
-
-template(name='field_edit')
-    .ui.basic.segment
-        //- i.remove.icon.large.link.remove_field(title='remove field')
-        //- .ui.inline.header(title='name') #{key}
-        //- .ui.input
-        //-     input.change_key(type='text' placeholder='key' value=key)
-        //- 
-        //- .ui.divider
-        +key_edit_template
-        //- 
-        //- with context
-            +Template.dynamic template=field_edit
-        //- .ui.divider
-        //- +jsonView json=meta
-
-
-
-
-
-
-
-                    
-template(name='key_view_template')
-    //- .ui.header #{key}: #{value}
-    //- .ui.blue.header #{meta}
-    
-    +Template.dynamic template=meta
-                    
-                        
-template(name='key_edit_template')
-    //- .ui.header #{key}
-    //- .ui.header #{key}: #{value}
-    //- .ui.blue.header #{meta}
-    
-    +Template.dynamic template=meta
-                    
-                        
+template(name='no_match')

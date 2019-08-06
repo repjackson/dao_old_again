@@ -1,16 +1,27 @@
 body {
     font-family: 'Ubuntu', sans-serif !important;
-    font-size: 110% !important;
-    /*line-height: 200% !important;*/
+    /* font-size: 110% !important; */
+    /* line-height: 200% !important; */
     filter: invert(100%) !important;
-    /* background: #3d3d3d !important; */
-    background: rgba(0, 0, 0, .8) !important
+    background: #3d3d3d !important;
+    /* background: rgba(0, 0, 0, .2) !important */
 }
 
 .button, .label {
     margin-bottom: 4px !important;
     border-radius: 10px !important;
+    /* color: white !important; */
+    /* background-color: grey !important; */
 }
+
+.active.button {
+    color: black !important;
+    background-color: darkgrey !important;
+}
+/* .button:hover {
+    color: black !important;
+    background-color: darkgrey !important; */
+/* } */ */
 
 
 .inline {

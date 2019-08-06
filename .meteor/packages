@@ -30,7 +30,5 @@ modules
 constellation:console
 constellation:subscriptions
 constellation:autopublish
-constellation:session
-babrahams:temple
 mizzao:autocomplete
 percolate:synced-cron
