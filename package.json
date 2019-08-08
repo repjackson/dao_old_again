@@ -1,7 +1,6 @@
 {
 	"dependencies": {
-		"@babel/runtime": "^7.1.2",
-		"watson-developer-cloud": "^3.3.0"
+		"@babel/runtime": "^7.1.2"
 	},
 	"scripts": {
 		"start": "MONGO_URL=mongodb://daoadmin:daoadminpassword@aws-us-east-1-portal.21.dblayer.com:10444/dao?ssl=true meteor --settings settings.json",

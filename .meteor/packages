@@ -24,11 +24,7 @@ matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.10
 coffeescript
-ecmascript
-http
-modules
 constellation:console
 constellation:subscriptions
 constellation:autopublish
 mizzao:autocomplete
-percolate:synced-cron

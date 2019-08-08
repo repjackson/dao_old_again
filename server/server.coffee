@@ -1,5 +1,3 @@
-# NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-
 Docs.allow
     insert: () -> true
     update: () -> true
@@ -73,7 +71,7 @@ Meteor.publish 'tags', (selected_tags)->
         { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
-        { $limit: 100 }
+        { $limit: 42 }
         { $project: _id: 0, name: '$_id', count: 1 }
         ]
     cloud.forEach (tag, i) ->

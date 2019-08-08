@@ -12,8 +12,6 @@ head
 
 
 template(name='layout')
-    //- +nav
-    //- .global_container
     +yield
 
 
@@ -21,8 +19,6 @@ template(name='not_found')
     .ui.text.container.global_container
         .ui.center.aligned.header not found
         a.ui.button(href="/") home
-
-
 
 template(name='textarea_view')
     if field_value
@@ -57,8 +53,6 @@ template(name='textarea_edit')
                 else
                     |#{this}
             textarea.edit_textarea(rows='15') #{field_value}
-        //- +call_watson mode='text' key=key
-
 
 
 template(name='array_edit')
@@ -186,14 +180,6 @@ template(name='view')
                     i.refresh.icon
                 each sorted_matches
                     +doc_match
-            //- .column.scrolling
-            //-     .ui.basic.segment150
-            //-         if watson
-            //-             +tone
-            //-             +keywords
-            //-         //- +watson_view
-            //-         if visual_classes
-            //-             +visual_classes
 
 template(name='doc_match')
     .ui.secondary.segment.pointer.doc_match
@@ -219,14 +205,8 @@ template(name='edit')
                     i.checkmark.icon
                 #delete_doc.ui.red.icon.button
                     i.remove.icon
-                //- +field_menu   
-                //- .ui.header import site
-                .ui.fluid.input
-                    input.new_site(type='text')
                 +array_edit key='tags' direct=true
                 +textarea_edit key='new_html' direct=true
-                .ui.big.icon.button.autotag
-                    i.chess.icon
 
 
 template(name='no_match')
