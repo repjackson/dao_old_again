@@ -9,11 +9,14 @@ body {
 
 .button, .label {
     margin-bottom: 4px !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     /* color: white !important; */
     /* background-color: grey !important; */
 }
 
+.scrolling::-webkit-scrollbar {
+    display: none;
+}
 .active.button {
     color: black !important;
     background-color: darkgrey !important;
@@ -27,4 +30,14 @@ body {
 .inline {
     display:inline !important;
     margin: .5em !important;2
+}
+
+
+.scrolling{
+	overflow-y:scroll;
+	overflow-x:hidden;
+	max-height:100vh;
+	/*max-height:85vh;*/
+	/* padding-top: 1em; */
+	/*padding-left: 1em;*/
 }

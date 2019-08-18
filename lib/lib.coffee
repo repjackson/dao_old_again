@@ -10,7 +10,7 @@ Router.route '/view/:doc_id', -> @render 'view'
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'cloud'
+    @render 'delta'
     ), name:'front'
 
 
@@ -37,3 +37,19 @@ Docs.before.insert (userId, doc)->
         doc._timestamp_tags = date_array
 
     return
+
+
+Meteor.methods
+    add_facet_filter: (delta_id, key, filter)->
+        if key is '_keys'
+            new_facet_ob = {
+                key:filter
+                filters:[]
+                res:[]
+            }
+            Docs.update { _id:delta_id },
+                $addToSet: facets: new_facet_ob
+        Docs.update { _id:delta_id, "facets.key":key},
+            $addToSet: "facets.$.filters": filter
+
+        Meteor.call 'fum', delta_id, (err,res)->

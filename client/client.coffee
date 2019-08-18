@@ -111,7 +111,7 @@ Template.docs.helpers
 Template.cloud.helpers
     all_tags: ->
         doc_count = Docs.find({}).count()
-        if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:20}) else Tags.find({}, limit:20)
+        if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
 
     cloud_tag_class: ->
         button_class = switch
