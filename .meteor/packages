@@ -11,25 +11,30 @@ tracker@1.2.0                 # Meteor's client-side reactive programming librar
 
 
 random@1.1.0
-manuel:reactivearray
 meteorhacks:aggregate
 mobile-experience@1.0.5
 
-
+manuel:reactivearray
+lepozepo:cloudinary
 blaze-html-templates
 dburles:collection-helpers
 shell-server@0.4.0
 momentjs:moment
+mizzao:autocomplete
 matb33:collection-hooks
 mquandalle:jade
 underscore@1.0.10
 coffeescript
+froala:editor-reactive@=2.4.2
 constellation:console
 constellation:subscriptions
 constellation:autopublish
-mizzao:autocomplete
 accounts-password
 constellation:session
 babrahams:temple
 accounts-ui
 session
+flowkey:hotkeys
+percolate:synced-cron
+zimme:active-route
+reywood:publish-composite

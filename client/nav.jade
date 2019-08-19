@@ -1,0 +1,142 @@
+template(name='nav')
+    unless is_frontdesk
+        //- .ui.borderless.attached.big.inverted.menu.topnav
+        //- .ui.attached.borderless.inverted.large.menu.topnav.grgold
+        .ui.attached.borderless.menu.topnav
+            //- if is_staff
+            //-     .pointer.toggle_sidebar.icon.item.sidebar_on
+            //-         //- +i name='menu'
+            //-         i.large.sidebar.icon
+            if is_loading
+                .icon.item
+                    i.big.grey.loading.yin.yang.icon
+            else
+                //- if is_admin
+                a.item.set_models(href='/m/model' class="{{isActivePath '/m/model'}}")
+                    +i name='active-directory' classes='ui avatar image'
+                a.icon.item(href='/home' class="{{isActivePath '/home'}}")
+                    +i name='activity-grid-2' classes='ui avatar image'
+                //- if is_user
+                a.icon.item(href='/front' class="{{isActivePath '/front'}}")
+                    +i name='home' classes='ui avatar image'
+                a.icon.item(href='/dashboard' class="{{isActivePath '/dashboard'}}")
+                    +i name='dashboard' classes='ui avatar image'
+                if is_manager
+                    a.icon.item(href='/manager' class="{{isActivePath '/manager'}}")
+                        +i name='user-shield' classes='ui avatar image'
+                        .mobile.hidden &nbsp; manager
+                if is_staff
+                    //- a.icon.item(href='/stats' class="{{isActivePath '/stats'}}")
+                    //-     +i name='line chart' classes='ui avatar image'
+                    a.item(href='/staff' class="{{isActivePath '/staff'}}")
+                        +i name='manager' classes='ui avatar image'
+                        .mobile.hidden &nbsp; staff
+                    a.item(href='/buildings' class="{{isActivePath '/buildings'}}")
+                        +i name='building' classes='ui avatar image'
+                        .mobile.hidden &nbsp; buildings
+                    a.item(href='/residents' class="{{isActivePath '/residents'}}")
+                        +i name='groups' classes='ui avatar image'
+                        .mobile.hidden &nbsp; residents
+                    a.item(href='/healthclub' class="{{isActivePath '/healthclub'}}")
+                        +i name='kindle' classes='ui avatar image'
+                        .mobile.hidden &nbsp; kiosk
+                    a.icon.item(href='/readings' class="{{isActivePath '/readings'}}")
+                        +i name='water' classes='ui avatar image'
+                        .mobile.hidden &nbsp; water
+                if is_admin
+                    a.icon.item(href='/users' class="{{isActivePath '/users'}}")
+                        +i name='groups' classes='ui avatar image'
+                        .mobile.hidden &nbsp; users
+            .right.menu
+                if is_admin
+                    a.icon.item.set_task(href='/m/task' class="{{isActivePath '/m/task'}}" title='tasks')
+                        +i name='tasks' classes='ui avatar image'
+                    a.icon.item(href='/tasks' class="{{isActivePath '/tasks'}}" title='tasks')
+                        i.tasks.icon
+                    a.icon.item(href='/inbox' class="{{isActivePath '/inbox'}}" title='inbox')
+                        +i name='inbox' classes='ui avatar image'
+                    a.icon.item(href='/chat' class="{{isActivePath '/chat'}}" title='chat')
+                        +i name='chat' classes='ui avatar image'
+                if currentUser
+                    unless logging_out
+                        //- if is_dev
+                        unless is_frontdesk
+                            a.item(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_chat'}}")
+                                if currentUser.image_id
+                                    img.ui.avatar.image(src="{{c.url currentUser.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                else
+                                    +i name='user'
+                                //- | #{currentUser.username}
+                    if logging_out
+                        .item
+                            i.large.loading.circle.notch.icon
+                    //- else
+                    //-     a#logout.ui.mobile.hidden.icon.item(href='#' title='Log Out')
+                    //-         i.sign.out.large.icon
+                else
+                    unless is_resident
+                        a.item(href='/login' title='login') 
+                            +i name='internal'
+                            |login
+        //- if is_dev
+        //-     .ui.attached.borderless.small.menu.topnav
+        //-         each role_models
+        //-             a.item.set_model(href="/m/#{slug}/")
+        //-                 +i name=icon classes='ui avatar image'
+        //-                 |#{title}
+
+
+
+template(name='footer')
+    .ui.fluid.basic.attached.basic.segment.footer
+        .ui.container.stackable.grid
+            .eight.wide.column
+                if is_staff
+                    +add_button label='submit bug' model='bug'
+                else
+                    form.inline(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
+                        input(type='hidden', name='cmd', value='_s-xclick')
+                        input(type='hidden', name='hosted_button_id', value='BUX7ZDWUFLVDQ')
+                        //- // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
+                        //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                        img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
+                        button.ui.icon.button(type='submit' title='donate')
+                            +i name='donate'
+                if is_dev    
+                    with current_user
+                        +role_switcher
+            .eight.wide.column
+                //- unless currentUser
+                //-     a.ui.big.basic.button(href='/login')
+                //-         i.sign.in.icon
+                //-         |login
+                if is_eric
+                    with currentUser
+                        +role_switcher
+                else if is_dev
+                    with currentUser
+                        +role_switcher
+        //- if is_user
+        //-     .row
+        //-         .ui.center.aligned.inverted.header
+        //-             i.copyright.outline.icon
+        //-             |
+
+
+template(name='role_switcher')
+    .ui.inline.center.aligned.small.header 
+        +i name='anonymous-mask'
+        |#{username} role switcher
+    //- if is_eric
+    //-     +user_array_element_toggle key='roles' value='dev' user=currentUser
+    //- if current_user
+    //-     with current_user
+    //-         +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+    //- else if currentUser
+    //-     with currentUser
+    +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+    //- +user_array_element_toggle key='roles' value='admin' user=currentUser
+    //- +user_array_element_toggle key='roles' value='user' user=currentUser
+    //- +user_array_element_toggle key='roles' value='staff' user=currentUser
+    //- +user_array_element_toggle key='roles' value='resident' user=currentUser
+    //- +user_array_element_toggle key='roles' value='owner' user=currentUser

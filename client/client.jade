@@ -12,159 +12,119 @@ head
 
 
 template(name='layout')
+    +nav
     +yield
+    +footer 
 
 
 template(name='not_found')
     .ui.text.container.global_container
         .ui.center.aligned.header not found
-        a.ui.fluid.button(href="/") home
-
-template(name='textarea_view')
-    if field_value
-        //- div
-        //- .ui.inline.small.header
-        //-     if icon
-        //-         +ismall name=icon
-        //-         //- i.grey.icon(class=icon)
-        //-     if title
-        //-         |#{title}
-        //-     else if label
-        //-         |#{label}
-        //-     else if key
-        //-         |#{key}
-        //-     else
-        //-         |#{this}            
-        |{{nl2br field_value}}
-
-template(name='textarea_edit')
-    .ui.form
-        .field
-            //- label 
-            //-     if icon
-            //-         i.icon(name=icon)
-            //-         //- +ismall name=icon classes='ui avatar image'
-            //-     if title
-            //-         |#{title}
-            //-     else if label
-            //-         |#{label}
-            //-     else if key
-            //-         |#{key}
-            //-     else
-            //-         |#{this}
-            textarea.edit_textarea(rows='15') #{field_value}
-
-
-template(name='array_edit')
-    div
-    //- .ui.tiny.header
-    //-     if icon
-    //-         +ismall name=icon
-    //-         //- i.grey.icon(class=icon)
-    //-     if title
-    //-         |#{title}
-    //-     else if label
-    //-         |#{label}
-    //-     else if key
-    //-         |#{key}
-    .ui.fluid.input
-        input.new_element(type='text' placeholder='+' autocomplete="off")
-    .ui.fluid.input
-        input#quick_add(type='text' placeholder='quick add' autocomplete="off")
-        //- +clear_value                
-    div
-    if field_value
-        each field_value
-            .ui.basic.label
-                |#{this}
-                i.delete.icon.remove_element
-                
-template(name='array_view')
-    //- if field_value
-    if field_value
-        div
-        //- .ui.inline.small.header
-        //-     if icon
-        //-         +ismall name=icon
-        //-     if title
-        //-         |#{title}
-        //-     else if label
-        //-         |#{label}
-        //-     else if key
-        //-         |#{key}
-        //-     else
-        //-         |#{this}
-        each field_value
-            .ui.basic.circular.label #{this}
-
+        a.ui.fluid.compact.button(href="/") home
 
 
 
 template(name='cloud')
-    .ui.padded.grid
-        .eight.wide.right.aligned.column
-            .ui.icon.button.add_doc
-                i.plus.icon
+    .ui.padded.stackable.grid
+        .sixteen.wide.center.aligned.column
+            .ui.large.circular.label
+                +loginButtons align="right"
+            if currentUser
+                .ui.icon.large.circular.button.add_doc
+                    i.plus.icon
             .ui.left.icon.transparent.input
                 i.search.icon
                 +inputAutocomplete settings=settings id="search" class="" autocomplete="off" autofocus='' 
+            i.big.tags.icon
             if selected_tags
-                #clear_tags.ui.active.icon.large.button
+                #clear_tags.ui.active.icon.large.circular.compact.button
                     i.remove.icon
                 each selected_tags
-                    .unselect_tag.ui.active.large.button
+                    .unselect_tag.ui.active.large.circular.compact.button
                         strong #{this}
             each all_tags
-                .ui.compact.large.button.select_tag(class=cloud_tag_class) 
+                .ui.circular.large.compact.button.select_tag(class=cloud_tag_class) 
                     strong #{this.name}
-        .eight.wide.column.scrolling
-            +docs
-            .ui.transparent.input
-                input.import_subreddit(type='text' placeholder='import subreddit')
+            i.big.user.icon
+            if selected_usernames
+                #clear_usernames.ui.active.icon.large.circular.compact.button
+                    i.remove.icon
+                each selected_usernames
+                    .unselect_username.ui.active.large.circular.compact.button
+                        strong #{this}
+            each all_usernames
+                .ui.circular.large.button.select_username(class=username_tag_class) 
+                    strong #{this.name}
+        .sixteen.wide.column
+            each results
+                +doc
+            //- .ui.transparent.input
+            //-     input.import_subreddit(type='text' placeholder='import subreddit')
         .sixteen.wide.center.aligned.column
             form.inline(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
                 input(type='hidden', name='cmd', value='_s-xclick')
-                input(type='hidden', name='hosted_button_id', value='BUX7ZDWUFLVDQ')
+                input(type='hidden', name='hosted_compact.button_id', value='BUX7ZDWUFLVDQ')
                 //- // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
-                //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal compact.button" />
                 img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
-                button.ui.icon.button(type='submit')
+                button.ui.button.icon.circular.button(type='submit')
                     i.pied.piper.alternate.icon
             
             
             
-template(name='docs')
-    //- if one_doc
-    with last_doc
+template(name='doc')
+    .ui.secondary.segment
         if youtube_id
-            .ui.embed(data-source="youtube" data-id=youtube_id)
-
+            +youtube_view key='youtube_id'
         if youtube
-            .ui.embed(data-source="youtube" data-id=youtube)
-
+            +youtube_view key='youtube'
         a.ui.header(href=url) #{url}
-        //- each tags
-        //-     .ui.label #{this}
-        |!{content} !{new_html} !{body}
-
+        if image_id
+            img.ui.centered.rounded.large.image(src="{{c.url image_id gravity='face' crop='fit'}}" class=classes)
+        if image
+            img.ui.centered.rounded.large.image(src="{{c.url image gravity='face' crop='fit'}}" class=classes)
+        |!{content} !{new_html} !{body} !{description} !{html} !{notes}
+        .ui.icon.red.button.delete_doc
+            i.remove.icon
+        if title
+            .ui.header #{title}
+        if model
+            .ui.header #{model}
+        each tags
+            .ui.compact.small.button.toggle_selection(class=tag_selector_class) #{this}
+        input.new_author(type='text' value=_author_username)
+        +change_author name='reddit'
+        +change_author name='wikipedia'
+        +change_author name='craigslist'
+        +change_author name='intercambio'
+        +change_author name='goldrun'
+        +change_author name='nist'
+        +change_author name='eric'
+        +change_author name='news'
+        
+template(name='change_author')
+    .ui.small.teal.circular.button.change_author #{name}
 
 template(name='tag_result')
     |#{name}
-
-
 
 
 template(name='view')
     with current_doc
         .ui.stackable.padded.grid
             .sixteen.wide.column
-                a.ui.icon.button(href='/')
+                a.ui.icon.big.circular.button(href='/')
                     i.home.icon
-                //- +edit_button
-                a.ui.icon.button(href="/edit/#{_id}")
+                //- +edit_compact.button
+                a.ui.icon.big.circular.button(href="/edit/#{_id}")
                     i.pencil.icon
-                +array_view key='tags' direct=true
-                +textarea_view key='new_html' direct=true
+                .ui.segment
+                    +image_view key='image_id' direct=true
+                    +youtube_view key='youtube_id' direct=true
+                    +array_view key='tags' direct=true
+                    +textarea_view key='body' direct=true
+
+                
                 //- each _keys
                 //-     //- .ui.label #{this}
                 //-     +key_view_template
@@ -176,7 +136,7 @@ template(name='view')
                 .ui.inline.header 
                     //- +i name='merge'
                     |top matches
-                .ui.icon.button.calculate
+                .ui.icon.compact.button.calculate
                     i.refresh.icon
                 each sorted_matches
                     +doc_match
@@ -194,19 +154,19 @@ template(name='doc_match')
                 .ui.small.label(class=matching_tag_class) #{this}
             //- +author_info
 
-
                 
 template(name='edit')
     with current_doc
         .ui.stackable.padded.grid
             .sixteen.wide.column
                 //- h1.ui.inline.header edit
-                a.ui.green.icon.button(href="/view/#{_id}") 
-                    i.checkmark.icon
-                #delete_doc.ui.red.icon.button
-                    i.remove.icon
+                +image_edit key='image_id' direct=true
+                +youtube_edit key='youtube_id' direct=true
                 +array_edit key='tags' direct=true
-                +textarea_edit key='new_html' direct=true
-
+                +html_edit key='body' direct=true
+                a.ui.green.icon.big.circular.button(href="/view/#{_id}") 
+                    i.checkmark.icon
+                #delete_doc.ui.red.icon.big.circular.button
+                    i.remove.icon
 
 template(name='no_match')

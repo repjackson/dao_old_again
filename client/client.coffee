@@ -1,58 +1,146 @@
 @selected_tags = new ReactiveArray []
+@selected_usernames = new ReactiveArray []
 
-Template.array_edit.events
-    'keyup .new_element': (e,t)->
-        if e.which is 13
-            element_val = t.$('.new_element').val().trim().toLowerCase()
-            # console.log @
-            # console.log element_val
-            parent = Template.parentData()
+$.cloudinary.config
+    cloud_name:"facet"
 
-            doc = Docs.findOne parent._id
-            Docs.update parent._id,
-                $addToSet:tags:element_val
-            t.$('.new_element').val('')
-
-    'click .remove_element': (e,t)->
-        element = @valueOf()
-        field = Template.currentData()
-        parent = Template.parentData()
-
-        doc = Docs.findOne parent._id
-        Docs.update parent._id,
-            $pull:tags:element
-        #
-        # t.$('.new_element').focus()
-        t.$('.new_element').val(element)
-
-
-
-    'keyup #quick_add': (e,t)->
-        e.preventDefault
-        tag = $('#quick_add').val().toLowerCase()
-        if e.which is 13
-            if tag.length > 0
-                split_tags = tag.match(/\S+/g)
-                parent = Template.parentData()
-                console.log parent
-                console.log split_tags
-                doc = Docs.findOne parent._id
-                Docs.update parent._id,
-                    $addToSet:tags:$each:split_tags
-                $('#quick_add').val('')
-
-
-Template.textarea_edit.events
-    # 'click .toggle_edit': (e,t)->
-    #     t.editing.set !t.editing.get()
-
-    'blur .edit_textarea': (e,t)->
-        textarea_val = t.$('.edit_textarea').val()
-        parent = Template.parentData()
-
-        doc = Docs.findOne parent._id
-        Docs.update parent._id,
-            $set:"new_html":textarea_val
+Template.registerHelper 'is_loading', () -> Session.get 'loading'
+# Template.array_edit.events
+#     'keyup .new_element': (e,t)->
+#         if e.which is 13
+#             element_val = t.$('.new_element').val().trim().toLowerCase()
+#             # console.log @
+#             # console.log element_val
+#             parent = Template.parentData()
+#
+#             doc = Docs.findOne parent._id
+#             Docs.update parent._id,
+#                 $addToSet:tags:element_val
+#             t.$('.new_element').val('')
+#
+#     'click .remove_element': (e,t)->
+#         element = @valueOf()
+#         field = Template.currentData()
+#         parent = Template.parentData()
+#
+#         doc = Docs.findOne parent._id
+#         Docs.update parent._id,
+#             $pull:tags:element
+#         #
+#         # t.$('.new_element').focus()
+#         t.$('.new_element').val(element)
+#
+#     'keyup #quick_add': (e,t)->
+#         e.preventDefault
+#         tag = $('#quick_add').val().toLowerCase()
+#         if e.which is 13
+#             if tag.length > 0
+#                 split_tags = tag.match(/\S+/g)
+#                 parent = Template.parentData()
+#                 # console.log parent
+#                 # console.log split_tags
+#                 doc = Docs.findOne parent._id
+#                 Docs.update parent._id,
+#                     $addToSet:tags:$each:split_tags
+#                 $('#quick_add').val('')
+#
+# Template.image_edit.events
+#     "change input[name='upload_image']": (e) ->
+#         files = e.currentTarget.files
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#         Cloudinary.upload files[0],
+#             # folder:"secret" # optional parameters described in http://cloudinary.com/documentation/upload_images#remote_upload
+#             # model:"private" # optional: makes the image accessible only via a signed url. The signed url is available publicly for 1 hour.
+#             (err,res) => #optional callback, you can catch with the Cloudinary collection as well
+#                 # console.dir res
+#                 if err
+#                     console.error 'Error uploading', err
+#                 else
+#                     doc = Docs.findOne parent._id
+#                     user = Meteor.users.findOne parent._id
+#                     if doc
+#                         Docs.update parent._id,
+#                             $set:"#{@key}":res.public_id
+#                     else if user
+#                         Meteor.users.update parent._id,
+#                             $set:"#{@key}":res.public_id
+#
+#
+#     'blur .cloudinary_id': (e,t)->
+#         cloudinary_id = t.$('.cloudinary_id').val()
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#         Docs.update parent._id,
+#             $set:"#{@key}":cloudinary_id
+#
+#
+#     'click #remove_photo': ->
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#
+#         if confirm 'Remove Photo?'
+#             # Docs.update parent._id,
+#             #     $unset:"#{@key}":1
+#             doc = Docs.findOne parent._id
+#             user = Meteor.users.findOne parent._id
+#             if doc
+#                 Docs.update parent._id,
+#                     $unset:"#{@key}":1
+#             else if user
+#                 Meteor.users.update parent._id,
+#                     $unset:"#{@key}":1
+#
+#
+# Template.youtube_edit.onRendered ->
+#     Meteor.setTimeout ->
+#         $('.ui.embed').embed();
+#     , 1000
+#
+# Template.youtube_view.onRendered ->
+#     Meteor.setTimeout ->
+#         $('.ui.embed').embed();
+#     , 1000
+#
+#
+# Template.youtube_edit.events
+#     'blur .youtube_id': (e,t)->
+#         if @direct
+#             parent = Template.parentData()
+#         else
+#             parent = Template.parentData(5)
+#         val = t.$('.youtube_id').val()
+#         doc = Docs.findOne parent._id
+#         user = Meteor.users.findOne parent._id
+#         if doc
+#             Docs.update parent._id,
+#                 $set:"#{@key}":val
+#         else if user
+#             Meteor.users.update parent._id,
+#                 $set:"#{@key}":val
+#
+#
+#
+#
+#
+#
+# Template.textarea_edit.events
+#     # 'click .toggle_edit': (e,t)->
+#     #     t.editing.set !t.editing.get()
+#
+#     'blur .edit_textarea': (e,t)->
+#         textarea_val = t.$('.edit_textarea').val()
+#         parent = Template.parentData()
+#
+#         doc = Docs.findOne parent._id
+#         Docs.update parent._id,
+#             $set:"new_html":textarea_val
 
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
@@ -67,6 +155,11 @@ Template.registerHelper 'field_value', () ->
     if @direct
         parent["#{@key}"]
 
+Accounts.ui.config
+    passwordSignupFields: 'USERNAME_ONLY'
+
+Template.cloud.onCreated ->
+    @autorun -> Meteor.subscribe 'me'
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
@@ -89,39 +182,62 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe('tags', selected_tags.array())
+    @autorun -> Meteor.subscribe('classic_facet', selected_tags.array(),selected_usernames.array())
+    @autorun -> Meteor.subscribe('docs', selected_tags.array(),selected_usernames.array())
 
-Template.docs.onCreated ->
-    @autorun -> Meteor.subscribe('docs', selected_tags.array())
 
-Template.docs.events
+Template.doc.events
     'click .embed': ->
         $('.ui.embed').embed();
+    'click .delete_doc': ->
+        Docs.remove @_id
+    'blur .new_author': (e,t)->
+        current = Template.currentData()
+        author = t.$('.new_author').val()
+        Docs.update current._id,
+            $set:_author_username: author
 
-Template.docs.helpers
-    results: ->
-        Docs.find {}
+Template.change_author.events
+    'click .change_author': ->
+        current = Template.parentData()
+        Docs.update current._id,
+            $set:_author_username: @name
 
+
+
+
+Template.doc.helpers
     one_doc: ->
         count = Docs.find({}).count()
         if count is 1 then true else false
-
     last_doc: -> Docs.findOne({})
 
 Template.cloud.helpers
+    results: -> Docs.find {},
+        {
+            sort:points:-1
+            limit:1
+        }
     all_tags: ->
         doc_count = Docs.find({}).count()
         if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
-
     cloud_tag_class: ->
         button_class = switch
             when @index <= 5 then 'large'
             when @index <= 12 then ''
             when @index <= 20 then 'small'
         return button_class
-
     selected_tags: -> selected_tags.array()
-
+    all_usernames: ->
+        doc_count = Usernames.find({}).count()
+        if 0 < doc_count < 3 then Usernames.find({count:$lt:doc_count},{limit:42}) else Usernames.find({}, limit:42)
+    cloud_tag_class: ->
+        button_class = switch
+            when @index <= 5 then 'large'
+            when @index <= 12 then ''
+            when @index <= 20 then 'small'
+        return button_class
+    selected_usernames: -> selected_usernames.array()
     settings: -> {
         position: 'bottom'
         limit: 20
@@ -137,29 +253,20 @@ Template.cloud.helpers
             ]
     }
 
+Template.doc.events
+    'click .toggle_selection': -> selected_tags.push @valueOf()
+    'click .unselect_tag': -> selected_tags.remove @valueOf()
 Template.cloud.events
     'click .select_tag': -> selected_tags.push @name
     'click .unselect_tag': -> selected_tags.remove @valueOf()
     'click #clear_tags': -> selected_tags.clear()
-    'click .add_doc': ->
-        new_doc_id = Docs.insert {
-            "fields": [
-                "textarea",
-                "array"
-            ],
-            "_keys": [
-                "new_html",
-                "tags"
-            ],
-            "_new_html": {
-                "field": "textarea"
-            },
-            "_tags": {
-                "field": "array"
-            }
-        }
-        Router.go "/edit/#{new_doc_id}"
 
+    'click .select_username': -> selected_usernames.push @name
+    'click .unselect_username': -> selected_usernames.remove @valueOf()
+    'click #clear_usernames': -> selected_usernames.clear()
+    'click .add_doc': ->
+        new_doc_id = Docs.insert {}
+        Router.go "/edit/#{new_doc_id}"
 
     'keyup .import_subreddit': (e,t)->
         val = $('.import_subreddit').val().toLowerCase().trim()
@@ -211,6 +318,8 @@ Template.edit.events
             Meteor.call 'pull_site', doc_id, site,->
             # t.$('.add_comment').val('')
 
+    'click .delete_doc': ->
+        Docs.remove @_id
 
 
 Template.edit.helpers

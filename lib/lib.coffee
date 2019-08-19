@@ -1,22 +1,24 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
+@Usernames = new Meteor.Collection 'usernames'
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'not_found'
 
 
-Router.route '/edit/:doc_id', -> @render 'edit'
-Router.route '/view/:doc_id', -> @render 'view'
-
-Router.route '/', (->
-    @layout 'layout'
-    @render 'delta'
-    ), name:'front'
-
+# Router.route '/edit/:doc_id', -> @render 'edit'
+# Router.route '/view/:doc_id', -> @render 'view'
+#
+# Router.route '/', (->
+#     @layout 'layout'
+#     @render 'cloud'
+#     ), name:'front'
 
 
 Docs.before.insert (userId, doc)->
     timestamp = Date.now()
+    doc._author_id = Meteor.userId()
+    doc._author_username = Meteor.user().username
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")
     date = moment(timestamp).format('Do')
@@ -35,21 +37,17 @@ Docs.before.insert (userId, doc)->
     # date_array = _.each(date_array, (el)-> console.log(typeof el))
     # console.log date_array
         doc._timestamp_tags = date_array
-
     return
 
 
 Meteor.methods
     add_facet_filter: (delta_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:delta_id },
-                $addToSet: facets: new_facet_ob
         Docs.update { _id:delta_id, "facets.key":key},
             $addToSet: "facets.$.filters": filter
+        Meteor.call 'fum', delta_id, (err,res)->
 
+
+    remove_facet_filter: (delta_id, key, filter)->
+        Docs.update { _id:delta_id, "facets.key":key},
+            $pull: "facets.$.filters": filter
         Meteor.call 'fum', delta_id, (err,res)->
