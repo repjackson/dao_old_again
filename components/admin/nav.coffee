@@ -96,7 +96,7 @@ if Meteor.isClient
     #     @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-        @autorun -> Meteor.subscribe 'role_models'
+        # @autorun -> Meteor.subscribe 'role_models'
 
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'

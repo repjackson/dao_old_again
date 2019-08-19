@@ -18,6 +18,7 @@ Cloudinary.config
 
 
 Meteor.publish 'doc', (doc_id)->
+    console.log doc_id
     Docs.find doc_id
 
 Meteor.publish 'me', ()->

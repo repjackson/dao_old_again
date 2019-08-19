@@ -18,3 +18,10 @@ Template.detect.events
     'click .detect_fields': ->
         # console.log @
         Meteor.call 'detect_fields', @_id
+
+
+Template.clone.events
+    'click .clone_doc': ->
+        console.log @
+
+        Meteor.call 'clone_document', @_id

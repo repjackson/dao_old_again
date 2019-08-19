@@ -128,7 +128,14 @@ template(name='delta_result')
                         if _author_id
                             +author_info
                         +creation_info
+                    .ui.header _id: #{_id}
+                    .ui.header light fields
+                    each _keys
+                        .ui.label #{this}
+                    .ui.header dark fields
+                    each _dark_fields
+                        .ui.label #{this}
                     if is_admin
                         +remove_button
-                
+                        +clone
                         

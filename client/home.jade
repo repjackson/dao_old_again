@@ -10,15 +10,18 @@ template(name='home')
     .ui.stackable.four.column.padded.grid
         each role_models
             .column
-                a(href="/m/#{slug}")
-                    .ui.segment.home_segment.set_model
-                        .ui.header 
-                            +i name=icon
-                            |#{title}
-                        if is_dev
-                            each view_roles
-                                .ui.basic.label #{this}
-
+                .ui.segment.home_segment.set_model
+                    .ui.header 
+                        +i name=icon
+                        |#{title}
+                    |#{description}
+                    .ui.small.header id #{_id}
+                    a.ui.icon.big.button(href="/m/#{slug}")
+                        i.right.chevron.icon
+                    if is_dev
+                        each view_roles
+                            .ui.basic.label #{this}
+                        +remove_button
 
 //- 
 //- template(name='home')

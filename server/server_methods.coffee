@@ -199,15 +199,30 @@ Meteor.methods
 
         diff = stop - start
 
+    clone_document: (doc_id)->
+        old_doc = Docs.findOne doc_id
+        console.log old_doc
+        delete old_doc._id
+        console.log old_doc
+        new_doc_id = Docs.insert old_doc
+        new_doc = Docs.findOne new_doc_id
+        console.log 'new doc', new_doc
+        if new_doc
+            Docs.remove doc_id
+
+
     key: (doc_id)->
         doc = Docs.findOne doc_id
+        console.log 'found doc to key', doc
         keys = _.keys doc
 
         light_fields = _.reject( keys, (key)-> key.startsWith '_' )
-
+        dark_fields = _.filter( keys, (key)-> key.startsWith '_' )
+        console.log dark_fields
         Docs.update doc._id,
-            $set:_keys:light_fields
-
+            $set:
+                _keys:light_fields
+                _dark_fields:dark_fields
 
     global_remove: (keyname)->
         result = Docs.update({"#{keyname}":$exists:true}, {
