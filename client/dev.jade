@@ -1,0 +1,8 @@
+template(name='dev')
+    .ui.container
+        .ui.header dev
+        +call_method name='convert_objects'
+        div
+        .ui.input
+            label call method
+            input.method_name(type='text')

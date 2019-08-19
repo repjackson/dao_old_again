@@ -80,10 +80,6 @@ if Meteor.isClient
             if user
                 user.checked_in
 
-    Template.call_method.events
-        'click .call_method': ->
-            Meteor.call @name
-
 
 
 if Meteor.isServer

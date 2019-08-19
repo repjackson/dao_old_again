@@ -121,6 +121,27 @@ Meteor.publish 'classic_facet', (selected_tags, selected_usernames)->
 if Meteor.isProduction
     SyncedCron.start()
 
+
+# SyncedCron.add(
+#     {
+#         name: 'convert objects'
+#         schedule: (parser) ->
+#             # parser is a later.parse object
+#             parser.text 'every 2 mins'
+#         job: ->
+#             Meteor.call 'convert_objects', (err, res)->
+#     }
+# )
+
+
+
+
+
+
+
+
+
+
 Meteor.publish 'model_docs', (model,limit)->
     if limit
         Docs.find {

@@ -19,6 +19,36 @@ Meteor.methods
                 $set:
                     unit_number:new_unit_number
 
+    find_string_id: ()->
+        found = Docs.findOne
+            _id:$type:2
+        console.log 'found string id', found
+
+    find_object_id: ()->
+        found = Docs.findOne
+            _id:$type:7
+        console.log 'found object id', found
+
+    convert_objects: ()->
+        found = Docs.find {
+            _id:$type:7
+        }
+        console.log 'total objectids', found.count()
+        subset = Docs.find {
+            _id:$type:7
+        }, limit:500
+
+        for object_doc in subset.fetch()
+            # console.log 'found object doc', object_doc
+            Meteor.call 'clone_document', object_doc._id
+
+    detect_objectid: (doc)->
+        console.log typeof doc._id
+        # if doc_id.match /^[0-9a-fA-F]{24}$/
+        #     console.log doc_id, 'is an objectid'
+        # else
+        #     console.log doc_id, 'is NOT an objectid'
+
 
     change_username:  (user_id, new_username) ->
         user = Meteor.users.findOne user_id
@@ -200,13 +230,13 @@ Meteor.methods
         diff = stop - start
 
     clone_document: (doc_id)->
+        console.log 'cloning ', doc_id
         old_doc = Docs.findOne doc_id
-        console.log old_doc
+        # console.log 'old object id doc', old_doc
         delete old_doc._id
-        console.log old_doc
         new_doc_id = Docs.insert old_doc
         new_doc = Docs.findOne new_doc_id
-        console.log 'new doc', new_doc
+        # console.log 'new doc', new_doc
         if new_doc
             Docs.remove doc_id
 

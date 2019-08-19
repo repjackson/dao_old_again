@@ -49,6 +49,36 @@ if Meteor.isClient
 
 
 
+    Template.user_tribes.onCreated ->
+        @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username
+        @autorun => Meteor.subscribe 'model_docs', 'tribe'
+    Template.user_tribes.helpers
+        my_tribes: ->
+            current_user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find {
+                model:'tribe'
+                member_ids:$in:[current_user._id]
+            }, sort:_timestamp:-1
+        tribes: ->
+            Docs.find {
+                model:'tribe'
+            }, sort:_timestamp:-1
+    Template.toggle_tribe_membership.helpers
+        is_member: ->
+            Meteor.userId() in @member_ids
+    Template.toggle_tribe_membership.events
+        'click .join': ->
+            Docs.update @_id,
+                $addToSet:member_ids:Meteor.userId()
+
+        'click .leave': ->
+            Docs.update @_id,
+                $pull:member_ids:Meteor.userId()
+
+
+
+
+
 
 
     Template.user_transactions.onCreated ->
@@ -108,3 +138,9 @@ if Meteor.isServer
         Docs.find
             model:'user_tag_review'
             user_id: current_user._id
+
+    Meteor.publish 'user_tribes', (username)->
+        current_user = Meteor.users.findOne username:username
+        Docs.find
+            model:'tribe'
+            member_ids:$in:[current_user._id]

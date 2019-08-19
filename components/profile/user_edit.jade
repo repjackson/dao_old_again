@@ -2,8 +2,8 @@ template(name='user_edit')
     with user_from_username_param          
         //- img.ui.fluid.image.banner_image(src="{{c.url banner_image_id width=1000 height=500 crop='crop'}}")    
         .ui.stackable.padded.grid
-            .three.column.row
-                .column
+            .row
+                .four.wide.column
                     .ui.center.aligned.large.inline.grey.header
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
@@ -12,7 +12,7 @@ template(name='user_edit')
                         i.checkmark.big.green.icon
                         //- strong save
                     .ui.hidden.divider
-                    +image_edit key='kiosk_photo' icon='picture' title='profile image' direct=true
+                    +image_edit key='profile_photo' icon='picture' title='profile image' direct=true
                     if is_admin
                         +password_edit
                         //- +phone_editor
@@ -22,87 +22,23 @@ template(name='user_edit')
                             .ui.orange.basic.button.remove_user 
                                 i.remove.icon
                                 |delete user
-                .column
+                .eight.wide.column
                     .ui.form
-                        if user_is_resident_or_owner
-                            if is_staff
-                                +text_edit key='first_name' label='first name' icon='header' direct=true
-                                +text_edit key='last_name' label='last name' icon='text' direct=true
-                                +text_edit key='address' label='address' icon='marker' direct=true
-                                +number_edit key='unit_number' label='unit #' icon='home' direct=true tip='apt #'
-                                +number_edit key='building_number' label='building #' icon='building' direct=true tip='eg 203'
-                                //- +text_edit key='building_code' label='building code' icon='building' direct=true
-                                +number_edit key='healthclub_code' label='keycard code' icon='barcode' direct=true
-                                +boolean_edit key='owner' icon='rent' label='owner' direct=true
-                                .ui.basic.segment
-                                    .ui.header 
-                                        i.blue.envelope.icon
-                                        |emails
-                                    +emails_edit
-                            else
-                                +text_view key='first_name' label='first name' direct=true
-                                +text_view key='last_name' label='last name' direct=true
-                                +text_view key='address' label='address' direct=true
-                                +number_view key='unit_number' label='unit #' direct=true
-                                +number_view key='building_number' label='building #' direct=true
-                                //- +text_view key='building_code' label='building code' direct=true
-                                +number_view key='healthclub_code' label='keycard code' icon='barcode' direct=true
-                                +date_view key='start_date' label='start date' direct=true
-                                +boolean_view key='owner' label='owner' direct=true
-                                //- if user_is_owner
-                                //-     +image_view key='ownership_paperwork' label='ownership paperwork' direct=true
-                                //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
-                                //- else if user_is_resident
-                                //-     +date_view key='expiration_date' label='expiration date' direct=true
-                                //-     +pdf_view key='lease_agreement' label='lease agreement' direct=true
-                                //-     +pdf_edit key='lease_addendum' label='lease addendum' direct=true
-                                //- +pdf_view key='member_guidelines_and_waiver' label='lease agreement' direct=true
+                        +text_edit key='first_name' label='first name' icon='header' direct=true
+                        +text_edit key='last_name' label='last name' icon='text' direct=true
+                        +text_edit key='address' label='address' icon='marker' direct=true
+                        .ui.basic.segment
+                            .ui.header 
+                                i.blue.envelope.icon
+                                |emails
+                            +emails_edit
                         //- +text_edit key='email' label='email' direct=true
                         +phone_edit key='phone' label='phone' icon='phone' direct=true
-                        //- +image_edit key='banner_image_id' label='banner image' direct=true
-                        //- +text_edit key='tagline' label='tag line' direct=true
-                        
-                        //- if is_resident
-                        //-     if is_staff
-                        //-         +array_edit key='tags' label='tags' direct=true
-                .column
-                    if user_is_resident_or_owner
-                        unless owner
-                            if is_staff
-                                .ui.basic.segment
-                                    +i name='home' classes='ui inline mini image'
-                                    .ui.inline.header residency
-                                    .ui.divider
-                                    +pdf_edit key='lease_agreement' label='lease agreement (pdf)' icon='clipboard' direct=true
-                                    .ui.horizontal.divider or
-                                    +image_edit key='lease_agreement' label='lease agreement (image)' icon='picture' direct=true
-                                    +pdf_edit key='lease_addendum' label='lease addendum' icon='clipboard' direct=true
-                                    +date_edit key='start_date' label='start date' icon='calendar' direct=true
-                                    +date_edit key='expiration_date' label='expiration date' icon='calendar minus' direct=true
-                        if owner
-                            if is_staff
-                                .ui.basic.segment
-                                    +i name='rent' classes='ui inline mini image'
-                                    .ui.inline.header owner
-                                    .ui.divider
-                                    +pdf_edit key='ownership_paperwork' label='ownership paperwork (pdf)' icon='pdf' direct=true
-                                    .ui.horizontal.divider or
-                                    +image_edit key='ownership_paperwork' label='ownership paperwork (image)' icon='picture' direct=true
-                            //- .ui.hidden.divider
-                        //- +pdf_edit key='member_guidelines_and_waiver' icon='signature' label='member guidelines and waiver' direct=true
-                        .ui.hidden.divider
-                        +boolean_edit key='active_violations' label='active violations' direct=true
-                        //- if is_staff
-                        //-     //- with user_from_username_param
-                        //-     +boolean_edit key='government_id_checked' label='government id checked' icon='id-verified' direct=true
-                        //-     +single_user_edit key='id_checked_by_staff' label='government id checked by' role_filter='staff' icon='user shield' direct=true
-                        //-     +date_edit key='id_checked_date' label='government id checked date' icon='today' direct=true
-                        //- else
-                        //-     +boolean_view key='government_id_checked' label='government id checked' icon='id-verified' direct=true
-                        //-     +text_view key='id_checked_by_staff' label='government id checked by' role_filter='staff' icon='user shield' direct=true
-                        //-     +date_view key='id_checked_date' label='government id checked date' icon='today' direct=true
-                            //- with user_from_username_param
-                        //- +boolean_edit key='published' icon='eye' label='profile published'
+                        +image_edit key='banner_image_id' label='banner image' direct=true
+                        +text_edit key='tagline' label='tag line' direct=true
+                        +array_edit key='tags' label='tags' direct=true
+                        +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                        +boolean_edit key='published' icon='eye' label='profile published'
                     
                     
 template(name='user_settings')

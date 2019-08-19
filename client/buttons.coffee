@@ -25,3 +25,4 @@ Template.clone.events
         console.log @
 
         Meteor.call 'clone_document', @_id
+        

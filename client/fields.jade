@@ -877,7 +877,7 @@ template(name='single_doc_edit')
                 +i name=icon classes='ui avatar image'
                 //- +i name=icon classes='ui mini inline image'
             |#{calculated_label}
-            |#{slug}
+            |#{title} #{slug}
 
 
 template(name='multi_doc_edit')
@@ -913,14 +913,6 @@ template(name='multi_doc_edit')
 
     
 
-template(name='single_unit_edit')
-    .ui.header single unit lookup
-    
-    
-    
-template(name='multiple_unit_edit')
-    .ui.header multiple unit lookup
-    
 
 template(name='multi_doc_view')
     div

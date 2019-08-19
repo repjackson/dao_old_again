@@ -2,7 +2,7 @@ template(name='model_edit')
     with current_doc
         .ui.stackable.padded.grid            
             .centered.row
-                .four.wide.column
+                .six.wide.column
                     h1.ui.header edit model #{title}
                     +creation_info
                     a.ui.huge.icon.basic.button(href="/m/#{slug}")
@@ -17,8 +17,11 @@ template(name='model_edit')
                         +array_edit key='tags' label='tags' direct=true
                         +text_edit key='collection' label='collection' direct=true
                         +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
+                        +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
+                        +single_doc_edit key='tribe_id' ref_model='tribe' ref_key='_id' label='tribe' direct=true
+    
                         +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
-                .twelve.wide.column
+                .ten.wide.column
                     //- |#{model}
                     //- each fields
                     //-     +Template.dynamic template=edit_template 

@@ -167,6 +167,10 @@ Router.route '/user/:username/votes', (->
     @layout 'user_layout'
     @render 'user_votes'
     ), name:'user_votes'
+Router.route '/user/:username/tribes', (->
+    @layout 'user_layout'
+    @render 'user_tribes'
+    ), name:'user_tribes'
 Router.route '/user/:username/dashboard', (->
     @layout 'user_layout'
     @render 'user_dashboard'

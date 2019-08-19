@@ -76,10 +76,19 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'role_models', ()->
+        if Meteor.user()
+            current_tribe_id = Meteor.user().current_tribe_id
+        else
+            dao_tribe = Docs.findOne
+                model:'tribe'
+                slug:'dao'
+            current_tribe_id = dao_tribe._id
         if 'dev' in Meteor.user().roles
             Docs.find
                 model:'model'
+                tribe_id:current_tribe_id
         else
             Docs.find
                 model:'model'
+                tribe_id:current_tribe_id
                 view_roles:$in:Meteor.user().roles

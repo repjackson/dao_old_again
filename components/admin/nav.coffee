@@ -16,6 +16,11 @@ if Meteor.isClient
             Meteor.call 'set_facets', 'note', ->
                 Session.set 'loading', false
 
+        'click .set_tribes': ->
+            Session.set 'loading', true
+            Meteor.call 'set_facets', 'tribe', ->
+                Session.set 'loading', false
+
         'click .set_units': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', 'unit', ->
@@ -61,41 +66,13 @@ if Meteor.isClient
             )
         , 3000
 
-    Template.sidebar.onRendered ->
-        @autorun =>
-            if @subscriptionsReady()
-                Meteor.setTimeout ->
-                    $('.context.example .ui.sidebar')
-                        .sidebar({
-                            context: $('.pushable')
-                            dimPage: false
-                            transition:  'push'
-                        })
-                        .sidebar('attach events', '.toggle_sidebar')
-                , 500
-
-    # Template.nav.events
-    #     'click .sidebar_on': ->
-    #         $('.context .ui.sidebar')
-    #             .sidebar({
-    #                 context: $('.context .segment')
-    #                 dimPage: false
-    #                 transition:  'push'
-    #             })
-    #             .sidebar('attach events', '.context .menu .toggle_sidebar.item')
-
-    # Template.sidebar.events
-    #     'click #logout': ->
-    #         Session.set 'logging_out', true
-    #         Meteor.logout ->
-    #             Session.set 'logging_out', false
-    #             Router.go '/'
 
 
     # Template.mlayout.onCreated ->
     #     @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
+        @autorun -> Meteor.subscribe 'current_tribe'
         # @autorun -> Meteor.subscribe 'role_models'
 
         # @autorun -> Meteor.subscribe 'current_session'
@@ -105,6 +82,12 @@ if Meteor.isClient
         notifications: ->
             Docs.find
                 model:'notification'
+        current_tribe: ->
+            if Meteor.user() and Meteor.user().current_tribe_id
+                Docs.findOne
+                    model:'tribe'
+                    _id:Meteor.user().current_tribe_id
+
         role_models: ->
             if Meteor.user() and Meteor.user().roles
                 if 'dev' in Meteor.user().roles
@@ -149,27 +132,6 @@ if Meteor.isClient
                     model:'model'
                     bookmark_ids:$in:[Meteor.userId()]
 
-    # Template.nav.onRendered ->
-    #     Meteor.setTimeout ->
-    #         $('.context .ui.sidebar')
-    #             .sidebar({
-    #                 context: $('.context .segment')
-    #                 dimPage: false
-    #                 transition:  'push'
-    #             })
-    #             .sidebar('attach events', '.context .menu .toggle_sidebar.item')
-    #     , 1000
-
-    # Template.nav.events
-    #     'click .sidebar_on': ->
-    #         $('.context .ui.sidebar')
-    #             .sidebar({
-    #                 context: $('.context .segment')
-    #                 dimPage: false
-    #                 transition:  'push'
-    #             })
-    #             .sidebar('attach events', '.context .menu .toggle_sidebar.item')
-
 
 if Meteor.isServer
     Meteor.publish 'my_notifications', ->
@@ -183,6 +145,11 @@ if Meteor.isServer
                 model:'model'
                 bookmark_ids:$in:[Meteor.userId()]
 
+    Meteor.publish 'current_tribe', ->
+        if Meteor.userId()
+            if Meteor.user().current_tribe_id
+                Docs.find
+                    _id: Meteor.user().current_tribe_id
 
     Meteor.publish 'my_cart', ->
         if Meteor.userId()

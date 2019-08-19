@@ -18,6 +18,30 @@ template(name='user_workhistory')
             +pdf_view key='resume' label='resume' direct=true
     
 
+template(name='user_tribes')
+    +i name='fire' classes='ui inline image'
+    .ui.inline.header tribes
+    .ui.stackable.padded.grid
+        .two.column.row
+            .column
+                .ui.header my tribes
+                each my_tribes
+                    .ui.header #{title}
+            .column
+                .ui.header all tribes
+                each tribes
+                    .ui.inline.header #{title}
+                    +toggle_tribe_membership
+                    div
+        
+template(name='toggle_tribe_membership')
+    if is_member
+        .ui.button.leave 
+            |leave tribe
+    else
+        .ui.button.join 
+            |JOIN tribe
+
 
 template(name='user_payment')
     +text_view key='payment_preferences' label='payment preferences' icon='online-payment-with-a-credit-card' direct=true

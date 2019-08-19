@@ -182,11 +182,17 @@ Template.registerHelper 'edit_fields', () ->
         model:'model'
         slug:Router.current().params.model_slug
     if model
-        Docs.find {
-            model:'field'
-            parent_id:model._id
-            edit_roles:$in:Meteor.user().roles
-        }, sort:rank:1
+        if 'dev' in Meteor.user().roles
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+            }, sort:rank:1
+        else
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+                edit_roles:$in:Meteor.user().roles
+            }, sort:rank:1
 
 Template.registerHelper 'current_user', (input) ->
     Meteor.user() and Meteor.user().username is Router.current().params.username

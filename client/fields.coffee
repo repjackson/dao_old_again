@@ -757,7 +757,9 @@ Template.single_doc_edit.events
 
         # key = ref_field.button_key
         key = ref_field.key
-
+        console.log 'this', @
+        console.log 'parent', parent
+        console.log 'key', key
 
         # if parent["#{key}"] and @["#{ref_field.button_key}"] in parent["#{key}"]
         if parent["#{key}"] and @slug in parent["#{key}"]

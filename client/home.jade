@@ -15,9 +15,14 @@ template(name='home')
                         +i name=icon
                         |#{title}
                     |#{description}
-                    .ui.small.header id #{_id}
                     a.ui.icon.big.button(href="/m/#{slug}")
                         i.right.chevron.icon
+                    //- +call_method name='detect_objectid'
+                    //- +call_method name='find_string_id'
+                    //- +call_method name='find_object_id'
+                    //- +call_method name='convert_objects'
+                    //- +call_method name='clone_document'
+                    
                     if is_dev
                         each view_roles
                             .ui.basic.label #{this}

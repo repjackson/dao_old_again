@@ -108,6 +108,11 @@ template(name='delta_result')
                 .content
                     each fields
                         +Template.dynamic template=view_template 
+                    each actions
+                        +Template.dynamic template=this data=current_doc
+
+                        .ui.big.label #{this}
+                        +Template.dynamic template=slug 
                     .extra
                         if is_model
                             +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
@@ -128,14 +133,16 @@ template(name='delta_result')
                         if _author_id
                             +author_info
                         +creation_info
-                    .ui.header _id: #{_id}
-                    .ui.header light fields
-                    each _keys
-                        .ui.label #{this}
-                    .ui.header dark fields
-                    each _dark_fields
-                        .ui.label #{this}
-                    if is_admin
+                    if is_dev
+                        .ui.header _id: #{_id}
+                        .ui.header light fields
+                        each _keys
+                            .ui.label #{this}
+                        .ui.header dark fields
+                        each _dark_fields
+                            .ui.label #{this}
+                        +call_method name='detect_fields'
+                        +call_method name='key'
                         +remove_button
                         +clone
                         
