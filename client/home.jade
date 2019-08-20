@@ -1,28 +1,29 @@
 template(name='home')
-    //- h1.ui.center.aligned.grey.header 
-    //-     each currentUser.roles
-    //-         strong #{this} &nbsp;
-    //-     |portal
+    h1.ui.center.aligned.grey.header 
+        |#{current_tribe.title}
+        |portal
+    .ui.big.button.add_model
+        |add model
     .ui.left.icon.fluid.input
         i.search.icon
         input.model_filter(type='text' placeholder='filter...' autofocus='autofocus')
     
     .ui.stackable.four.column.padded.grid
-        each role_models
+        each tribe_role_models
             .column
-                .ui.segment.home_segment.set_model
+                .ui.segment.home_segment
                     .ui.header 
                         +i name=icon
                         |#{title}
                     |#{description}
-                    a.ui.icon.big.button(href="/m/#{slug}")
+                    a.ui.icon.big.button.set_model(href="/m/#{slug}")
                         i.right.chevron.icon
                     //- +call_method name='detect_objectid'
                     //- +call_method name='find_string_id'
                     //- +call_method name='find_object_id'
                     //- +call_method name='convert_objects'
                     //- +call_method name='clone_document'
-                    
+                    +text_edit key='tribe_slug' label='tribe slug' direct=true
                     if is_dev
                         each view_roles
                             .ui.basic.label #{this}

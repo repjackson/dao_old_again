@@ -110,9 +110,6 @@ template(name='delta_result')
                         +Template.dynamic template=view_template 
                     each actions
                         +Template.dynamic template=this data=current_doc
-
-                        .ui.big.label #{this}
-                        +Template.dynamic template=slug 
                     .extra
                         if is_model
                             +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
@@ -123,13 +120,12 @@ template(name='delta_result')
                                 a.ui.button.route_model(href="/model/edit/#{_id}")
                                     i.edit.blue.icon
                                     |edit model
-                        else
-                            if can_edit
-                                a.ui.large.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                                    i.pencil.blue.large.icon
-                                    //- |edit
-                            a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
-                                i.right.chevron.yellow.large.icon
+                        if can_edit
+                            a.ui.large.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                i.pencil.blue.large.icon
+                                //- |edit
+                        a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                            i.right.chevron.yellow.large.icon
                         if _author_id
                             +author_info
                         +creation_info

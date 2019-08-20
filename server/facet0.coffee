@@ -1,11 +1,14 @@
 Meteor.methods
-    set_facets: (model_slug)->
-        delta = Docs.findOne
-            model:'delta'
-            _author_id:Meteor.userId()
-        model = Docs.findOne
-            model:'model'
-            slug:model_slug
+    set_facets: (model_slug, model_id)->
+        if model_id
+            model = Docs.findOne model_id
+        else
+            delta = Docs.findOne
+                model:'delta'
+                _author_id:Meteor.userId()
+            model = Docs.findOne
+                model:'model'
+                slug:model_slug
         fields =
             Docs.find
                 model:'field'
@@ -44,10 +47,16 @@ Meteor.methods
 
     fum: (delta_id)->
         delta = Docs.findOne delta_id
+        # model = Docs.findOne delta.model_id
         model = Docs.findOne
             model:'model'
             slug:delta.model_filter
-        built_query = {}
+
+        current_tribe_slug = Meteor.user().current_tribe_slug
+        unless 'dev' in Meteor.user().roles
+            built_query = {tribe_slug:current_tribe_slug}
+        else
+            built_query = {}
 
         fields =
             Docs.find

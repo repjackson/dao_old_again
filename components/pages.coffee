@@ -67,7 +67,7 @@ if Meteor.isClient
                 Docs.insert
                     model:@slug
 
-            Router.go "/s/#{@slug}/#{new_id}/edit"
+            Router.go "/m/#{@slug}/#{new_id}/edit"
 
         'click .add_model': ->
             # console.log @
@@ -75,7 +75,7 @@ if Meteor.isClient
                 Docs.insert
                     model:'model'
 
-            Router.go "/s/model/#{new_id}/edit"
+            Router.go "/m/model/#{new_id}/edit"
 
         'click .add_page': ->
             # console.log @
@@ -83,4 +83,4 @@ if Meteor.isClient
                 Docs.insert
                     model:'page'
 
-            Router.go "/s/page/#{new_id}/edit"
+            Router.go "/m/page/#{new_id}/edit"

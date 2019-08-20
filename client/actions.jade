@@ -6,3 +6,89 @@ template(name='view_profile')
 template(name='enter_tribe')
     .ui.large.button.enter_tribe
         |enter tribe
+
+
+
+template(name='notify')
+    if currentUser
+        .ui.header
+            +icolor name='appointment-reminders'
+            |Notify Someone
+        // .ui.fluid.input
+        //     +inputAutocomplete settings=recipient_select_settings id="recipient_select" class="" autocomplete="off" placeholder='Lookup...'
+    .ui.list
+        each notified_users
+            .item
+                img.ui.inline.image(src="{{c.url profile.image_id width=100 height=100 gravity='face' crop='fill'}}")
+                .content
+                    .header #{name}
+                    .meta #{username}
+                .right.floated.content
+                    i.remove_notified_user.large.link.red.remove.icon
+
+
+
+template(name='email_receipt')
+    a.ui.circular.large.email_receipt.button(title='Email Receipt')
+        i.send.icon
+        |Email Receipt
+        
+        
+template(name='view_section')
+    // a.ui.icon.button(href="/schema/#{_id}/edit")
+    //     i.pencil.icon
+    //     |Configure Schema
+    a.ui.view_section.circular.large.button(href="/s/#{slug}" title='Select Schema')
+        i.sitemap.icon
+        |Go to Section
+        // +icolor name='back-sorting' classes='ui inline image'
+        
+        
+template(name='page_view')
+    a.ui.circular.button(href="/p/#{slug}")
+        //- i.eye.icon
+        +i name='visible' classes='ui inline image'
+        | page view
+        
+        
+template(name='rules_sign')
+    if rules_signed
+        .ui.circular.green.compact.button.view_rules
+            +icolor name='autograph' classes='ui inline image'
+            | View Signed Rule Doc
+    else
+        .ui.circular.red.compact.button.sign_rules
+            +icolor name='alert' classes='ui inline image'
+            | Sign Rules
+        
+        
+template(name='guest_sign')
+    .ui.circular.compact.button.enter_guest
+        +icolor name='add-user-group-man-man' classes='ui inline image'
+        | Sign In a Guest
+        
+        
+template(name='view_user')
+    a.ui.view_user.icon.button(href="/u/#{username}" title="View User")
+        |View #{username}
+
+
+
+template(name='send_message')
+    if sent
+        |Sent at #{sent_datetime}
+    unless sent
+        .ui.button.send_message 
+            i.paper.plane.icon
+            |Send Message
+
+
+
+template(name='checkout')
+    .ui.small.compact.button.checkout
+        +icolor name='in-progress' classes='ui inline mini image' 
+        |Check Out
+
+
+
+template(name='mark_read')

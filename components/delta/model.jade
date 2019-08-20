@@ -17,8 +17,8 @@ template(name='model_edit')
                         +array_edit key='tags' label='tags' direct=true
                         +text_edit key='collection' label='collection' direct=true
                         +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
-                        +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
-                        +single_doc_edit key='tribe_id' ref_model='tribe' ref_key='_id' label='tribe' direct=true
+                        +text_edit key='tribe_slug' label='tribe slug' direct=true
+                        //- +single_doc_edit key='tribe_id' ref_model='tribe' ref_key='_id' label='tribe' direct=true
     
                         +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
                 .ten.wide.column
@@ -124,7 +124,7 @@ template(name='field_edit')
     .content
         +text_edit key='title' direct=true label='title'        
         +text_edit key='key'  direct=true label='key'           
-        +text_edit key='field_type' direct=true label='Field Type'              
+        +text_edit key='field_type' direct=true label='field type'              
         +icon_edit key='icon' direct=true label='icon'              
         +number_edit key='rank' label='rank' direct=true                 
         //- +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 

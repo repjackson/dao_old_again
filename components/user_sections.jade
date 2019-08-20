@@ -24,9 +24,13 @@ template(name='user_tribes')
     .ui.stackable.padded.grid
         .two.column.row
             .column
-                .ui.header my tribes
+                .ui.header 
+                    +i name='campfire' classes='ui inline image'
+                    |my tribes
                 each my_tribes
-                    .ui.header #{title}
+                    .ui.inline.header #{title}
+                        +enter_tribe
+                    div
             .column
                 .ui.header all tribes
                 each tribes

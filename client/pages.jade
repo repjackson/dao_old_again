@@ -5,11 +5,15 @@ template(name='page')
     with page
         div(style=page_style)
             if fullscreen
-                if html
-                    |!{html}
-                each children
-                    // with page
-                    +Template.dynamic template=slug
+                .ui.stackable.padded.grid
+                    .sixteen.wide.column
+                        if html
+                            |!{html}
+                        if content
+                            |!{content}
+                        each children
+                            // with page
+                            +Template.dynamic template=slug
             else  
                 .ui.stackable.padded.grid
                     unless hide_header
@@ -24,13 +28,14 @@ template(name='page')
                                     |#{title}
                             .four.wide.center.aligned.column
                                 if can_edit
-                                    a.ui.icon.button(href="/s/page/#{_id}/edit" title='Edit Page')
+                                    a.ui.icon.button(href="/m/page/#{_id}/edit" title='edit page')
                                         i.pencil.icon
                     .centered.row
                         .sixteen.wide.column 
                             if html
                                 |!{html}
-                                
+                            if content
+                                |!{content}
                             each children
                                 // with page
                                 +block

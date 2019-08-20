@@ -349,7 +349,7 @@ template(name='slug_edit')
         //- +clear_value
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         .ui.button.slugify_title
-            +i name='slug'
+            +i name='slug' classes='ui avatar image'
 
 template(name='slug_view')
     if field_value

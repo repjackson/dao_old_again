@@ -11,41 +11,10 @@ if Meteor.isClient
             Meteor.call 'set_facets', 'model', ->
                 Session.set 'loading', false
 
-        'click .set_note': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'note', ->
-                Session.set 'loading', false
-
         'click .set_tribes': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', 'tribe', ->
                 Session.set 'loading', false
-
-        'click .set_units': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'unit', ->
-                Session.set 'loading', false
-
-        'click .set_shop': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'shop', ->
-                Session.set 'loading', false
-
-        'click .set_library': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'library', ->
-                Session.set 'loading', false
-
-        'click .set_event': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'event', ->
-                Session.set 'loading', false
-
-        'click .set_task': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'task', ->
-                Session.set 'loading', false
-
 
         'click .set_model': ->
             Session.set 'loading', true
@@ -58,6 +27,18 @@ if Meteor.isClient
         #         Meteor.setTimeout ->
         #             $('.dropdown').dropdown()
         #         , 3000
+        full = window.location.host
+        # //window.location.host is subdomain.domain.com
+        parts = full.split('.')
+        sub = parts[0]
+        domain = parts[1]
+        type = parts[2]
+        console.log 'sub', sub
+        console.log 'domain', domain
+        console.log 'type', type
+        # //sub is 'subdomain', 'domain', type is 'com'
+        # var newUrl = 'http://' + domain + '.' + type + '/your/other/path/' + subDomain
+        # window.open(newUrl);
 
         Meteor.setTimeout ->
             $('.item').popup(
@@ -73,12 +54,32 @@ if Meteor.isClient
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
         @autorun -> Meteor.subscribe 'current_tribe'
-        # @autorun -> Meteor.subscribe 'role_models'
+        @autorun -> Meteor.subscribe 'tribe_role_models'
+        @autorun -> Meteor.subscribe 'tribe_pages'
 
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
+        # nav_color: ->
+        #     {
+        #         background: url(/image/signup-bg.png) center no-repeat;
+        #         /*height: 100%;*/
+        #         width: 100%;
+        #         height: 100vh;
+        #         background-repeat: no-repeat;
+        #         background-position: center center;
+        #         background-size: cover;
+        #         background-attachment: fixed;
+        #         position: relative;
+        #     }
+
+        nav_class: ->
+            if Meteor.user() and Meteor.user().current_tribe_id
+                current_tribe = Docs.findOne Meteor.user().current_tribe_id
+                if current_tribe
+                    "inverted #{current_tribe.nav_color}"
+
         notifications: ->
             Docs.find
                 model:'notification'
@@ -88,21 +89,24 @@ if Meteor.isClient
                     model:'tribe'
                     _id:Meteor.user().current_tribe_id
 
-        role_models: ->
-            if Meteor.user() and Meteor.user().roles
-                if 'dev' in Meteor.user().roles
-                    Docs.find {
-                        model:'model'
-                    }, sort:title:1
-                else
-                    Docs.find {
-                        model:'model'
-                        view_roles:$in:Meteor.user().roles
-                    }, sort:title:1
-
+        tribe_role_models: ->
+            match = {}
+            match.model = 'model'
+            if Meteor.user()
+                if Meteor.user() and Meteor.user().current_tribe_slug
+                    # tribe = Meteor.user().current_tribe_slug
+                    match.tribe_slug = Meteor.user().current_tribe_slug
+                unless 'dev' in Meteor.user().roles
+                    match.view_roles = $in:Meteor.user().roles
+                console.log match
+                Docs.find match
         models: ->
             Docs.find
                 model:'model'
+
+        tribe_pages: ->
+            Docs.find
+                model:'page'
 
         unread_count: ->
             unread_count = Docs.find({
@@ -151,6 +155,20 @@ if Meteor.isServer
                 Docs.find
                     _id: Meteor.user().current_tribe_id
 
+    Meteor.publish 'tribe_pages', ->
+        if Meteor.userId()
+            if Meteor.user().current_tribe_slug
+                Docs.find
+                    model:'page'
+                    tribe_slug:Meteor.user().current_tribe_slug
+
+    Meteor.publish 'tribe_role_models', ->
+        if Meteor.userId()
+            if Meteor.user().current_tribe_slug
+                Docs.find
+                    model:'model'
+                    # tribe_id: Meteor.user().current_tribe_id
+                    tribe_slug: Meteor.user().current_tribe_slug
     Meteor.publish 'my_cart', ->
         if Meteor.userId()
             Docs.find

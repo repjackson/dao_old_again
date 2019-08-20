@@ -16,20 +16,12 @@ Template.body.events
         .transition('fade in', 250)
 
 
-# Template.healthclub.events
-#     'click .button': ->
-#         $('.global_container')
-#         .transition('fade out', 5000)
-#         .transition('fade in', 5000)
-
-
-# Template.healthclub_session.events
-#     'click .button': ->
-#         $('.global_container')
-#         .transition('fade out', 5000)
-#         .transition('fade in', 5000)
-
-
+Template.registerHelper 'current_tribe', () ->
+    if Meteor.user()
+        console.log Meteor.user().current_tribe_slug
+        Docs.find
+            model:'tribe'
+            slug: Meteor.user().current_tribe_slug
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
@@ -39,15 +31,13 @@ Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
-Template.registerHelper 'is_author', () ->
-    @_author_id is Meteor.userId()
+Template.registerHelper 'is_author', () -> @_author_id is Meteor.userId()
 Template.registerHelper 'is_grandparent_author', () ->
     grandparent = Template.parentData(2)
     grandparent._author_id is Meteor.userId()
 Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
 Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm:ss a")
-Template.registerHelper 'today', () ->
-    moment(Date.now()).format("dddd, MMMM Do a")
+Template.registerHelper 'today', () -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
 Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
 Template.registerHelper 'last_initial', (user) ->
@@ -66,30 +56,6 @@ Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 
 
-
-
-# Template.registerHelper 'parent_template', () -> Template.parentData()
-    # Session.get 'displaying_profile'
-
-# Template.registerHelper 'checking_in_doc', () ->
-#     Docs.findOne
-#         model:'healthclub_session'
-#         current:true
-#      # Session.get('session_document')
-
-# Template.registerHelper 'current_session_doc', () ->
-#         Docs.findOne
-#             model:'healthclub_session'
-#             current:true
-
-
-
-# Template.registerHelper 'checkin_guest_docs', () ->
-#     Docs.findOne Router.current().params.doc_id
-#     session_document = Docs.findOne Router.current().params.doc_id
-#     # console.log session_document.guest_ids
-#     Docs.find
-#         _id:$in:session_document.guest_ids
 
 
 Meteor.methods
