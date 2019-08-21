@@ -96,7 +96,7 @@ Meteor.methods
         modifier =
             {
                 fields:_id:1
-                limit:20
+                limit:10
                 sort:_timestamp:-1
             }
 
@@ -129,7 +129,7 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key, collection)->
-        limit=42
+        limit=20
         options = { explain:false }
         pipe =  [
             { $match: query }

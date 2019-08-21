@@ -65,12 +65,18 @@ template(name='tribe_edit')
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                 .eight.wide.column 
                     +text_edit key='title' label='title' icon='title' direct=true
+                    +slug_edit key='slug' label='slug' icon='slug' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
                 .four.wide.column 
                     .ui.header features
                     +boolean_edit key='chat' label='chat' icon='chat' direct=true
-                    +boolean_edit key='messaging' label='messaging' icon='envelope' direct=true
+                    +boolean_edit key='mail' label='mail' icon='envelope' direct=true
                     +boolean_edit key='tasks' label='tasks' icon='tasks' direct=true
+                    +boolean_edit key='courses' label='courses' icon='university' direct=true
+                    +boolean_edit key='blog' label='blog' icon='blog' direct=true
+                    +boolean_edit key='shop' label='shop' icon='shop' direct=true
+                    +boolean_edit key='events' label='events' icon='calendar' direct=true
+                    +boolean_edit key='gallery' label='gallery' icon='gallery' direct=true
                     .ui.header theming
                     +color_edit key='nav_color' label='color' direct=true
                      
@@ -80,7 +86,7 @@ template(name='tribe_view')
             .row
                 .four.wide.column 
                     a.ui.fluid.button(href="/tribes")
-                        +i name='tribes' classes='ui avatar image'
+                        +i name='fire' classes='ui avatar image'
                         |tribes
                     .ui.header view tribe
                     a.ui.big.icon.button(href="/tribe/#{_id}/edit")

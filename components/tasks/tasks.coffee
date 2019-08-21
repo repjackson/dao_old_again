@@ -1,9 +1,28 @@
 Router.route '/tasks', -> @render 'tasks'
+Router.route '/tasks/boards/', -> @render 'task_boards'
+Router.route '/board/:doc_id', -> @render 'board_view'
 Router.route '/task/:doc_id/view', -> @render 'task_view'
 Router.route '/task/:doc_id/edit', -> @render 'task_edit'
 
 
 if Meteor.isClient
+    Template.task_boards.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'task_board'
+    Template.task_boards.helpers
+        boards: ->
+            Docs.find
+                model:'task_board'
+    Template.task_boards.events
+        'click .add_task_board': ->
+            Docs.insert
+                model:'task_board'
+
+
+
+
+
+
+
     Template.tasks.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'task_stats'
         @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'task', 10
@@ -20,7 +39,6 @@ if Meteor.isClient
         my_tasks: ->
             Docs.find
                 model:'task'
-
     Template.tasks.events
         'click .calculate_task_stats': ->
             Meteor.call 'calculate_task_stats'

@@ -6,11 +6,11 @@ template(name='nav')
             if current_tribe
                 a.header.item.pointer(href='/home' class="{{isActivePath '/home'}}")
                     if is_loading
-                        i.big.loading.yin.yang.icon
+                        i.big.loading.yin.yang.icon.glowing
                     else
                         if current_tribe.image_id
                             img.ui.avatar.image(src="{{c.url current_tribe.image_id width=100 height=100 gravity='face' crop='fill'}}")
-                    .mobile.hidden #{current_tribe.title}
+                    .mobile.hidden.inline #{current_tribe.title}
             if is_admin
                 a.item.pointer.set_models(href='/m/model' class="{{isActivePath '/m/model'}}")
                     +i name='active-directory' classes='ui avatar image pointer'
@@ -24,12 +24,15 @@ template(name='nav')
             if is_admin
                 a.icon.item.pointer(href='/users' class="{{isActivePath '/users'}}")
                     +i name='groups' classes='ui avatar image pointer'
-                    .mobile.hidden &nbsp; users
+                    .mobile.hidden.inline &nbsp; users
             .right.menu
-                a.item.pointer(href="/tribe/#{current_tribe._id}/edit" title='tribes')
-                    +i name='edit' classes='ui avatar image pointer'
-                a.item.pointer(href="/tribe/#{current_tribe._id}/dashboard" title='tribes')
-                    +i name='dashboard' classes='ui avatar image pointer'
+                if currentUser
+                    .item.pointer.toggle_model_nav(title='toggle model nav')
+                        +i name='chevron-down' classes='ui avatar image pointer'
+                    a.item.pointer(href="/tribe/#{current_tribe._id}/edit" title='tribes')
+                        +i name='edit' classes='ui avatar image pointer'
+                    a.item.pointer(href="/tribe/#{current_tribe._id}/dashboard" title='tribes')
+                        +i name='dashboard' classes='ui avatar image pointer'
                 a.item.pointer(href='/tribes' class="{{isActivePath '/tribes'}}" title='tribes')
                     +i name='fire' classes='ui avatar image pointer'
                 if is_dev
@@ -63,19 +66,19 @@ template(name='nav')
                     //-     a#logout.ui.mobile.hidden.icon.item.pointer(href='#' title='Log Out')
                     //-         i.sign.out.large.icon
                 else
-                    unless is_resident
-                        a.item.pointer(href='/login' title='login') 
-                            +i name='internal'
-                            |login
-        .ui.attached.small.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}")
-            each tribe_role_models
-                a.item.pointer.set_model(href="/m/#{slug}/")
-                    +i name=icon classes='ui avatar image pointer'
-                    |#{title}
-            each tribe_pages
-                a.item.pointer(href="/p/#{slug}/")
-                    //- +i name=icon classes='ui avatar image pointer'
-                    |#{title}
+                    a.item.pointer(href='/login' title='login') 
+                        +i name='internal'
+                        |login
+        if currentUser.view_model_bar
+            .ui.attached.small.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}")
+                each tribe_role_models
+                    a.item.pointer.set_model(href="/m/#{slug}/")
+                        +i name=icon classes='ui avatar image pointer'
+                        |#{title}
+                each tribe_pages
+                    a.item.pointer(href="/p/#{slug}/")
+                        //- +i name=icon classes='ui avatar image pointer'
+                        |#{title}
 
 
 

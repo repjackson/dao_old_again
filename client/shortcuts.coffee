@@ -21,7 +21,7 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "r a"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'ytjpFxiwnWaJELZEd'
+        if Meteor.userId() and Meteor.userId() is 'CFTSK5ZtNpMpZFMwi'
             if 'admin' in Meteor.user().roles
                 Meteor.users.update Meteor.userId(),
                     $pull:roles:'admin'
@@ -33,7 +33,7 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "r s"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'ytjpFxiwnWaJELZEd'
+        if Meteor.userId() and Meteor.userId() is 'CFTSK5ZtNpMpZFMwi'
             if 'staff' in Meteor.user().roles
                 Meteor.users.update Meteor.userId(),
                     $pull:roles:'staff'
@@ -45,7 +45,7 @@ globalHotkeys.add
 globalHotkeys.add
 	combo: "r d"
 	callback: ->
-        if Meteor.userId() and Meteor.userId() is 'ytjpFxiwnWaJELZEd'
+        if Meteor.userId() and Meteor.userId() is 'CFTSK5ZtNpMpZFMwi'
             if 'dev' in Meteor.user().roles
                 Meteor.users.update Meteor.userId(),
                     $pull:roles:'dev'

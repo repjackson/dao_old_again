@@ -14,12 +14,29 @@ body {
     /* background-color: grey !important; */
 }
 
+.menu > .item {
+    border-radius:25px !important;
+}
+.menu {
+    transition: all 0.5s ease;
+}
+
 .scrolling::-webkit-scrollbar {
     display: none;
 }
-.active.button {
+.button:active {
     color: black !important;
-    background-color: darkgrey !important;
+    /* background-color: darkgrey !important; */
+    -webkit-transform: translate(0, 4px) rotateX(20deg) !important;
+    -moz-transform: translate(0, 4px) !important;
+    transform: translate(0, 4px) !important;
+}
+.pointer:active {
+    color: black !important;
+    /* background-color: darkgrey !important; */
+    -webkit-transform: translate(0, 4px) rotateX(20deg) !important;
+    -moz-transform: translate(0, 4px) !important;
+    transform: translate(0, 4px) !important;
 }
 /* .button:hover {
     color: black !important;
@@ -32,11 +49,65 @@ body {
     margin: .5em !important;2
 }
 
+.board-canvas {
+    position: relative;
+    flex-grow: 1;
+}
+
+#board {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    margin-bottom: 8px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    position: relateve;
+    top: 200;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+
+.list-wrapper {
+    width: 272px;
+    margin: 0 4px;
+    height: 200px;
+    /* height: 100%; */
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+
+.board_list {
+    min-width: 300px !important;
+    min-height: 200px !important;
+    background-color: blue !important;
+    padding: 10px !important;
+    display:inline-block !important;
+}
+
 
 .scrolling{
 	overflow-y:scroll;
 	overflow-x:hidden;
 	max-height:100vh;
+	/*max-height:85vh;*/
+	/* padding-top: 1em; */
+	/*padding-left: 1em;*/
+}
+
+
+
+.horizontal_scroll{
+	overflow-y:hidden;
+	overflow-x:scroll;
+	/* max-height:100vh; */
 	/*max-height:85vh;*/
 	/* padding-top: 1em; */
 	/*padding-left: 1em;*/
@@ -153,6 +224,15 @@ body {
     filter: drop-shadow(0px 0px 10px #fff);
 }
 
+.glowing{
+    filter: drop-shadow(0px 0px 5px #fff);
+}
+
+.dark.pointer:hover{
+    cursor: pointer !important;
+    filter: drop-shadow(0px 0px 10px #000);
+}
+
 .profile_grid {
     position: absolute !important;
     top:0px;
@@ -167,6 +247,7 @@ body {
     background-attachment: fixed !important;
     position: absolute !important;
     /* top:0px; */
+    z-index: -1 !important;
     opacity: 0.4;
     -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));

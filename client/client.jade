@@ -41,7 +41,7 @@ template(name='cloud')
                 .unselect_tag.ui.active.large.circular.compact.button
                     strong #{this}
         each all_tags
-            .ui.circular.large.compact.button.pointer.home_segment.select_tag(class=cloud_tag_class) 
+            .ui.circular.large.compact.button.select_tag(class=cloud_tag_class) 
                 strong #{this.name}
         //- i.big.user.icon
         //- if selected_usernames

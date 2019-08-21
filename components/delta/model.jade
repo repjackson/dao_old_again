@@ -11,7 +11,7 @@ template(name='model_edit')
                         i.red.trash.icon
                     .ui.form
                         +text_edit key='title' label='title' direct=true
-                        +text_edit key='slug' label='slug' direct=true
+                        +slug_edit key='slug' label='slug' direct=true
                         +icon_edit key='icon' label='icon' direct=true
                         +textarea_edit key='description' label='description' direct=true
                         +array_edit key='tags' label='tags' direct=true
@@ -123,11 +123,11 @@ template(name='model_view')
 template(name='field_edit')
     .content
         +text_edit key='title' direct=true label='title'        
-        +text_edit key='key'  direct=true label='key'           
+        +slug_edit key='key'  direct=true label='key'           
         +text_edit key='field_type' direct=true label='field type'              
         +icon_edit key='icon' direct=true label='icon'              
         +number_edit key='rank' label='rank' direct=true                 
-        //- +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
+        +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
         +multi_doc_edit key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          
         +multi_doc_edit key='edit_roles' ref_model='role' label='edit roles' direct=true icon='pencil'        
         //- +text_edit key='ref_model' label='Reference Model' direct=true

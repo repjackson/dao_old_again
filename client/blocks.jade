@@ -6,7 +6,7 @@ template(name='comments')
                 |comments
         .active.content
             if currentUser
-                .ui.fluid.icon.input
+                .ui.fluid.icon.transparent.input
                     i.plus.icon
                     input.add_comment(model='text')
             .ui.comments
@@ -84,7 +84,7 @@ template(name='user_list_info')
 template(name='view_full_button')
     a.ui.icon.basic.button(href="/view/#{_id}" class=classes data-tooltip='View Full')
         i.double.icon
-        |View
+        |view
 
 template(name='user_status')
     if online 
@@ -221,7 +221,7 @@ template(name='creation_info')
 
 template(name='user_list_toggle')
     if currentUser
-        .ui.icon.compact.small.button.toggle(class=user_list_toggle_class title=label)
+        .dark.pointer.toggle(class=user_list_toggle_class title=label)
             //- i.icon(class=icon)
             +i name=icon classes='ui inline mini image'
             //- |#{label}
@@ -232,12 +232,12 @@ template(name='user_list_toggle')
 template(name='voting')
     if points
         strong #{points}
-    .ui.icon.basic.basic.button.upvote(class=upvote_class title='upvote')
-        i.thumbs.up.icon
+    .dark.pointer.upvote(class=upvote_class title='upvote')
+        +i name='facebook-like'
     //- each upvoter_ids
     //-     +user_info
-    .ui.icon.basic.basic.button.downvote(title='downvote' class=downvote_class)
-        i.thumbs.down.icon
+    .dark.pointer.downvote(title='downvote' class=downvote_class)
+        +i name='thumbs-down'
     //- each downvoter_ids
     //-     +user_info
 
@@ -247,10 +247,10 @@ template(name='voting_full')
     .ui.header voting
     if points
         strong #{points}
-    .ui.basic.basic.button.upvote(class=upvote_class title='upvote')
+    .dark.pointer.upvote(class=upvote_class title='upvote')
         i.thumbs.up.icon
         |like
-    .ui.basic.basic.button.downvote(title='downvote' class=downvote_class)
+    .dark.pointer.downvote(title='downvote' class=downvote_class)
         i.thumbs.down.icon
         |dislike
     if upvoter_ids

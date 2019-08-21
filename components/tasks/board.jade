@@ -1,0 +1,27 @@
+template(name='board_view')
+    with current_doc
+        .ui.stackable.grid
+            .row
+                .sixteen.wide.column 
+                    .ui.icon.button
+                        i.home.icon
+                    a.ui.small.compact.button(href="/tasks")
+                        +i name='cube' classes='ui avatar image'
+                        |boards
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column 
+                    .ui.inline.header #{title}
+                    .ui.icon.button
+                        i.favorite.icon
+                    a.ui.icon.button(href="/task/#{_id}/edit")
+                        i.pencil.icon
+        .ui.button.add_list add list
+    .ui.divider
+    //- .row
+    .board_canvas
+        #board
+            each lists
+                .list-wrapper.ui.segment
+                    .ui.header #{title} list
+                

@@ -11,6 +11,9 @@ if Meteor.isClient
             Meteor.call 'set_facets', 'model', ->
                 Session.set 'loading', false
 
+        'click .toggle_model_nav': ->
+            Meteor.users.update Meteor.userId(),
+                $set:view_model_bar:!Meteor.user().view_model_bar
         'click .set_tribes': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', 'tribe', ->
