@@ -18,25 +18,6 @@ template(name='user_workhistory')
             +pdf_view key='resume' label='resume' direct=true
     
 
-template(name='user_tribes')
-    +i name='fire' classes='ui inline image'
-    .ui.inline.header tribes
-    .ui.stackable.padded.grid
-        .two.column.row
-            .column
-                .ui.header 
-                    +i name='campfire' classes='ui inline image'
-                    |my tribes
-                each my_tribes
-                    .ui.inline.header #{title}
-                        +enter_tribe
-                    div
-            .column
-                .ui.header all tribes
-                each tribes
-                    .ui.inline.header #{title}
-                    +toggle_tribe_membership
-                    div
         
 template(name='toggle_tribe_membership')
     if is_member

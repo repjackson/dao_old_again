@@ -27,15 +27,15 @@ if Meteor.isClient
         #         Meteor.setTimeout ->
         #             $('.dropdown').dropdown()
         #         , 3000
-        full = window.location.host
-        # //window.location.host is subdomain.domain.com
-        parts = full.split('.')
-        sub = parts[0]
-        domain = parts[1]
-        type = parts[2]
-        console.log 'sub', sub
-        console.log 'domain', domain
-        console.log 'type', type
+        # full = window.location.host
+        # # //window.location.host is subdomain.domain.com
+        # parts = full.split('.')
+        # sub = parts[0]
+        # domain = parts[1]
+        # type = parts[2]
+        # console.log 'sub', sub
+        # console.log 'domain', domain
+        # console.log 'type', type
         # //sub is 'subdomain', 'domain', type is 'com'
         # var newUrl = 'http://' + domain + '.' + type + '/your/other/path/' + subDomain
         # window.open(newUrl);
@@ -98,8 +98,9 @@ if Meteor.isClient
                     match.tribe_slug = Meteor.user().current_tribe_slug
                 unless 'dev' in Meteor.user().roles
                     match.view_roles = $in:Meteor.user().roles
-                console.log match
-                Docs.find match
+                # console.log match
+                Docs.find match,
+                    {sort:title:1}
         models: ->
             Docs.find
                 model:'model'

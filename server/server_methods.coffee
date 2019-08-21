@@ -243,12 +243,12 @@ Meteor.methods
 
     key: (doc_id)->
         doc = Docs.findOne doc_id
-        console.log 'found doc to key', doc
+        # console.log 'found doc to key', doc
         keys = _.keys doc
 
         light_fields = _.reject( keys, (key)-> key.startsWith '_' )
         dark_fields = _.filter( keys, (key)-> key.startsWith '_' )
-        console.log dark_fields
+        # console.log dark_fields
         Docs.update doc._id,
             $set:
                 _keys:light_fields

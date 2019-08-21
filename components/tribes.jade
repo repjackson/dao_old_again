@@ -1,0 +1,163 @@
+template(name='tribes')
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .add_tribe.inline
+                    +i name='plus' classes='ui avater pointer image inline'
+                .ui.inline.header 
+                    +i name='fire'
+                    |tribes
+                +cloud filter='tribe'
+                .ui.left.icon.input
+                    i.search.icon
+                    input.tribe_filter(type='text' placeholder='filter...' autofocus='autofocus')
+        .five.column.row
+            each tribes
+                .column
+                    .ui.segment.home_segment.pointer.enter
+                        if icon
+                            +i name=icon
+                        img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='fill'}}")                
+                        .ui.header 
+                            |#{title}
+                        |#{description}
+                        if is_dev
+                            +edit_button
+                        //- +enter_tribe
+                        
+                    
+template(name='tribe_card_template')
+    .ui.segment                    
+        .ui.inline.header #{title}
+            if complete
+                i.large.green.checkmark.icon
+        .ui.basic.segment
+            +html_view key='description' label='description' direct=true
+        each tags
+            .ui.basic.large.label #{this}
+        if is_admin
+            +boolean_edit key='complete' label='complete' direct=true
+        +boolean_view key='complete' label='complete' direct=true
+        div
+        a.ui.button(href="/tribe/#{_id}/view")
+            |view
+            i.chevron.right.icon
+        if can_edit
+            a.ui.button(href="/tribe/#{_id}/edit")
+                i.pencil.icon
+                |edit
+            +remove_button
+
+
+template(name='tribe_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        |edit '#{title}' tribe
+                    a.ui.big.icon.fluid.button(href="/tribe/#{_id}/view" title='save')
+                        i.green.large.checkmark.icon
+                    +image_edit key='image_id' label='image' icon='image' direct=true
+                    +image_edit key='background' label='background' icon='image' direct=true
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' label='title' icon='title' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+                .four.wide.column 
+                    .ui.header features
+                    +boolean_edit key='chat' label='chat' icon='chat' direct=true
+                    +boolean_edit key='messaging' label='messaging' icon='envelope' direct=true
+                    +boolean_edit key='tasks' label='tasks' icon='tasks' direct=true
+                    .ui.header theming
+                    +color_edit key='nav_color' label='color' direct=true
+                     
+template(name='tribe_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    a.ui.fluid.button(href="/tribes")
+                        +i name='tribes' classes='ui avatar image'
+                        |tribes
+                    .ui.header view tribe
+                    a.ui.big.icon.button(href="/tribe/#{_id}/edit")
+                        i.pencil.icon
+                    +voting_full
+                    +viewing
+                .twelve.wide.column 
+                    +text_view key='title' label='title' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +html_view key='description' icon='content' label='description' direct=true
+                    +boolean_view key='complete' label='complete' direct=true
+                    +number_view key='estimated_minutes' label='estimated minutes' direct=true
+                    +multi_user_view key='assigned_to_multiple' label='assigned to' direct=true
+                    +multi_user_view key='related_people' label='related people' direct=true
+                    +comments
+
+
+
+template(name='tribe_dashboard')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header
+                        +i name='dashboard' classes='ui avatar image'
+                        |#{title} tribe dashboard
+                    a.ui.big.icon.button(href="/tribe/#{_id}/edit")
+                        i.pencil.icon
+                    +voting_full
+                    +viewing
+                .twelve.wide.column 
+                    +text_view key='title' label='title' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +html_view key='description' icon='content' label='description' direct=true
+                    +boolean_view key='complete' label='complete' direct=true
+                    +number_view key='estimated_minutes' label='estimated minutes' direct=true
+                    +multi_user_view key='assigned_to_multiple' label='assigned to' direct=true
+                    +multi_user_view key='related_people' label='related people' direct=true
+                    +comments
+
+
+
+
+template(name='user_tribes')
+    +i name='fire' classes='ui inline image'
+    .ui.inline.header tribes
+    .ui.stackable.padded.grid
+        .two.column.row
+            .column
+                .ui.header 
+                    +i name='campfire' classes='ui inline image'
+                    |my tribes
+                each my_tribes
+                    .ui.inline.header
+                        img.ui.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
+                        |#{title}
+                        +enter_tribe
+                    div
+            .column
+                .ui.header all tribes
+                each tribes
+                    .ui.inline.header 
+                        img.ui.image(src="{{c.url image_id width=400 height=400 gravity='face' crop='fill'}}")
+                        |#{title}
+                    +toggle_tribe_membership
+                    div
+        
+template(name='user_tribe_segment')
+    .ui.segment
+        a.ui.header(href="/tribe/#{_id}/view") #{body}
+        +boolean_edit key='complete' label='complete' direct=true true_icon='checkmark' false_icon='remove'
+        +voting
+        +author_info
+        +creation_info
+        if is_author
+            +remove_button
+    a.ui.icon.button(href="/tribe/#{_id}/view")
+        i.right.chevron.icon
+    a.ui.icon.button(href="/tribe/#{_id}/edit")
+        i.pencil.icon

@@ -3,21 +3,20 @@ template(name='delta')
         .ui.stackable.padded.grid
             .row
                 .six.wide.column.scrolling
-                    +i name=icon classes='ui avatar image'
+                    +i name=icon classes='ui avatar image pointer'
                     .ui.inline.header
                         | #{title}
                     unless is_loading
                         if currentUser
-                            .ui.icon.compact.button.add_model_doc(title="Add #{title}")
-                                +i name='plus' classes='ui avatar image'
+                            .add_model_doc(title="Add #{title}")
+                                +i name='plus' classes='ui avatar image pointer'
                         //- if can_edit
                             //- +edit_circular.button
             
                         if is_dev
                             //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
-                            .ui.icon.large.button.edit_model
-                                i.large.cog.icon
-                                //- +i name='settings'
+                            .edit_model
+                                +i name='settings' classes='ui avatar image pointer'
                                 //- | Configure #{plural}
                         // .ui.divider
                         // // each sessions
@@ -25,15 +24,15 @@ template(name='delta')
                         // //         i.play.icon
                         if current_delta
                             if is_dev
-                                .ui.icon.large.button.print_delta(title='print session doc')
-                                    i.code.icon
-                            .ui.reset.icon.compact.button(title='reload session')
-                                +i name='refresh' classes='ui avatar image'
-                            .ui.delete_delta.icon.button(title='delete session')
+                                .print_delta(title='print session doc')
+                                    +i name='code' classes='ui avatar image pointer'
+                            .reset(title='reload session')
+                                +i name='refresh' classes='ui avatar image pointer'
+                            .delete_delta(title='delete session')
                                 i.trash.icon
                         else
                             .create_delta.ui.large.button(title='new session')
-                                i.plus.icon
+                                +i name='plus' classes='ui avatar image pointer block'
                                 |session
                         if description
                             .ui.segment
@@ -63,7 +62,7 @@ template(name='facet')
             .active.title
                 if icon
                     //- i.small.icon(class=icon)
-                    +i name=icon classes='ui avatar image'   
+                    +i name=icon classes='ui avatar image pointer'   
                 .ui.inline.header 
                     if title
                         |#{title}
@@ -77,7 +76,7 @@ template(name='facet')
                 //- div
                 each filtering_res
                     if name
-                        .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                        .selector.ui.button.toggle_selection(class=toggle_value_class)
                             strong #{name}
                             if is_admin
                                 small #{cal_count} #{count}
@@ -130,15 +129,17 @@ template(name='delta_result')
                             +author_info
                         +creation_info
                     if is_dev
-                        .ui.header _id: #{_id}
-                        .ui.header light fields
+                        +text_edit key='model' direct=true
+                        +text_edit key='tribe_slug' direct=true
+                        .ui.inline.header _id: #{_id}
+                        .ui.inline.header light fields
                         each _keys
                             .ui.label #{this}
-                        .ui.header dark fields
+                        .ui.inline.header dark fields
                         each _dark_fields
                             .ui.label #{this}
-                        +call_method name='detect_fields'
-                        +call_method name='key'
+                        //- +call_method name='detect_fields'
+                        +call_method name='key' icon='key'
                         +remove_button
                         +clone
                         

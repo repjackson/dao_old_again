@@ -12,8 +12,10 @@ head
 
 
 template(name='layout')
-    +nav
-    +yield
+    img.ui.fluid.image.checkin_banner(src="{{c.url tribe_background width=1000 height=1000 crop='crop'}}")
+    .global_container
+        +nav
+        +yield
     +footer 
 
 
@@ -25,52 +27,33 @@ template(name='not_found')
 
 
 template(name='cloud')
-    .ui.padded.stackable.grid
-        .sixteen.wide.center.aligned.column
-            .ui.large.circular.label
-                +loginButtons align="right"
-            if currentUser
-                .ui.icon.large.circular.button.add_doc
-                    i.plus.icon
-            .ui.left.icon.transparent.input
-                i.search.icon
-                +inputAutocomplete settings=settings id="search" class="" autocomplete="off" autofocus='' 
-            i.big.tags.icon
-            if selected_tags
-                #clear_tags.ui.active.icon.large.circular.compact.button
-                    i.remove.icon
-                each selected_tags
-                    .unselect_tag.ui.active.large.circular.compact.button
-                        strong #{this}
-            each all_tags
-                .ui.circular.large.compact.button.select_tag(class=cloud_tag_class) 
-                    strong #{this.name}
-            i.big.user.icon
-            if selected_usernames
-                #clear_usernames.ui.active.icon.large.circular.compact.button
-                    i.remove.icon
-                each selected_usernames
-                    .unselect_username.ui.active.large.circular.compact.button
-                        strong #{this}
-            each all_usernames
-                .ui.circular.large.button.select_username(class=username_tag_class) 
-                    strong #{this.name}
-        .sixteen.wide.column
-            each results
-                +doc
-            //- .ui.transparent.input
-            //-     input.import_subreddit(type='text' placeholder='import subreddit')
-        .sixteen.wide.center.aligned.column
-            form.inline(action='https://www.paypal.com/cgi-bin/webscr', method='post', target='_top')
-                input(type='hidden', name='cmd', value='_s-xclick')
-                input(type='hidden', name='hosted_compact.button_id', value='BUX7ZDWUFLVDQ')
-                //- // input(type='image', src='https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif', border='0', name='submit')
-                //- <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal compact.button" />
-                img(alt='', border='0', src='https://www.paypal.com/en_US/i/scr/pixel.gif', width='1', height='1')
-                button.ui.button.icon.circular.button(type='submit')
-                    i.pied.piper.alternate.icon
-            
-            
+        //- if currentUser
+        //-     .ui.icon.large.circular.button.add_doc
+        //-         i.plus.icon
+        //- .ui.left.icon.transparent.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" autofocus='' 
+        //- i.big.tags.icon
+        if selected_tags
+            #clear_tags.ui.active.icon.large.circular.compact.button
+                i.remove.icon
+            each selected_tags
+                .unselect_tag.ui.active.large.circular.compact.button
+                    strong #{this}
+        each all_tags
+            .ui.circular.large.compact.button.pointer.home_segment.select_tag(class=cloud_tag_class) 
+                strong #{this.name}
+        //- i.big.user.icon
+        //- if selected_usernames
+        //-     #clear_usernames.ui.active.icon.large.circular.compact.button
+        //-         i.remove.icon
+        //-     each selected_usernames
+        //-         .unselect_username.ui.active.large.circular.compact.button
+        //-             strong #{this}
+        //- each all_usernames
+        //-     .ui.circular.large.button.select_username(class=username_tag_class) 
+        //-         strong #{this.name}
+    
             
 template(name='doc')
     .ui.secondary.segment

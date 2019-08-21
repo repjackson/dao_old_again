@@ -18,23 +18,32 @@ Cloudinary.config
 
 
 Meteor.publish 'doc', (doc_id)->
-    console.log doc_id
     Docs.find doc_id
 
 Meteor.publish 'me', ()->
     Meteor.users.find Meteor.userId()
 
-Meteor.publish 'docs', (selected_tags, selected_usernames)->
-    # console.log selected_tags
+Meteor.publish 'docs', (selected_tags, filter)->
     # self = @
     match = {}
+    if filter
+        match.model = filter
     if selected_tags.length > 0 then match.tags = $all: selected_tags
-    if selected_usernames.length > 0 then match._author_username = selected_usernames[0]
 
-    Docs.find(match, limit:5)
+    Docs.find(match)
     # Docs.find({},limit:10)
 
 
+# Meteor.publish 'docs', (selected_tags, selected_usernames)->
+#     # self = @
+#     match = {}
+#     if selected_tags.length > 0 then match.tags = $all: selected_tags
+#     if selected_usernames.length > 0 then match._author_username = selected_usernames[0]
+#
+#     Docs.find(match, limit:5)
+#     # Docs.find({},limit:10)
+#
+#
 Meteor.methods
     related_posts: (doc_id)->
         post = Docs.findOne doc_id
@@ -84,7 +93,7 @@ Meteor.publish 'classic_facet', (selected_tags, selected_usernames)->
     match = {}
     if selected_tags.length > 0 then match.tags = $all: selected_tags
     if selected_usernames.length > 0 then match._author_username = selected_usernames[0]
-    console.log 'match', match
+    # console.log 'match', match
     tag_cloud = Docs.aggregate [
         { $match: match }
         { $project: tags: 1 }

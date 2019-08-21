@@ -1,3 +1,8 @@
+Router.route '/tasks', -> @render 'tasks'
+Router.route '/task/:doc_id/view', -> @render 'task_view'
+Router.route '/task/:doc_id/edit', -> @render 'task_edit'
+
+
 if Meteor.isClient
     Template.tasks.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'task_stats'

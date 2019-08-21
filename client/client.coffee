@@ -21,8 +21,8 @@ Template.registerHelper 'field_value', () ->
 Accounts.ui.config
     passwordSignupFields: 'USERNAME_ONLY'
 
-Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe 'me'
+# Template.cloud.onCreated ->
+#     @autorun -> Meteor.subscribe 'me'
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
@@ -44,9 +44,9 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
-Template.cloud.onCreated ->
-    @autorun -> Meteor.subscribe('classic_facet', selected_tags.array(),selected_usernames.array())
-    @autorun -> Meteor.subscribe('docs', selected_tags.array(),selected_usernames.array())
+# Template.cloud.onCreated ->
+#     @autorun -> Meteor.subscribe('classic_facet', selected_tags.array(),selected_usernames.array())
+#     @autorun -> Meteor.subscribe('docs', selected_tags.array(),selected_usernames.array())
 
 
 Template.doc.events
@@ -75,88 +75,88 @@ Template.doc.helpers
         if count is 1 then true else false
     last_doc: -> Docs.findOne({})
 
-Template.cloud.helpers
-    results: -> Docs.find {},
-        {
-            sort:points:-1
-            limit:1
-        }
-    all_tags: ->
-        doc_count = Docs.find({}).count()
-        if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
-    cloud_tag_class: ->
-        button_class = switch
-            when @index <= 5 then 'large'
-            when @index <= 12 then ''
-            when @index <= 20 then 'small'
-        return button_class
-    selected_tags: -> selected_tags.array()
-    all_usernames: ->
-        doc_count = Usernames.find({}).count()
-        if 0 < doc_count < 3 then Usernames.find({count:$lt:doc_count},{limit:42}) else Usernames.find({}, limit:42)
-    cloud_tag_class: ->
-        button_class = switch
-            when @index <= 5 then 'large'
-            when @index <= 12 then ''
-            when @index <= 20 then 'small'
-        return button_class
-    selected_usernames: -> selected_usernames.array()
-    settings: -> {
-        position: 'bottom'
-        limit: 20
-        noMatchTemplate:'no_match'
-        rules: [
-            {
-                # token: '#'
-                collection: Tags
-                field: 'name'
-                matchAll: true
-                template: Template.tag_result
-            }
-            ]
-    }
-
-Template.doc.events
-    'click .toggle_selection': -> selected_tags.push @valueOf()
-    'click .unselect_tag': -> selected_tags.remove @valueOf()
-Template.cloud.events
-    'click .select_tag': -> selected_tags.push @name
-    'click .unselect_tag': -> selected_tags.remove @valueOf()
-    'click #clear_tags': -> selected_tags.clear()
-
-    'click .select_username': -> selected_usernames.push @name
-    'click .unselect_username': -> selected_usernames.remove @valueOf()
-    'click #clear_usernames': -> selected_usernames.clear()
-    'click .add_doc': ->
-        new_doc_id = Docs.insert {}
-        Router.go "/edit/#{new_doc_id}"
-
-    'keyup .import_subreddit': (e,t)->
-        val = $('.import_subreddit').val().toLowerCase().trim()
-        if e.which is 13
-            alert val
-            Meteor.call 'pull_subreddit', val
-    'keyup #search': (e,t)->
-        e.preventDefault()
-        val = $('#search').val().toLowerCase().trim()
-        switch e.which
-            when 13 #enter
-                switch val
-                    when 'clear'
-                        selected_tags.clear()
-                        $('#search').val ''
-                    else
-                        unless val.length is 0
-                            selected_tags.push val.toString()
-                            $('#search').val ''
-            when 8
-                if val.length is 0
-                    selected_tags.pop()
-
-    'autocompleteselect #search': (event, template, doc) ->
-        selected_tags.push doc.name
-        $('#search').val ''
-
+# Template.cloud.helpers
+#     results: -> Docs.find {},
+#         {
+#             sort:points:-1
+#             limit:1
+#         }
+#     all_tags: ->
+#         doc_count = Docs.find({}).count()
+#         if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
+#     cloud_tag_class: ->
+#         button_class = switch
+#             when @index <= 5 then 'large'
+#             when @index <= 12 then ''
+#             when @index <= 20 then 'small'
+#         return button_class
+#     selected_tags: -> selected_tags.array()
+#     all_usernames: ->
+#         doc_count = Usernames.find({}).count()
+#         if 0 < doc_count < 3 then Usernames.find({count:$lt:doc_count},{limit:42}) else Usernames.find({}, limit:42)
+#     cloud_tag_class: ->
+#         button_class = switch
+#             when @index <= 5 then 'large'
+#             when @index <= 12 then ''
+#             when @index <= 20 then 'small'
+#         return button_class
+#     selected_usernames: -> selected_usernames.array()
+#     settings: -> {
+#         position: 'bottom'
+#         limit: 20
+#         noMatchTemplate:'no_match'
+#         rules: [
+#             {
+#                 # token: '#'
+#                 collection: Tags
+#                 field: 'name'
+#                 matchAll: true
+#                 template: Template.tag_result
+#             }
+#             ]
+#     }
+#
+# Template.doc.events
+#     'click .toggle_selection': -> selected_tags.push @valueOf()
+#     'click .unselect_tag': -> selected_tags.remove @valueOf()
+# Template.cloud.events
+#     'click .select_tag': -> selected_tags.push @name
+#     'click .unselect_tag': -> selected_tags.remove @valueOf()
+#     'click #clear_tags': -> selected_tags.clear()
+#
+#     'click .select_username': -> selected_usernames.push @name
+#     'click .unselect_username': -> selected_usernames.remove @valueOf()
+#     'click #clear_usernames': -> selected_usernames.clear()
+#     'click .add_doc': ->
+#         new_doc_id = Docs.insert {}
+#         Router.go "/edit/#{new_doc_id}"
+#
+#     'keyup .import_subreddit': (e,t)->
+#         val = $('.import_subreddit').val().toLowerCase().trim()
+#         if e.which is 13
+#             alert val
+#             Meteor.call 'pull_subreddit', val
+#     'keyup #search': (e,t)->
+#         e.preventDefault()
+#         val = $('#search').val().toLowerCase().trim()
+#         switch e.which
+#             when 13 #enter
+#                 switch val
+#                     when 'clear'
+#                         selected_tags.clear()
+#                         $('#search').val ''
+#                     else
+#                         unless val.length is 0
+#                             selected_tags.push val.toString()
+#                             $('#search').val ''
+#             when 8
+#                 if val.length is 0
+#                     selected_tags.pop()
+#
+#     'autocompleteselect #search': (event, template, doc) ->
+#         selected_tags.push doc.name
+#         $('#search').val ''
+#
 
 
 Template.edit.onCreated ->

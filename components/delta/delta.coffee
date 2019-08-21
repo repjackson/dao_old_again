@@ -36,6 +36,7 @@ if Meteor.isClient
             Docs.insert
                 model:'delta'
                 model_filter: Router.current().params.model_slug
+                tribe_slug:Meteor.user().current_tribe_slug
 
         'keyup .import_subreddit': (e,t)->
             if e.which is 13

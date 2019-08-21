@@ -4,8 +4,9 @@ template(name='view_profile')
     +user_info
 
 template(name='enter_tribe')
-    .ui.large.button.enter_tribe
-        |enter tribe
+    .ui.compact.button.enter_tribe(title='enter tribe')
+        +i name='internal' classes='ui avatar image'
+        //- |enter tribe
 
 
 

@@ -18,7 +18,7 @@ Template.body.events
 
 Template.registerHelper 'current_tribe', () ->
     if Meteor.user()
-        console.log Meteor.user().current_tribe_slug
+        # console.log Meteor.user().current_tribe_slug
         Docs.find
             model:'tribe'
             slug: Meteor.user().current_tribe_slug
@@ -54,6 +54,12 @@ Template.registerHelper 'is_product', () -> @shop_type is 'product'
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
+Template.registerHelper 'tribe_background', () ->
+    if Meteor.user() and Meteor.user().current_tribe_slug
+        tribe = Docs.findOne
+            model:'tribe'
+            slug:Meteor.user().current_tribe_slug
+        tribe.background
 
 
 
