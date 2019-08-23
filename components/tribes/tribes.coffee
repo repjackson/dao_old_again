@@ -1,7 +1,57 @@
 Router.route '/tribes', -> @render 'tribes'
 Router.route '/tribe/:doc_id/view', -> @render 'tribe_view'
-Router.route '/tribe/:doc_id/edit', -> @render 'tribe_edit'
-Router.route '/tribe/:doc_id/dashboard', -> @render 'tribe_dashboard'
+
+Router.route '/tribe/:doc_id/edit', (->
+    @layout 'tribe_edit_layout'
+    @render 'tribe_edit_nav', {to:'sub_nav'}
+    @render 't_e_dashboard_nav', {to:'sub_sub_nav'}
+    @render 'tribe_edit'
+    ), name:'tribe_edit'
+
+Router.route '/t/:tribe_slug/edit', (->
+    @layout 'tribe_edit_layout'
+    @render 'tribe_edit_nav', {to:'sub_nav'}
+    @render 't_e_dashboard_nav', {to:'sub_sub_nav'}
+    @render 'tribe_edit'
+    ), name:'tribe_edit2'
+
+
+Router.route '/t/:tribe_slug/dashboard', (->
+    @layout 'layout'
+    @render 'tribe_dashboard'
+    ), name:'tribe_dashboard'
+
+Router.route '/t/:tribe_slug/blog', (->
+    @layout 'layout'
+    @render 'tribe_blog'
+    ), name:'tribe_blog'
+
+Router.route '/t/:tribe_slug/events', (->
+    @layout 'layout'
+    @render 'tribe_events'
+    ), name:'tribe_events'
+
+Router.route '/t/:tribe_slug/mail', (->
+    @layout 'layout'
+    @render 'tribe_mail'
+    ), name:'tribe_mail'
+
+Router.route '/t/:tribe_slug/tasks', (->
+    @layout 'layout'
+    @render 'tribe_tasks'
+    ), name:'tribe_tasks'
+
+Router.route '/t/:tribe_slug/chat', (->
+    @layout 'layout'
+    @render 'tribe_chat'
+    ), name:'tribe_chat'
+
+Router.route '/t/:tribe_slug/gallery', (->
+    @layout 'layout'
+    @render 'tribe_gallery'
+    ), name:'tribe_gallery'
+
+
 
 if Meteor.isClient
     Template.tribes.onCreated ->
@@ -27,7 +77,10 @@ if Meteor.isClient
                 $set:
                     current_tribe_id:@_id
                     current_tribe_slug:@slug
-            Router.go '/home'
+            Router.go "/t/#{@slug}/dashboard"
+            # if Meteor.isDevelopment
+            #     Router.go "#{@slug}.dao2.com:3000"
+                # window.location.replace("#{@slug}.localhost:3000");
 
         'click .calculate_tribe_stats': ->
             Meteor.call 'calculate_tribe_stats'

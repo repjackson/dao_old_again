@@ -1,4 +1,7 @@
 if Meteor.isClient
+    Router.route '/p/:slug', -> @render 'page'
+    Router.route '/t/:tribe_slug/p/:slug', -> @render 'page'
+
     Template.page.onCreated ->
         @autorun => Meteor.subscribe 'page', Router.current().params.slug
         @autorun => Meteor.subscribe 'page_blocks', Router.current().params.slug

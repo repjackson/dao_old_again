@@ -32,7 +32,6 @@ constellation:autopublish
 accounts-password
 constellation:session
 babrahams:temple
-accounts-ui
 session
 flowkey:hotkeys
 percolate:synced-cron

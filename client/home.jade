@@ -7,12 +7,12 @@ template(name='home')
                     |portal
             .four.wide.column
                 .ui.big.button.add_model
-                    |add model
+                    i.plus.icon
+                    | model
             .eight.wide.column
                 .ui.left.icon.input
                     i.search.icon
                     input.model_filter(type='text' placeholder='filter...' autofocus='autofocus')
-    
     .ui.stackable.four.column.padded.grid
         each tribe_role_models
             .column

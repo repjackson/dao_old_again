@@ -22,9 +22,10 @@ template(name='tribes')
                             |#{title}
                         |#{description}
                         if is_dev
+                            +text_edit key='slug' direct=true
                             +edit_button
                         //- +enter_tribe
-                        
+                            
                     
 template(name='tribe_card_template')
     .ui.segment                    
@@ -49,37 +50,6 @@ template(name='tribe_card_template')
             +remove_button
 
 
-template(name='tribe_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column 
-                    .ui.header 
-                        i.pencil.icon
-                        |edit '#{title}' tribe
-                    a.ui.big.icon.fluid.button(href="/tribe/#{_id}/view" title='save')
-                        i.green.large.checkmark.icon
-                    +image_edit key='image_id' label='image' icon='image' direct=true
-                    +image_edit key='background' label='background' icon='image' direct=true
-                    +remove_button
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                .eight.wide.column 
-                    +text_edit key='title' label='title' icon='title' direct=true
-                    +slug_edit key='slug' label='slug' icon='slug' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
-                .four.wide.column 
-                    .ui.header features
-                    +boolean_edit key='chat' label='chat' icon='chat' direct=true
-                    +boolean_edit key='mail' label='mail' icon='envelope' direct=true
-                    +boolean_edit key='tasks' label='tasks' icon='tasks' direct=true
-                    +boolean_edit key='courses' label='courses' icon='university' direct=true
-                    +boolean_edit key='blog' label='blog' icon='blog' direct=true
-                    +boolean_edit key='shop' label='shop' icon='shop' direct=true
-                    +boolean_edit key='events' label='events' icon='calendar' direct=true
-                    +boolean_edit key='gallery' label='gallery' icon='gallery' direct=true
-                    .ui.header theming
-                    +color_edit key='nav_color' label='color' direct=true
-                     
 template(name='tribe_view')
     with current_doc
         .ui.stackable.padded.grid

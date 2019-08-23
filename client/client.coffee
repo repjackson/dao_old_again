@@ -1,28 +1,327 @@
 @selected_tags = new ReactiveArray []
-@selected_usernames = new ReactiveArray []
+
+# Meteor.startup ->
+#     scheduler.init "scheduler_here", new Date()
+#     scheduler.meteor(Docs.find(model:'event'), Docs);
 
 $.cloudinary.config
     cloud_name:"facet"
+# Router.notFound =
+    # action: 'not_found'
 
+Meteor.subscribe 'model_docs', 'tribe'
+# Meteor.startup ->
+#     if Meteor.isClient
+#         #This code is needed to detect if there is a subdomain. So the system wants to know the routes of the subdomain
+#         hostnameArray = document.location.hostname.split('.')
+#         if hostnameArray.length >= 3
+#             subdomain = hostnameArray[0].toLowerCase().ucfirst()
+#             defineFunctionString = 'define' + subdomain + 'Routes'
+#             if typeof window[defineFunctionString] == 'function'
+#                 Meteor['is' + subdomain] = true
+#                 window[defineFunctionString]()
+#                 console.log 'subdomain detected'
+#                 #To call the function dynamically!
+#         else
+#             defineRoutes()
+
+
+
+
+Template.body.events
+    'click a': ->
+        $('.global_container')
+        .transition('fade out', 250)
+        .transition('fade in', 250)
+
+
+Template.registerHelper 'current_tribe', () ->
+    # console.log Meteor.absoluteUrl.defaultOptions.rootUrl
+    # console.log Meteor.absoluteUrl()
+    # full = window.location.host
+    # # //window.location.host is subdomain.domain.com
+    # parts = full.split('.')
+    # sub = parts[0]
+    # domain = parts[1]
+    # type = parts[2]
+    # console.log 'sub', sub
+    # console.log 'domain', domain
+    # console.log 'type', type
+    # if sub in ['localhost:3000','dao.af','dao2.com']
+    #     console.log 'current tribe is dao root'
+    #     'dao'
+    #     tribe_doc = Docs.findOne
+    #         model:'tribe'
+    #         slug: 'dao'
+    #     console.log tribe_doc
+    #     tribe_doc
+    # else
+    #     console.log 'current tribe is ', sub
+    #     sub
+    #     tribe_doc = Docs.findOne
+    #         model:'tribe'
+    #         slug: sub
+    #     console.log tribe_doc
+    #     tribe_doc
+    #     # window.open("dao.localhost:3000");
+    #     Router.go "http://dao.localhost:3000"
+    # //sub is 'subdomain', 'domain', type is 'com'
+    # var newUrl = 'http://' + domain + '.' + type + '/your/other/path/' + subDomain
+    # console.log Router.current().params.tribe_slug
+    slug = Router.current().params.tribe_slug
+    # console.log Meteor.user().current_tribe_slug
+    if slug
+        Docs.findOne
+            model:'tribe'
+            slug: slug
+
+# Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
+
+Session.setDefault 'invert', false
+Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
+Template.registerHelper 'parent', () -> Template.parentData()
+Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
+Template.registerHelper 'dev', () -> Meteor.isDevelopment
+Template.registerHelper 'is_author', () -> @_author_id is Meteor.userId()
+Template.registerHelper 'is_grandparent_author', () ->
+    grandparent = Template.parentData(2)
+    grandparent._author_id is Meteor.userId()
+Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
+Template.registerHelper 'long_date', (input) -> moment(input).format("dddd, MMMM Do h:mm:ss a")
+Template.registerHelper 'today', () -> moment(Date.now()).format("dddd, MMMM Do a")
+Template.registerHelper 'when', () -> moment(@_timestamp).fromNow()
+Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
+Template.registerHelper 'last_initial', (user) ->
+    @last_name[0]+'.'
+    # moment(input).fromNow()
+Template.registerHelper 'first_initial', (user) ->
+    @first_name[0]+'.'
+    # moment(input).fromNow()
+Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
+Template.registerHelper 'is_event', () -> @shop_type is 'event'
+Template.registerHelper 'is_service', () -> @shop_type is 'service'
+Template.registerHelper 'is_product', () -> @shop_type is 'product'
+
+
+Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
+Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
+Template.registerHelper 'tribe_background', () ->
+    if Meteor.user() and Meteor.user().current_tribe_slug
+        tribe = Docs.findOne
+            model:'tribe'
+            slug:Meteor.user().current_tribe_slug
+        if tribe
+            tribe.background
+
+
+
+
+Meteor.methods
+    submit_checkin: ->
+        Session.set 'adding_guest', false
+        healthclub_session_document = Docs.findOne Router.current().params.doc_id
+        # console.log @
+        resident = Meteor.users.findOne healthclub_session_document.user_id
+
+        # healthclub_session_document = Docs.findOne
+        #     model:'healthclub_session'
+        user = Meteor.users.findOne
+            username:resident.username
+        healthclub_session_document = Docs.findOne Router.current().params.doc_id
+        if healthclub_session_document.guest_ids.length > 0
+            # now = Date.now()
+            current_month = moment().format("MMM")
+            Meteor.users.update user._id,
+                $addToSet:
+                    total_guests:healthclub_session_document.guest_ids.length
+                    "#{current_month}_guests":healthclub_session_document.guest_ids.length
+        Docs.update healthclub_session_document._id,
+            $set:
+                # session_type:'healthclub_checkin'
+                submitted:true
+        Router.go "/healthclub"
+        $('body').toast({
+            title: "#{resident.first_name} #{resident.last_name} checked in"
+            class: 'success'
+            transition:
+                showMethod   : 'zoom',
+                showDuration : 250,
+                hideMethod   : 'fade',
+                hideDuration : 250
+        })
+
+
+
+
+Template.registerHelper 'resident_guests', () ->
+    Docs.find
+        _id:$in:@guest_ids
+
+Template.registerHelper 'is_springdale', () ->
+    console.log @
+    unit = Docs.findOne Router.current().params.unit_id
+    console.log unit
+    if unit.building_code is 'springdale' or 'sp' then true else false
+
+Template.registerHelper 'current_month_guests', () ->
+    # console.log @
+    current_month = moment().format("MMM")
+    @["#{current_month}_guests"]
+
+Template.registerHelper 'referenced_product', () ->
+    Docs.findOne
+        _id:@product_id
+
+
+Template.registerHelper 'resident_status_class', ()->
+    # console.log @
+    unless @rules_and_regs_signed
+        'red_flagged'
+    else unless @email_validated
+        'orange_flagged'
+    else ''
+
+Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
+Template.registerHelper 'is_text', () ->
+    # console.log @field_type
+    @field_type is 'text'
+
+Template.registerHelper 'template_parent', () ->
+    # console.log Template.parentData()
+    Template.parentData()
+
+Template.registerHelper 'fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        Docs.find {
+            model:'field'
+            parent_id:model._id
+            view_roles:$in:Meteor.user().roles
+        }, sort:rank:1
+
+Template.registerHelper 'edit_fields', () ->
+    model = Docs.findOne
+        model:'model'
+        slug:Router.current().params.model_slug
+    if model
+        if 'dev' in Meteor.user().roles
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+            }, sort:rank:1
+        else
+            Docs.find {
+                model:'field'
+                parent_id:model._id
+                edit_roles:$in:Meteor.user().roles
+            }, sort:rank:1
+
+Template.registerHelper 'current_user', (input) ->
+    Meteor.user() and Meteor.user().username is Router.current().params.username
+
+
+Template.registerHelper 'user_is_client', (input) ->
+    user = Meteor.users.findOne username:Router.current().params.username
+    if user and user.roles and 'client' in user.roles then true else false
+
 Template.registerHelper 'nl2br', (text)->
     nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
     new Spacebars.SafeString(nl2br)
 
+
+Template.registerHelper 'loading_class', () ->
+    if Session.get 'loading' then 'disabled' else ''
+
+Template.registerHelper 'current_model', (input) ->
+    Docs.findOne
+        model:'model'
+        slug: Router.current().params.model_slug
+
+Template.registerHelper 'in_list', (key) ->
+    if Meteor.userId()
+        if Meteor.userId() in @["#{key}"] then true else false
+
+
+Template.registerHelper 'is_admin', () ->
+    if Meteor.user() and Meteor.user().roles
+        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
+        if 'admin' in Meteor.user().roles then true else false
+
+Template.registerHelper 'is_staff', () ->
+    if Meteor.user() and Meteor.user().roles
+        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
+        if 'staff' in Meteor.user().roles then true else false
+Template.registerHelper 'is_frontdesk', () ->
+    if Meteor.user() and Meteor.user().roles
+        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
+        if 'frontdesk' in Meteor.user().roles then true else false
+Template.registerHelper 'is_dev', () ->
+    if Meteor.user() and Meteor.user().roles
+        if 'dev' in Meteor.user().roles then true else false
+Template.registerHelper 'is_manager', () ->
+    if Meteor.user() and Meteor.user().roles
+        if 'manager' in Meteor.user().roles then true else false
+
+Template.registerHelper 'is_user', () ->
+    if Meteor.user() and Meteor.user().roles
+        if 'user' in Meteor.user().roles then true else false
+
+
+
+Template.registerHelper 'user_is_user', () -> if @roles and 'user' in @roles then true else false
+Template.registerHelper 'user_is_resident_or_owner', () -> if @roles and _.intersection(@roles,['resident','owner']) then true else false
+
+
+Template.registerHelper 'is_eric', () -> if Meteor.userId() and 'CFTSK5ZtNpMpZFMwi' is Meteor.userId() then true else false
+
+Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
+Template.registerHelper 'is_current_user', () ->  Meteor.user().username is Router.current().params.username
+Template.registerHelper 'view_template', -> "#{@field_type}_view"
+Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
+Template.registerHelper 'is_model', -> @model is 'model'
+
+
+# Template.body.events
+#     'click .toggle_sidebar': -> $('.ui.sidebar').sidebar('toggle')
+
+Template.registerHelper 'is_editing', () -> Session.equals 'editing_id', @_id
+
+
+Template.registerHelper 'can_edit', () -> Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
+
+Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
+
 Template.registerHelper 'current_doc', ->
     doc = Docs.findOne Router.current().params.doc_id
+    user = Meteor.users.findOne Router.current().params.doc_id
+    # console.log doc
+    # console.log user
+    if doc then doc else if user then user
 
+
+Template.registerHelper 'user_from_username_param', () ->
+    found = Meteor.users.findOne username:Router.current().params.username
+    # console.log found
+    found
 Template.registerHelper 'field_value', () ->
-    # console.log @valueOf()
+    # console.log @
     parent = Template.parentData()
+    parent5 = Template.parentData(5)
+    parent6 = Template.parentData(6)
     if @direct
+        parent = Template.parentData()
+    else if parent5._id
+        parent = Template.parentData(5)
+    else if parent6._id
+        parent = Template.parentData(6)
+    if parent
         parent["#{@key}"]
 
-Accounts.ui.config
-    passwordSignupFields: 'USERNAME_ONLY'
 
-# Template.cloud.onCreated ->
-#     @autorun -> Meteor.subscribe 'me'
+Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 Template.registerHelper 'calculated_size', (metric) ->
     # console.log metric
@@ -44,191 +343,3 @@ Template.registerHelper 'calculated_size', (metric) ->
 
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
-# Template.cloud.onCreated ->
-#     @autorun -> Meteor.subscribe('classic_facet', selected_tags.array(),selected_usernames.array())
-#     @autorun -> Meteor.subscribe('docs', selected_tags.array(),selected_usernames.array())
-
-
-Template.doc.events
-    'click .embed': ->
-        $('.ui.embed').embed();
-    'click .delete_doc': ->
-        Docs.remove @_id
-    'blur .new_author': (e,t)->
-        current = Template.currentData()
-        author = t.$('.new_author').val()
-        Docs.update current._id,
-            $set:_author_username: author
-
-Template.change_author.events
-    'click .change_author': ->
-        current = Template.parentData()
-        Docs.update current._id,
-            $set:_author_username: @name
-
-
-
-
-Template.doc.helpers
-    one_doc: ->
-        count = Docs.find({}).count()
-        if count is 1 then true else false
-    last_doc: -> Docs.findOne({})
-
-# Template.cloud.helpers
-#     results: -> Docs.find {},
-#         {
-#             sort:points:-1
-#             limit:1
-#         }
-#     all_tags: ->
-#         doc_count = Docs.find({}).count()
-#         if 0 < doc_count < 3 then Tags.find({count:$lt:doc_count},{limit:42}) else Tags.find({}, limit:42)
-#     cloud_tag_class: ->
-#         button_class = switch
-#             when @index <= 5 then 'large'
-#             when @index <= 12 then ''
-#             when @index <= 20 then 'small'
-#         return button_class
-#     selected_tags: -> selected_tags.array()
-#     all_usernames: ->
-#         doc_count = Usernames.find({}).count()
-#         if 0 < doc_count < 3 then Usernames.find({count:$lt:doc_count},{limit:42}) else Usernames.find({}, limit:42)
-#     cloud_tag_class: ->
-#         button_class = switch
-#             when @index <= 5 then 'large'
-#             when @index <= 12 then ''
-#             when @index <= 20 then 'small'
-#         return button_class
-#     selected_usernames: -> selected_usernames.array()
-#     settings: -> {
-#         position: 'bottom'
-#         limit: 20
-#         noMatchTemplate:'no_match'
-#         rules: [
-#             {
-#                 # token: '#'
-#                 collection: Tags
-#                 field: 'name'
-#                 matchAll: true
-#                 template: Template.tag_result
-#             }
-#             ]
-#     }
-#
-# Template.doc.events
-#     'click .toggle_selection': -> selected_tags.push @valueOf()
-#     'click .unselect_tag': -> selected_tags.remove @valueOf()
-# Template.cloud.events
-#     'click .select_tag': -> selected_tags.push @name
-#     'click .unselect_tag': -> selected_tags.remove @valueOf()
-#     'click #clear_tags': -> selected_tags.clear()
-#
-#     'click .select_username': -> selected_usernames.push @name
-#     'click .unselect_username': -> selected_usernames.remove @valueOf()
-#     'click #clear_usernames': -> selected_usernames.clear()
-#     'click .add_doc': ->
-#         new_doc_id = Docs.insert {}
-#         Router.go "/edit/#{new_doc_id}"
-#
-#     'keyup .import_subreddit': (e,t)->
-#         val = $('.import_subreddit').val().toLowerCase().trim()
-#         if e.which is 13
-#             alert val
-#             Meteor.call 'pull_subreddit', val
-#     'keyup #search': (e,t)->
-#         e.preventDefault()
-#         val = $('#search').val().toLowerCase().trim()
-#         switch e.which
-#             when 13 #enter
-#                 switch val
-#                     when 'clear'
-#                         selected_tags.clear()
-#                         $('#search').val ''
-#                     else
-#                         unless val.length is 0
-#                             selected_tags.push val.toString()
-#                             $('#search').val ''
-#             when 8
-#                 if val.length is 0
-#                     selected_tags.pop()
-#
-#     'autocompleteselect #search': (event, template, doc) ->
-#         selected_tags.push doc.name
-#         $('#search').val ''
-#
-
-
-Template.edit.onCreated ->
-    @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-Template.edit.events
-    'click #delete_doc': ->
-        if confirm 'delete?'
-            Docs.remove Router.current().params.doc_id
-            Router.go "/"
-
-    'click .autotag': ->
-        doc = Docs.findOne Router.current().params.doc_id
-        console.log doc.new_html
-        Meteor.call 'call_watson', doc._id, 'new_html', 'text'
-
-    'keyup .new_site':(e,t)->
-        if e.which is 13
-            doc_id = Router.current().params.doc_id
-            site = t.$('.new_site').val()
-            # console.log site
-            Meteor.call 'pull_site', doc_id, site,->
-            # t.$('.add_comment').val('')
-
-    'click .delete_doc': ->
-        Docs.remove @_id
-
-
-Template.edit.helpers
-    current_doc: ->
-        Docs.findOne Router.current().params.doc_id
-
-    fields: ->
-        Docs.find
-            model:'field_type'
-
-Template.view.onCreated ->
-    @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
-
-Template.view.helpers
-    sorted_matches: ->
-        # console.log @
-        sorted_matches = _.sortBy @matches, 'tag_match_count'
-        sorted_matches.reverse()[..2]
-
-Template.view.events
-    'click .calculate': ->
-        Meteor.call 'related_posts', Router.current().params.doc_id
-
-# Template.related_posts.helpers
-#     related_posts: ->
-#         post = DocsfindOne @_id
-#         if post.related_ids
-#             Docs.find
-#                 _id:$in:post.related_ids
-
-Template.doc_match.onCreated ->
-    # console.log @
-    @autorun => Meteor.subscribe 'doc', @data.doc_id
-
-Template.doc_match.events
-    'click .doc_match': ->
-        console.log @
-        Router.go "/view/#{@doc_id}"
-
-
-Template.doc_match.helpers
-    matching_doc: ->
-        # console.log @
-        Docs.findOne @doc_id
-
-    matching_tag_class: ->
-        post = Docs.findOne Router.current().params.doc_id
-        if @valueOf() in post.tags then 'grey' else 'basic'
-        # console.log @

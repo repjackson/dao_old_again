@@ -37,39 +37,39 @@ template(name='user_layout')
                             each roles
                                 .ui.basic.label #{this}
                 .twelve.wide.column.shadowed-box
-                    a(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}" title='info')
+                    a.spaced.pointer(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}" title='info')
                         +i name='dashboard' classes='pointer'
-                    a(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title='about')
+                    a.spaced.pointer(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}" title='about')
                         +i name='info' classes='pointer'
-                    a(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}" title='social')
+                    a.spaced.pointer(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}" title='social')
                         +i name='collaboration' classes='pointer'
-                    a(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}" title='gallery')
+                    a.spaced.pointer(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}" title='gallery')
                         +i name='gallery' classes='pointer'
-                    a(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}" title='bookmarks')
+                    a.spaced.pointer(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}" title='bookmarks')
                         +i name='star' classes='pointer'
-                    a(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}" title='contact')
+                    a.spaced.pointer(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}" title='contact')
                         +i name='phone' classes='pointer'
-                    a(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}" title='events')
+                    a.spaced.pointer(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}" title='events')
                         +i name='calendar' classes='pointer'
-                    a(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}" title='comparison')
+                    a.spaced.pointer(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}" title='comparison')
                         +i name='scales' classes='pointer'
-                    a(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}" title='tags')
+                    a.spaced.pointer(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}" title='tags')
                         +i name='tags' classes='pointer'
-                    a(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}" title='tasks')
+                    a.spaced.pointer(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}" title='tasks')
                         +i name='tasks' classes='pointer'
-                    a(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title='tribes')
+                    a.spaced.pointer(href="/user/#{username}/tribes" class="{{isActiveRoute 'user_tribes'}}" title='tribes')
                         +i name='fire' classes='pointer'
-                    a(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title='messages')
+                    a.spaced.pointer(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}" title='messages')
                         +i name='envelope' classes='pointer'
-                    a(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}" title='karma')
+                    a.spaced.pointer(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}" title='karma')
                         +i name='yin-yang' classes='pointer'
-                    a(href="/user/#{username}/workhistory" class="{{isActiveRoute 'user_workhistory'}}" title='work history')
+                    a.spaced.pointer(href="/user/#{username}/workhistory" class="{{isActiveRoute 'user_workhistory'}}" title='work history')
                         +i name='resume' classes='pointer'
-                    a(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}" title='stats')
+                    a.spaced.pointer(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}" title='stats')
                         +i name='line-chart' classes='pointer'
-                    a(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}" title='votes')
+                    a.spaced.pointer(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}" title='votes')
                         +i name='elections' classes='pointer'
-                    a(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}" title='notifications')
+                    a.spaced.pointer(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}" title='notifications')
                          +i name='appointment-reminders' classes='pointer'
                     div
                     +yield

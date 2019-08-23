@@ -1,7 +1,7 @@
 if Meteor.isClient
     Template.home.onCreated ->
         # @autorun => Meteor.subscribe 'role_models', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'tribe_role_models', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'tribe_role_models', Router.current().params.tribe_slug, Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'marketplace'
         # @autorun => Meteor.subscribe 'model_docs', 'post'
         # @autorun => Meteor.subscribe 'model_fields_from_child_id', Router.current().params.doc_id
@@ -37,7 +37,7 @@ if Meteor.isClient
     Template.home.helpers
         tribe_role_models: ->
             if Meteor.user()
-                tribe_slug = Meteor.user().current_tribe_slug
+                tribe_slug = Router.current().params.current_tribe_slug
                 model_filter = Session.get('model_filter')
                 if 'dev' in Meteor.user().roles
                     if model_filter

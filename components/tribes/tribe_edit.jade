@@ -1,0 +1,61 @@
+template(name='tribe_edit_layout')
+    +nav
+    +yield 'sub_nav'
+    +yield 'sub_sub_nav'
+    +yield
+    +footer 
+
+
+template(name='tribe_edit_nav')
+    .ui.attached.menu
+        a.item(href="/admin/dashboard") Dashboard
+        a.item(href="/admin/contacts") Contacts
+        a.item(href="/admin/website") Website
+        a.item(href="/admin/events") Events
+        a.item(href="/admin/members") Members
+        a.item(href="/admin/store") Store
+        a.item(href="/admin/donations") Donations
+        a.item(href="/admin/finances") Finances
+        a.item(href="/admin/email") Email
+        a.item(href="/admin/settings") Settings
+         
+template(name='t_e_dashboard_nav')
+    .ui.attached.menu
+        .item Overview
+        .item Account
+        .item Organization
+        .item Referrals
+        .item Getting started
+          
+
+template(name='tribe_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        |edit '#{title}' tribe
+                    a.ui.big.icon.fluid.button(href="/tribe/#{_id}/view" title='save')
+                        i.green.large.checkmark.icon
+                    +image_edit key='image_id' label='image' icon='image' direct=true
+                    +image_edit key='background' label='background' icon='image' direct=true
+                    +remove_button
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' label='title' icon='title' direct=true
+                    +slug_edit key='slug' label='slug' icon='slug' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+                .four.wide.column 
+                    .ui.header features
+                    +boolean_edit key='chat' label='chat' icon='chat' direct=true
+                    +boolean_edit key='mail' label='mail' icon='envelope' direct=true
+                    +boolean_edit key='tasks' label='tasks' icon='tasks' direct=true
+                    +boolean_edit key='courses' label='courses' icon='university' direct=true
+                    +boolean_edit key='blog' label='blog' icon='blog' direct=true
+                    +boolean_edit key='shop' label='shop' icon='shop' direct=true
+                    +boolean_edit key='events' label='events' icon='calendar' direct=true
+                    +boolean_edit key='gallery' label='gallery' icon='gallery' direct=true
+                    .ui.header theming
+                    +color_edit key='nav_color' label='color' direct=true
+                     

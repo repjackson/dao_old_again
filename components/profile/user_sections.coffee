@@ -65,7 +65,9 @@ if Meteor.isClient
             }, sort:_timestamp:-1
     Template.toggle_tribe_membership.helpers
         is_member: ->
-            Meteor.userId() in @member_ids
+            if Meteor.user()
+                if @member_ids
+                    Meteor.userId() in @member_ids
     Template.toggle_tribe_membership.events
         'click .join': ->
             Docs.update @_id,

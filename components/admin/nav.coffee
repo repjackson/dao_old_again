@@ -30,18 +30,6 @@ if Meteor.isClient
         #         Meteor.setTimeout ->
         #             $('.dropdown').dropdown()
         #         , 3000
-        # full = window.location.host
-        # # //window.location.host is subdomain.domain.com
-        # parts = full.split('.')
-        # sub = parts[0]
-        # domain = parts[1]
-        # type = parts[2]
-        # console.log 'sub', sub
-        # console.log 'domain', domain
-        # console.log 'type', type
-        # //sub is 'subdomain', 'domain', type is 'com'
-        # var newUrl = 'http://' + domain + '.' + type + '/your/other/path/' + subDomain
-        # window.open(newUrl);
 
         Meteor.setTimeout ->
             $('.item').popup(
@@ -56,6 +44,7 @@ if Meteor.isClient
     #     @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
+        @autorun -> Meteor.subscribe 'model_docs', 'tribe'
         @autorun -> Meteor.subscribe 'current_tribe'
         @autorun -> Meteor.subscribe 'tribe_role_models'
         @autorun -> Meteor.subscribe 'tribe_pages'
@@ -86,11 +75,11 @@ if Meteor.isClient
         notifications: ->
             Docs.find
                 model:'notification'
-        current_tribe: ->
-            if Meteor.user() and Meteor.user().current_tribe_id
-                Docs.findOne
-                    model:'tribe'
-                    _id:Meteor.user().current_tribe_id
+        # current_tribe: ->
+        #     if Meteor.user() and Meteor.user().current_tribe_id
+        #         Docs.findOne
+        #             model:'tribe'
+        #             _id:Meteor.user().current_tribe_id
 
         tribe_role_models: ->
             match = {}
@@ -166,13 +155,13 @@ if Meteor.isServer
                     model:'page'
                     tribe_slug:Meteor.user().current_tribe_slug
 
-    Meteor.publish 'tribe_role_models', ->
-        if Meteor.userId()
-            if Meteor.user().current_tribe_slug
-                Docs.find
-                    model:'model'
-                    # tribe_id: Meteor.user().current_tribe_id
-                    tribe_slug: Meteor.user().current_tribe_slug
+    Meteor.publish 'tribe_role_models', (tribe_slug, model_slug)->
+        Docs.find
+            model:'model'
+            tribe_slug: tribe_slug
+            slug:model_slug
+
+
     Meteor.publish 'my_cart', ->
         if Meteor.userId()
             Docs.find
