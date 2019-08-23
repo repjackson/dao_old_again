@@ -1,3 +1,5 @@
+template(name='tribe_shop')
+    +shop_dashboard
 template(name='shop_dashboard')
     .ui.stackable.padded.grid
         .three.wide.column
@@ -14,7 +16,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.box.icon
+                                +i name='box'
                                 |top selling products
                             each top_selling_products
                                 +product_header
@@ -22,7 +24,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.users.icon
+                                +i name='users'
                                 |top selling people
                             each top_selling_people
                                 img.ui.avatar.rounded.image(src="{{c.url picture width=400 height=400 gravity='face' crop='fill'}}")
@@ -31,7 +33,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.clock.icon
+                                +i name='clock'
                                 |most rented
                             each most_rented
                                 +product_header
@@ -39,13 +41,13 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.bullhorn.icon
+                                +i name='bullhorn'
                                 |ad
                 .row
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.cubes.icon
+                                +i name='cubes'
                                 |top grossing products
                             each top_grossing_products
                                 +product_header
@@ -54,7 +56,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.users.icon
+                                +i name='users'
                                 |top grossing people
                             each top_grossing_people
                                 img.ui.avatar.rounded.image(src="{{c.url picture width=400 height=400 gravity='face' crop='fill'}}")
@@ -63,7 +65,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.thumbs.up.icon
+                                +i name='thumbs up'
                                 |most liked
                             each top_voted
                                 +product_header
@@ -71,7 +73,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.diamond.ring.icon
+                                +i name='diamond'
                                 |most expensive rentals
                             each most_expensive_rentals
                                 +product_header
@@ -92,7 +94,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.eye.icon
+                                +i name='eye'
                                 |most viewed
                             each most_viewed
                                 +product_header
@@ -100,7 +102,7 @@ template(name='shop_dashboard')
                     .four.wide.column
                         .ui.segment
                             .ui.header 
-                                i.clock.icon
+                                +i name='clock'
                                 |newest products
                             each newest_products
                                 +product_header

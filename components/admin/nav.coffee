@@ -44,9 +44,8 @@ if Meteor.isClient
     #     @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-        @autorun -> Meteor.subscribe 'model_docs', 'tribe'
-        @autorun -> Meteor.subscribe 'current_tribe'
-        @autorun -> Meteor.subscribe 'tribe_role_models'
+        @autorun -> Meteor.subscribe 'current_tribe', Router.current().params.tribe_slug
+        @autorun -> Meteor.subscribe 'tribe_role_models', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'tribe_pages'
 
         # @autorun -> Meteor.subscribe 'current_session'

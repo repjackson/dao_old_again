@@ -18,16 +18,14 @@ Router.onBeforeAction(force_loggedin, {
 
 Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
 
-Router.route '/chat', -> @render 'view_chats'
-Router.route '/inbox', -> @render 'inbox'
+# Router.route '/chat', -> @render 'view_chats'
+# Router.route '/inbox', -> @render 'inbox'
 Router.route '/register', -> @render 'register'
 Router.route '/admin', -> @render 'admin'
-Router.route '/timecard', -> @render 'timecard'
+# Router.route '/timecard', -> @render 'timecard'
 Router.route '/stats', -> @render 'stats'
 Router.route '/front', -> @render 'front'
 Router.route '/dashboard', -> @render 'dashboard'
-Router.route '/manager', -> @render 'manager'
-Router.route '/shift_checklist', -> @render 'shift_checklist'
 
 Router.route('enroll', {
     path: '/enroll-account/:token'
@@ -62,7 +60,7 @@ Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/edit', -> @render 'model_doc_
 Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/view', (->
     @render 'model_doc_view'
     ), name:'doc_view'
-Router.route '/t/:tribe_slug/model/edit/:doc_id', -> @render 'model_edit'
+Router.route '/model/edit/:doc_id', -> @render 'model_edit'
 
 # Router.route '/user/:username', -> @render 'user'
 Router.route '/verification_confirmation', -> @render 'verification_confirmation'
@@ -75,23 +73,12 @@ Router.route '/add_resident', (->
     ), name:'add_resident'
 Router.route '/forgot_password', -> @render 'forgot_password'
 
-Router.route '/staff', -> @render 'staff'
-Router.route '/frontdesk', -> @render 'frontdesk'
 Router.route '/user/:username/edit', -> @render 'user_edit'
 Router.route '/settings', -> @render 'settings'
-Router.route '/sign_rules/:doc_id/:username', -> @render 'rules_signing'
-Router.route '/sign_guidelines/:doc_id/:username', -> @render 'guidelines_signing'
-Router.route '/sign_waiver/:receipt_id', -> @render 'sign_waiver'
-# Router.route "/meal/:meal_id", -> @render 'meal_doc'
 
 Router.route '/reset_password/:token', (->
     @render 'reset_password'
     ), name:'reset_password'
-
-Router.route '/download_rules_pdf/:username', (->
-    @render 'download_rules_pdf'
-    ), name: 'download_rules_pdf'
-
 
 Router.route '/login', -> @render 'login'
 
@@ -110,18 +97,6 @@ Router.route '/', (->
     ), name:'root'
 
 
-Router.route '/healthclub', (->
-    @layout 'mlayout'
-    @render 'kiosk_container'
-    ), name:'healthclub'
-
-
-Router.route '/healthclub_session/:doc_id', (->
-    @layout 'mlayout'
-    @render 'healthclub_session'
-    ), name:'healthclub_session'
-
-
 Router.route '/user/:username', (->
     @layout 'user_layout'
     @render 'resident_about'
@@ -130,14 +105,6 @@ Router.route '/user/:username/about', (->
     @layout 'user_layout'
     @render 'user_about'
     ), name:'user_about'
-Router.route '/user/:username/healthclub', (->
-    @layout 'user_layout'
-    @render 'resident_about'
-    ), name:'resident_about'
-Router.route '/user/:username/residency', (->
-    @layout 'user_layout'
-    @render 'user_residency'
-    ), name:'user_residency'
 Router.route '/user/:username/karma', (->
     @layout 'user_layout'
     @render 'user_karma'

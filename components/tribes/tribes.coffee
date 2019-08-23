@@ -1,13 +1,6 @@
 Router.route '/tribes', -> @render 'tribes'
 Router.route '/tribe/:doc_id/view', -> @render 'tribe_view'
 
-Router.route '/tribe/:doc_id/edit', (->
-    @layout 'tribe_edit_layout'
-    @render 'tribe_edit_nav', {to:'sub_nav'}
-    @render 't_e_dashboard_nav', {to:'sub_sub_nav'}
-    @render 'tribe_edit'
-    ), name:'tribe_edit'
-
 Router.route '/t/:tribe_slug/edit', (->
     @layout 'tribe_edit_layout'
     @render 'tribe_edit_nav', {to:'sub_nav'}
@@ -23,33 +16,38 @@ Router.route '/t/:tribe_slug/dashboard', (->
 
 Router.route '/t/:tribe_slug/blog', (->
     @layout 'layout'
-    @render 'tribe_blog'
-    ), name:'tribe_blog'
+    @render 'blog'
+    ), name:'blog'
 
 Router.route '/t/:tribe_slug/events', (->
     @layout 'layout'
-    @render 'tribe_events'
-    ), name:'tribe_events'
+    @render 'events'
+    ), name:'events'
 
 Router.route '/t/:tribe_slug/mail', (->
     @layout 'layout'
-    @render 'tribe_mail'
-    ), name:'tribe_mail'
+    @render 'mail'
+    ), name:'mail'
 
 Router.route '/t/:tribe_slug/tasks', (->
     @layout 'layout'
-    @render 'tribe_tasks'
-    ), name:'tribe_tasks'
+    @render 'tasks'
+    ), name:'tasks'
 
 Router.route '/t/:tribe_slug/chat', (->
     @layout 'layout'
-    @render 'tribe_chat'
-    ), name:'tribe_chat'
+    @render 'chat'
+    ), name:'chat'
+
+Router.route '/t/:tribe_slug/shop', (->
+    @layout 'layout'
+    @render 'shop'
+    ), name:'shop'
 
 Router.route '/t/:tribe_slug/gallery', (->
     @layout 'layout'
-    @render 'tribe_gallery'
-    ), name:'tribe_gallery'
+    @render 'gallery'
+    ), name:'gallery'
 
 
 
@@ -61,7 +59,7 @@ if Meteor.isClient
     Template.tribe_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.tribe_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'tribe_by_slug', Router.current().params.tribe_slug
 
     Template.tribes.helpers
         tribe_stats_doc: ->
@@ -93,6 +91,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'tribe_by_slug', (tribe_slug)->
+        Docs.find
+            model:'tribe'
+            slug:tribe_slug
     Meteor.methods
         calculate_tribe_stats: ->
             tribe_stat_doc = Docs.findOne(model:'tribe_stats')

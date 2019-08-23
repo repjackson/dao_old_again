@@ -9,7 +9,6 @@ $.cloudinary.config
 # Router.notFound =
     # action: 'not_found'
 
-Meteor.subscribe 'model_docs', 'tribe'
 # Meteor.startup ->
 #     if Meteor.isClient
 #         #This code is needed to detect if there is a subdomain. So the system wants to know the routes of the subdomain
@@ -78,6 +77,10 @@ Template.registerHelper 'current_tribe', () ->
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
 Session.setDefault 'invert', false
+Template.registerHelper 'tribe_by_slug', () ->
+    Docs.findOne
+        model:'tribe'
+        slug:Router.current().params.tribe_slug
 Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''

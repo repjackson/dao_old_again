@@ -1,4 +1,4 @@
-Router.route '/tasks', -> @render 'tasks'
+# Router.route '/tasks', -> @render 'tasks'
 Router.route '/tasks/boards/', -> @render 'task_boards'
 Router.route '/board/:doc_id', -> @render 'board_view'
 Router.route '/task/:doc_id/view', -> @render 'task_view'

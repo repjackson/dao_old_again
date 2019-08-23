@@ -11,7 +11,10 @@ template(name='nav')
                         if current_tribe.image_id
                             img.ui.avatar.image(src="{{c.url current_tribe.image_id width=100 height=100 gravity='face' crop='fill'}}")
                     .mobile.hidden.inline #{current_tribe.title}
-            if is_admin
+            else 
+                .icon.item
+                    |dao
+            if is_dev
                 a.item.pointer.set_models(href='/m/model' class="{{isActivePath '/m/model'}}")
                     +i name='active-directory' classes='ui avatar image pointer'
             //- a.icon.item.pointer(href='/home' class="{{isActivePath '/home'}}")
