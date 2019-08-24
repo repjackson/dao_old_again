@@ -33,9 +33,9 @@ template(name='nav')
                     +i name='fire' classes='ui avatar image pointer'
                 .item.pointer.toggle_model_nav(title='toggle model nav')
                     +i name='chevron-down' classes='ui avatar image pointer'
-                a.item.pointer(href="/t/#{current_tribe.slug}/edit" title='tribes')
+                a.item.pointer(href="/t/#{current_tribe.slug}/edit" title='edit')
                     +i name='edit' classes='ui avatar image pointer'
-                a.item.pointer(href="/t/#{current_tribe.slug}/dashboard" title='tribe dashboard')
+                a.item.pointer(href="/t/#{current_tribe.slug}/admin/dashboard" title='tribe dashboard')
                     +i name='dashboard' classes='ui avatar image pointer'
                 if is_dev
                     a.icon.item.pointer(href='/dev' class="{{isActivePath '/dev'}}" title='dev')

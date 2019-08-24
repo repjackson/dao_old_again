@@ -7,14 +7,14 @@ template(name='admin')
 template(name='user_table')
     a#add_user.ui.basic.button(href='/user/add')
         i.plus.icon
-        |Add User
+        |add user
     table.ui.sortable.striped.table
         thead
             tr
-                th Image
-                th Profile
-                th Roles
-                th Actions
+                th image
+                th profile
+                th roles
+                th actions
         tbody
             each users
                 tr
@@ -45,3 +45,13 @@ template(name='user_role_toggle')
         .remove_role.ui.grey.button #{role}
     else
         .add_role.ui.basic.button #{role}
+
+
+template(name='admin_contacts')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header admin contacts
+        
+    
+    

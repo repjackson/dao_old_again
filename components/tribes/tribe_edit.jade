@@ -7,26 +7,39 @@ template(name='tribe_edit_layout')
 
 
 template(name='tribe_edit_nav')
-    .ui.attached.menu
-        a.item(href="/admin/dashboard") Dashboard
-        a.item(href="/admin/contacts") Contacts
-        a.item(href="/admin/website") Website
-        a.item(href="/admin/events") Events
-        a.item(href="/admin/members") Members
-        a.item(href="/admin/store") Store
-        a.item(href="/admin/donations") Donations
-        a.item(href="/admin/finances") Finances
-        a.item(href="/admin/email") Email
-        a.item(href="/admin/settings") Settings
+    .ui.attached.borderless.inverted.menu
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") dashboard
+        a.item(href="/t/#{current_tribe.slug}/admin/contacts" class="isActiveRoute regex='admin_contacts'") contacts
+        a.item(href="/t/#{current_tribe.slug}/admin/website" class="isActiveRoute regex='admin_website'") website
+        a.item(href="/t/#{current_tribe.slug}/admin/events" class="isActiveRoute regex='admin_events'") events
+        a.item(href="/t/#{current_tribe.slug}/admin/members" class="isActiveRoute regex='admin_members'") members
+        a.item(href="/t/#{current_tribe.slug}/admin/store" class="isActiveRoute regex='admin_store'") store
+        a.item(href="/t/#{current_tribe.slug}/admin/donations" class="isActiveRoute regex='admin_donations'") donations
+        a.item(href="/t/#{current_tribe.slug}/admin/finances" class="isActiveRoute regex='admin_finances'") finances
+        a.item(href="/t/#{current_tribe.slug}/admin/email" class="isActiveRoute regex='admin_emails'") email
+        a.item(href="/t/#{current_tribe.slug}/admin/settings" class="isActiveRoute regex='admin_settings'") settings
          
-template(name='t_e_dashboard_nav')
-    .ui.attached.menu
-        .item Overview
-        .item Account
-        .item Organization
-        .item Referrals
-        .item Getting started
+template(name='te_dashboard_nav')
+    .ui.attached.borderless.inverted.menu
+        .item overview
+        .item account
+        .item organization
+        .item referrals
+        .item getting started
           
+
+template(name='te_website_nav')
+    .ui.attached.borderless.inverted.menu
+        .item site pages
+        .item page templates
+        .item system pages
+        .item files
+        .item colors and styles
+        .item theme
+        .item css
+        .item theme overrides
+        .item trash
+                   
 
 template(name='tribe_edit')
     with tribe_by_slug

@@ -322,16 +322,17 @@ template(name='document_view')
     |!{referenced_document.content}
         
 template(name='text_edit')
-    .ui.inline.header
-        if icon
-            +i name=icon classes='ui avatar image'
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-            //- +clear_value
+    unless view_title
+        .ui.inline.header
+            if icon
+                +i name=icon classes='ui avatar image'
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+                //- +clear_value
     .ui.icon.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         

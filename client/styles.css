@@ -4,7 +4,7 @@ body {
     /* line-height: 200% !important; */
     /* filter: invert(100%) !important; */
     /* background: #3d3d3d !important; */
-    background: rgba(0, 0, 0, .06) !important
+    background: rgba(0, 0, 0, .08) !important
 }
 
 .button, .label {
@@ -228,7 +228,7 @@ body {
 }
 
 .glowing{
-    filter: drop-shadow(0px 0px 5px #fff);
+    filter: drop-shadow(0px 0px 3px #fff);
 }
 
 .dark.pointer:hover{

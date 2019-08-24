@@ -1,0 +1,13 @@
+template(name='admin_dashboard')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |admin dashboard
+                    .ui.header ##{views} views
+                    .ui.header contacts
+                    .ui.header events
+                    .ui.header longest time since last update
+                    

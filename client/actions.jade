@@ -32,22 +32,21 @@ template(name='notify')
 template(name='email_receipt')
     a.ui.circular.large.email_receipt.button(title='Email Receipt')
         i.send.icon
-        |Email Receipt
+        |email receipt
         
         
 template(name='view_section')
     // a.ui.icon.button(href="/schema/#{_id}/edit")
     //     i.pencil.icon
-    //     |Configure Schema
-    a.ui.view_section.circular.large.button(href="/s/#{slug}" title='Select Schema')
+    //     |configure schema
+    a.ui.view_section.circular.large.button(href="/s/#{slug}" title='select schema')
         i.sitemap.icon
-        |Go to Section
+        |go to section
         // +icolor name='back-sorting' classes='ui inline image'
         
         
 template(name='page_view')
     a.ui.circular.button(href="/p/#{slug}")
-        //- i.eye.icon
         +i name='visible' classes='ui inline image'
         | page view
         

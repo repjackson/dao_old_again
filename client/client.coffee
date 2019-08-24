@@ -78,9 +78,12 @@ Template.registerHelper 'current_tribe', () ->
 
 Session.setDefault 'invert', false
 Template.registerHelper 'tribe_by_slug', () ->
-    Docs.findOne
-        model:'tribe'
-        slug:Router.current().params.tribe_slug
+    if Router.current().params.doc_id
+        Docs.findOne Router.current().params.doc_id
+    else
+        Docs.findOne
+            model:'tribe'
+            slug:Router.current().params.tribe_slug
 Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''

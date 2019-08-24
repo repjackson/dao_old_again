@@ -1,6 +1,6 @@
 if Meteor.isClient
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter)
+        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Router.current().params.tribe_slug, Template.currentData().filter)
         @autorun -> Meteor.subscribe 'me'
 
 
@@ -62,19 +62,19 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'tags', (selected_tags, filter)->
+    Meteor.publish 'tags', (selected_tags, tribe_slug, model_filter)->
         # user = Meteor.users.finPdOne @userId
         # current_herd = user.profile.current_herd
 
         self = @
         match = {}
-
+        console.log 'tribe filter', tribe_slug
+        console.log 'model filter', model_filter
         # selected_tags.push current_herd
 
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if filter then match.model = filter
-        if filter and filter is 'shop'
-            match.active = true
+        if model_filter then match.model = model_filter
+        if tribe_slug then match.tribe_slug = tribe_slug
         cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
