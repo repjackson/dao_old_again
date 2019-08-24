@@ -1,11 +1,11 @@
 if Meteor.isClient
-    Template.home.onCreated ->
+    Template.tribe_models.onCreated ->
         # @autorun => Meteor.subscribe 'role_models', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'tribe_role_models', Router.current().params.tribe_slug
         # @autorun => Meteor.subscribe 'model_fields_from_child_id', Router.current().params.doc_id
         Session.set 'model_filter',null
 
-    Template.home.events
+    Template.tribe_models.events
         'click .set_model': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', @slug, ->
@@ -32,7 +32,7 @@ if Meteor.isClient
         'mouseleave .home_segment': (e,t)->
             t.$(e.currentTarget).closest('.home_segment').removeClass('raised')
 
-    Template.home.helpers
+    Template.tribe_models.helpers
         tribe_role_models: ->
             if Meteor.user()
                 tribe_slug = Router.current().params.current_tribe_slug

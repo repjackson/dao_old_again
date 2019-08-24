@@ -4,7 +4,7 @@ template(name='nav')
         //- .ui.attached.borderless.inverted.large.menu.topnav.grgold
         .ui.attached.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}")
             if current_tribe
-                a.header.item.pointer(href="/t/#{current_tribe.slug}/home" class="{{isActivePath '/home'}}")
+                a.header.item.pointer(href="/t/#{current_tribe.slug}/models" class="{{isActiveRoute 'tribe_models'}}")
                     if is_loading
                         i.big.loading.yin.yang.icon.glowing
                     else
@@ -13,7 +13,7 @@ template(name='nav')
                     .mobile.hidden.inline #{current_tribe.title}
             else 
                 .icon.item
-                    |dao
+                    i.home.icon
             if is_dev
                 a.item.pointer.set_models(href='/m/model' class="{{isActivePath '/m/model'}}")
                     +i name='active-directory' classes='ui avatar image pointer'

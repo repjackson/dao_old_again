@@ -1,7 +1,7 @@
 # Router.route '/tasks', -> @render 'tasks'
 Router.route '/t/:tribe_slug/blog/', -> @render 'blog_view'
-Router.route '/post/:doc_id/view', -> @render 'post_view'
-Router.route '/post/:doc_id/edit', -> @render 'post_edit'
+Router.route '/t/:tribe_slug/post/:doc_id/view', -> @render 'post_view'
+Router.route '/t/:tribe_slug/post/:doc_id/edit', -> @render 'post_edit'
 
 
 if Meteor.isClient
@@ -22,4 +22,4 @@ if Meteor.isClient
             new_id = Docs.insert
                 model:'post'
                 tribe_slug:Router.current().params.tribe_slug
-            Router.go "/post/#{new_id}/edit"
+            Router.go "/t/#{Router.current().params.tribe_slug}/post/#{new_id}/edit"

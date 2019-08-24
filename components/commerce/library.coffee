@@ -26,12 +26,3 @@ if Meteor.isClient
     Template.shop_item_page.helpers
         doc: ->
             Docs.findOne Router.current().params.doc_id
-
-
-
-    Template.events.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'event'
-    Template.events.helpers
-        event_items: ->
-            Docs.find
-                model:'event'

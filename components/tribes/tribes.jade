@@ -20,7 +20,7 @@ template(name='tribes')
                         img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='fill'}}")                
                         .ui.header 
                             |#{title}
-                        |#{description}
+                        |#{tagline}
                         if is_dev
                             +text_edit key='slug' direct=true
                             +edit_button

@@ -85,15 +85,15 @@ Router.route '/login', -> @render 'login'
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/home', -> @render 'home'
-Router.route '/t/:tribe_slug/home', (->
+Router.route '/t/:tribe_slug/models', (->
     @layout 'layout'
-    @render 'home'
-    ), name:'home'
+    @render 'tribe_models'
+    ), name:'tribe_models'
 
 
 Router.route '/', (->
     @layout 'layout'
-    @render 'home'
+    @render 'tribes'
     ), name:'root'
 
 

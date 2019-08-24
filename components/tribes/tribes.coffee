@@ -1,8 +1,8 @@
 if Meteor.isClient
     Template.tribes.onCreated ->
         # @autorun => Meteor.subscribe 'role_models', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'model_docs', 'tribe'
-        @autorun -> Meteor.subscribe('docs', selected_tags.array(), 'tribe')
+        @autorun => Meteor.subscribe 'model_docs', 'tribe'
+        # @autorun -> Meteor.subscribe('docs', selected_tags.array(), 'tribe')
 
         # @autorun => Meteor.subscribe 'model_fields_from_child_id', Router.current().params.doc_id
         Session.set 'tribe_filter',null

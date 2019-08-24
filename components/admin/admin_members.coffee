@@ -1,13 +1,13 @@
 if Meteor.isClient
-    Template.user_table.onCreated ->
+    Template.admin_members.onCreated ->
         @autorun ->  Meteor.subscribe 'users'
 
 
-    Template.user_table.helpers
+    Template.admin_members.helpers
         users: -> Meteor.users.find {}
 
 
-    Template.user_table.events
+    Template.admin_members.events
         'click #add_user': ->
 
     Template.user_role_toggle.helpers

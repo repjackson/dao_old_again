@@ -265,7 +265,7 @@ template(name='voting_full')
 
 
 template(name='view_button')
-    a.ui.icon.compact.basic.button.view(title='view' href="/m/#{model}/#{_id}/view")
+    a.ui.icon.compact.basic.button.view(title='view' href="/t/#{current_tribe.slug}/m/#{model}/#{_id}/view")
         //- i.right.chevron.large.icon
         +i name='chevron right' classes='ui mini inline image'
 
@@ -291,9 +291,9 @@ template(name='add_button')
 
 
 template(name='save_button')
-    a.ui.basic.button.large.icon.save(title='Save' href="/m/#{model}/#{_id}/view")
+    a.ui.basic.button.large.icon.save(title='Save' href="/t/#{current_tribe.slug}/m/#{model}/#{_id}/view")
         i.checkmark.green.icon
-        |Save
+        |save
 
 template(name='toggle_button')
     .ui.icon.toggle.basic.button(title=label)
@@ -335,76 +335,4 @@ template(name='email_validation_check')
         if is_staff
             .ui.button.toggle_email_verified
                 |mark email verified
-        
-        
-template(name='lease_expiration_check')
-    div
-    if expiration_date
-        +i name='clock' classes='ui avatar image'
-        |lease expiring 
-        |#{lease_expiring}
-        
-        
-template(name='rules_and_regs_check')
-    if is_staff
-        if rules_signed
-            a.ui.basic.button(href="/m/rules_regs_signing/#{rules_signed._id}/view" title='click to view/edit signing document')
-                i.signature.large.icon
-                |rules and regs signed 
-        else
-            .ui.red.basic.button
-                i.signature.large.icon
-                | rules+regs unsigned
-    //- else
-    //-     unless rules_signed
-    //-         .ui.large.red.basic.button.sign_rules
-    //-             i.signature.icon
-    //-             |click to sign rules and regulations
-        //- else if is_staff
-        //-     .ui.large.basic.button
-        //-         i.signature.icon
-        //-         |rules and regs signed 
-        
-        
-        
-template(name='member_guidelines_check')
-    if is_staff
-        if guidelines_signed
-            a.ui.basic.button(href="/m/sign_guidelines/#{guidelines_signed._id}/view" title='click to view/edit signing document')
-                i.signature.icon
-                |member guidelines signed 
-        else
-            .ui.red.basic.fluid.button
-                i.signature.icon
-                | member guidelines not signed
-    else
-        unless guidelines_signed
-            .ui.large.red.basic.fluid.button.sign_guidelines
-                i.signature.icon
-                | sign member guidelines
-    //-     else if is_staff
-    //-         .ui.large.basic.button
-    //-             i.signature.icon
-    //-             |rules and regs signed 
-                
-        
-template(name='resident_key_check')
-    //- unless key_on_file
-    //-     .ui.large.orange.basic.button
-    //-         i.ban.icon
-    //-         |key not on file 
-    //- else
-    .ui.large.basic.button
-        i.key.icon
-        |Key on File 
-        
-        
-template(name='guest_waiver_check')
-    unless waiver_signed
-        .ui.large.red.basic.button
-            i.signature.icon
-            |Guest Waiver Not Signed 
-        
-        
-            
         

@@ -1,13 +1,7 @@
-template(name='admin')
-    //- +models
-    +user_table
-
-
-
-template(name='user_table')
+template(name='admin_members')
     a#add_user.ui.basic.button(href='/user/add')
         i.plus.icon
-        |add user
+        |add member
     table.ui.sortable.striped.table
         thead
             tr
