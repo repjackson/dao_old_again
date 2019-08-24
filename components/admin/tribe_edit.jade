@@ -8,36 +8,33 @@ template(name='tribe_edit_layout')
 
 template(name='tribe_edit_nav')
     .ui.attached.borderless.inverted.small.menu.topnav
-        a.item(href="/t/#{current_tribe.slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") 
             +i name='dashboard' classes='ui avatar image'
             |dashboard
-        a.item(href="/t/#{current_tribe.slug}/admin/contacts" class="isActiveRoute regex='admin_contacts'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/contacts" class="isActiveRoute regex='admin_contacts'") 
             +i name='groups' classes='ui avatar image'
             |contacts
-        a.item(href="/t/#{current_tribe.slug}/admin/website" class="isActiveRoute regex='admin_website'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/website" class="isActiveRoute regex='admin_website'") 
             +i name='template' classes='ui avatar image'
             |website
-        a.item(href="/t/#{current_tribe.slug}/admin/events" class="isActiveRoute regex='admin_events'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/events" class="isActiveRoute regex='admin_events'") 
             +i name='calendar' classes='ui avatar image'
             |events
-        a.item(href="/t/#{current_tribe.slug}/admin/members" class="isActiveRoute regex='admin_members'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/members" class="isActiveRoute regex='admin_members'") 
             +i name='groups' classes='ui avatar image'
             |members
-        a.item(href="/t/#{current_tribe.slug}/admin/store" class="isActiveRoute regex='admin_store'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/store" class="isActiveRoute regex='admin_store'") 
             +i name='shop' classes='ui avatar image'
             |store
-        a.item(href="/t/#{current_tribe.slug}/admin/donations" class="isActiveRoute regex='admin_donations'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/donations" class="isActiveRoute regex='admin_donations'") 
             +i name='money' classes='ui avatar image'
             |donations
-        a.item(href="/t/#{current_tribe.slug}/admin/finances" class="isActiveRoute regex='admin_finances'") 
+        a.item(href="/t/#{current_tribe_slug}/admin/finance" class="isActiveRoute regex='admin_finances'") 
             +i name='money' classes='ui avatar image'
-            |finances
-        a.item(href="/t/#{current_tribe.slug}/admin/email" class="isActiveRoute regex='admin_emails'") 
+            |finance
+        a.item(href="/t/#{current_tribe_slug}/admin/emails/summary" class="isActiveRoute regex='admin_emails'") 
             +i name='envelope' classes='ui avatar image'
             |email
-        a.item(href="/t/#{current_tribe.slug}/admin/settings" class="isActiveRoute regex='admin_settings'") 
-            +i name='settings' classes='ui avatar image'
-            |settings
          
 
 template(name='tribe_edit')

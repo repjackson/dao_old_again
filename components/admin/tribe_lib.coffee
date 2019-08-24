@@ -17,11 +17,6 @@ Router.route '/tribe/:doc_id/edit', (->
     ), name:'tribe_edit'
 
 
-Router.route '/t/:tribe_slug/dashboard', (->
-    @layout 'layout'
-    @render 'tribe_dashboard'
-    ), name:'tribe_dashboard'
-
 Router.route '/t/:tribe_slug/blog', (->
     @layout 'layout'
     @render 'blog'

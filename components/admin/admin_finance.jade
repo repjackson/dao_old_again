@@ -1,45 +1,42 @@
-template(name='te_members_nav')
+template(name='te_finance_nav')
     .ui.attached.borderless.inverted.grey.tiny.menu.topnav
-        a.item(href="/t/#{current_tribe.slug}/admin/members/summary") 
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/summary") 
             +i name='dashboard' classes='ui avatar image'
             |summary
-        a.item(href="/t/#{current_tribe.slug}/admin/members/list") 
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/invoices") 
             +i name='list' classes='ui avatar image'
-            |list
-        a.item(href="/t/#{current_tribe.slug}/admin/members/saved_searches") 
+            |invoices
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/payments_refunds") 
             +i name='search' classes='ui avatar image'
-            |saved searches
-        a.item(href="/t/#{current_tribe.slug}/admin/members/levels") 
+            |payments & refunds
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/reports") 
             +i name='signal' classes='ui avatar image'
-            |levels
-        a.item(href="/t/#{current_tribe.slug}/admin/members/groups") 
+            |reports
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/audit_log") 
             +i name='groups' classes='ui avatar image'
-            |groups
-        a.item(href="/t/#{current_tribe.slug}/admin/members/membership_fields") 
+            |audit log
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/taxes") 
             +i name='user-female' classes='ui avatar image'
-            |membership fields
-        a.item(href="/t/#{current_tribe.slug}/admin/members/member_emails") 
+            |taxes
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/tenders") 
             +i name='envelope' classes='ui avatar image'
-            |member emails
-        a.item(href="/t/#{current_tribe.slug}/admin/members/card") 
+            |tenders
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/quickbooks") 
             +i name='id-card' classes='ui avatar image'
-            |card
-        a.item(href="/t/#{current_tribe.slug}/admin/members/polls") 
-            +i name='poll' classes='ui avatar image'
-            |polls
-        a.item(href="/t/#{current_tribe.slug}/admin/members/other_settings") 
+            |quickbooks
+        a.item(href="/t/#{current_tribe.slug}/admin/finance/finance_settings") 
             +i name='settings' classes='ui avatar image'
-            |other settings
+            |invoice and receipt settings
      
 
-template(name='admin_members_summary')
+template(name='admin_finance_summary')
     .ui.padded.stackable.grid
         .sixteen.wide.column
             .ui.header 
                 +i name='dashboard'
                 |summary
 
-template(name='admin_members')
+template(name='admin_finance')
     a#add_user.ui.basic.button(href='/user/add')
         i.plus.icon
         |add member
@@ -75,45 +72,32 @@ template(name='admin_members')
                             i.chevron.right.icon
                         
 
-template(name='user_role_toggle')
-    if is_in_role
-        .remove_role.ui.grey.button #{role}
-    else
-        .add_role.ui.basic.button #{role}
-
-
-template(name='admin_contacts')
+template(name='admin_finance_invoices')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-        .ui.header admin contacts
+        .ui.header admin_finance_invoices
+template(name='admin_finance_taxes')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header admin_finance_taxes
+template(name='admin_finance_payments_refunds')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header admin_finance_payments_refunds
         
-    
-    
-template(name='admin_members_other_settings')
+        
+template(name='admin_finance_reports')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-        .ui.header members other settings
-template(name='admin_members_list')
-    .ui.stackable.padded.grid
-        .row
-            .sixteen.wide.column
-        .ui.header members list
-template(name='admin_members_saved_searches')
-    .ui.stackable.padded.grid
-        .row
-            .sixteen.wide.column
-        .ui.header members saved searches
-template(name='admin_members_levels')
-    .ui.stackable.padded.grid
-        .row
-            .sixteen.wide.column
-        .ui.header members levels
+        .ui.header admin_finance_reports
         
         
         
-template(name='admin_members_groups')
+template(name='admin_finance_audit_log')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
@@ -129,7 +113,7 @@ template(name='admin_members_groups')
                     .ui.pointer.segment.select_group
                         .ui.header #{title}
                         |#{description}   
-                        .ui.small.header #{member_usernames.length} members 
+                        .ui.small.header #{member_usernames.length} finance 
                         each member_usernames
                             .ui.basic.label #{this}    
             .eight.wide.column
@@ -142,30 +126,24 @@ template(name='admin_members_groups')
 
 
 
-
-
-
-
-
-
-
-template(name='admin_members_membership_fields')
+template(name='admin_finance_tenders')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-        .ui.header members membership fields
-template(name='admin_members_member_emails')
+        .ui.header admin_finance_tenders
+        
+        
+        
+template(name='admin_finance_quickbooks')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-        .ui.header member emails
-template(name='admin_members_card')
+        .ui.header admin_finance_quickbooks
+        
+        
+        
+template(name='admin_finance_finance_settings')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-        .ui.header member card
-template(name='admin_members_polls')
-    .ui.stackable.padded.grid
-        .row
-            .sixteen.wide.column
-        .ui.header member polls
+        .ui.header admin_finance_finance_settings

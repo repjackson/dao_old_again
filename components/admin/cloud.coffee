@@ -68,8 +68,8 @@ if Meteor.isServer
 
         self = @
         match = {}
-        console.log 'tribe filter', tribe_slug
-        console.log 'model filter', model_filter
+        # console.log 'tribe filter', tribe_slug
+        # console.log 'model filter', model_filter
         # selected_tags.push current_herd
 
         if selected_tags.length > 0 then match.tags = $all: selected_tags

@@ -1,0 +1,21 @@
+template(name='tribe_dashboard')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header
+                        +i name='dashboard' classes='ui avatar image'
+                        |#{title} tribe dashboard
+                    a.ui.big.icon.button(href="/tribe/#{_id}/edit")
+                        i.pencil.icon
+                    +voting_full
+                    +viewing
+                .twelve.wide.column 
+                    +text_view key='title' label='title' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    +html_view key='description' icon='content' label='description' direct=true
+                    +boolean_view key='complete' label='complete' direct=true
+                    +number_view key='estimated_minutes' label='estimated minutes' direct=true
+                    +multi_user_view key='assigned_to_multiple' label='assigned to' direct=true
+                    +multi_user_view key='related_people' label='related people' direct=true
+                    +comments

@@ -69,14 +69,16 @@ Template.registerHelper 'current_tribe', () ->
     # console.log Router.current().params.tribe_slug
     slug = Router.current().params.tribe_slug
     # console.log Meteor.user().current_tribe_slug
-    if slug
-        Docs.findOne
-            model:'tribe'
-            slug: slug
+    # if slug
+    Docs.findOne
+        model:'tribe'
+        slug: slug
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
 Session.setDefault 'invert', false
+Template.registerHelper 'current_tribe_slug', () ->
+    Router.current().params.tribe_slug
 Template.registerHelper 'tribe_by_slug', () ->
     if Router.current().params.doc_id
         Docs.findOne Router.current().params.doc_id
@@ -124,69 +126,10 @@ Template.registerHelper 'tribe_background', () ->
 
 
 Meteor.methods
-    submit_checkin: ->
-        Session.set 'adding_guest', false
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        # console.log @
-        resident = Meteor.users.findOne healthclub_session_document.user_id
-
-        # healthclub_session_document = Docs.findOne
-        #     model:'healthclub_session'
-        user = Meteor.users.findOne
-            username:resident.username
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        if healthclub_session_document.guest_ids.length > 0
-            # now = Date.now()
-            current_month = moment().format("MMM")
-            Meteor.users.update user._id,
-                $addToSet:
-                    total_guests:healthclub_session_document.guest_ids.length
-                    "#{current_month}_guests":healthclub_session_document.guest_ids.length
-        Docs.update healthclub_session_document._id,
-            $set:
-                # session_type:'healthclub_checkin'
-                submitted:true
-        Router.go "/healthclub"
-        $('body').toast({
-            title: "#{resident.first_name} #{resident.last_name} checked in"
-            class: 'success'
-            transition:
-                showMethod   : 'zoom',
-                showDuration : 250,
-                hideMethod   : 'fade',
-                hideDuration : 250
-        })
-
-
-
-
-Template.registerHelper 'resident_guests', () ->
-    Docs.find
-        _id:$in:@guest_ids
-
-Template.registerHelper 'is_springdale', () ->
-    console.log @
-    unit = Docs.findOne Router.current().params.unit_id
-    console.log unit
-    if unit.building_code is 'springdale' or 'sp' then true else false
-
-Template.registerHelper 'current_month_guests', () ->
-    # console.log @
-    current_month = moment().format("MMM")
-    @["#{current_month}_guests"]
-
 Template.registerHelper 'referenced_product', () ->
     Docs.findOne
         _id:@product_id
 
-
-Template.registerHelper 'resident_status_class', ()->
-    # console.log @
-    unless @rules_and_regs_signed
-        'red_flagged'
-    else unless @email_validated
-        'orange_flagged'
-    else ''
 
 Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'is_text', () ->
@@ -260,16 +203,9 @@ Template.registerHelper 'is_staff', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
         if 'staff' in Meteor.user().roles then true else false
-Template.registerHelper 'is_frontdesk', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'frontdesk' in Meteor.user().roles then true else false
 Template.registerHelper 'is_dev', () ->
     if Meteor.user() and Meteor.user().roles
         if 'dev' in Meteor.user().roles then true else false
-Template.registerHelper 'is_manager', () ->
-    if Meteor.user() and Meteor.user().roles
-        if 'manager' in Meteor.user().roles then true else false
 
 Template.registerHelper 'is_user', () ->
     if Meteor.user() and Meteor.user().roles

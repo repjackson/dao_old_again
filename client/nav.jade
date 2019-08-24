@@ -4,7 +4,7 @@ template(name='nav')
         //- .ui.attached.borderless.inverted.large.menu.topnav.grgold
         .ui.attached.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}")
             if current_tribe
-                a.header.item.pointer(href="/t/#{current_tribe.slug}/models" class="{{isActiveRoute 'tribe_models'}}")
+                a.header.item.pointer(href="/t/#{current_tribe_slug}/models" class="{{isActiveRoute 'tribe_models'}}")
                     if is_loading
                         i.big.loading.yin.yang.icon.glowing
                     else
@@ -31,40 +31,42 @@ template(name='nav')
             .right.menu
                 a.item.pointer(href='/tribes' class="{{isActivePath '/tribes'}}" title='tribes')
                     +i name='fire' classes='ui avatar image pointer'
-                .item.pointer.toggle_model_nav(title='toggle model nav')
-                    +i name='chevron-down' classes='ui avatar image pointer'
-                a.item.pointer(href="/t/#{current_tribe.slug}/edit" title='edit')
-                    +i name='edit' classes='ui avatar image pointer'
-                a.item.pointer(href="/t/#{current_tribe.slug}/admin/dashboard" title='tribe dashboard')
-                    +i name='dashboard' classes='ui avatar image pointer'
+                if currentUser
+                    .item.pointer.toggle_model_nav(title='toggle model nav')
+                        +i name='chevron-down' classes='ui avatar image pointer'
+                    a.item.pointer(href="/t/#{current_tribe_slug}/edit" title='edit')
+                        +i name='edit' classes='ui avatar image pointer'
+                if current_tribe
+                    a.item.pointer(href="/t/#{current_tribe_slug}/admin/dashboard" title='tribe dashboard')
+                        +i name='dashboard' classes='ui avatar image pointer'
                 if is_dev
                     a.icon.item.pointer(href='/dev' class="{{isActivePath '/dev'}}" title='dev')
                         +i name='code' classes='ui avatar image pointer'
                     //- a.icon.item.pointer.set_task(href='/m/task' class="{{isActivePath '/m/task'}}" title='tasks')
                     //- i.tasks.icon
                 if current_tribe.courses
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/courses" class="{{isActiveRoute regex='tribe_school'}}" title='school')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/courses" class="{{isActiveRoute regex='tribe_school'}}" title='school')
                         +i name='university' classes='ui avatar image pointer'
                 if current_tribe.blog
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/blog" class="{{isActiveRoute regex='tribe_blog'}}" title='blog')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/blog" class="{{isActiveRoute regex='tribe_blog'}}" title='blog')
                         +i name='blog' classes='ui avatar image pointer'
                 if current_tribe.gallery
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/gallery" class="{{isActiveRoute regex='tribe_gallery'}}" title='gallery')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/gallery" class="{{isActiveRoute regex='tribe_gallery'}}" title='gallery')
                         +i name='gallery' classes='ui avatar image pointer'
                 if current_tribe.events
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/events" class="{{isActiveRoute regex='tribe_events'}}" title='events')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/events" class="{{isActiveRoute regex='tribe_events'}}" title='events')
                         +i name='calendar' classes='ui avatar image pointer'
                 if current_tribe.tasks
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/shop" class="{{isActiveRoute regex='tribe_shop'}}" title='shop')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/shop" class="{{isActiveRoute regex='tribe_shop'}}" title='shop')
                         +i name='shop' classes='ui avatar image pointer'
                 if current_tribe.tasks
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/tasks" class="{{isActiveRoute regex='tribe_tasks'}}" title='tasks')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/tasks" class="{{isActiveRoute regex='tribe_tasks'}}" title='tasks')
                         +i name='tasks' classes='ui avatar image pointer'
                 if current_tribe.mail
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
                         +i name='inbox' classes='ui avatar image pointer'
                 if current_tribe.chat
-                    a.icon.item.pointer(href="/t/#{current_tribe.slug}/chat" class="{{isActiveRoute regex='tribe_chat'}}" title='chat')
+                    a.icon.item.pointer(href="/t/#{current_tribe_slug}/chat" class="{{isActiveRoute regex='tribe_chat'}}" title='chat')
                         +i name='chat' classes='ui avatar image pointer'
                 if currentUser
                     unless logging_out
@@ -89,11 +91,11 @@ template(name='nav')
         if currentUser.view_model_bar
             .ui.attached.small.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}")
                 each tribe_role_models
-                    a.item.pointer.set_model(href="/t/#{current_tribe.slug}/m/#{slug}/")
+                    a.item.pointer.set_model(href="/t/#{current_tribe_slug}/m/#{slug}/")
                         +i name=icon classes='ui avatar image pointer'
                         |#{title}
                 each tribe_pages
-                    a.item.pointer(href="/t/#{current_tribe.slug}/p/#{slug}/")
+                    a.item.pointer(href="/t/#{current_tribe_slug}/p/#{slug}/")
                         //- +i name=icon classes='ui avatar image pointer'
                         |#{title}
 

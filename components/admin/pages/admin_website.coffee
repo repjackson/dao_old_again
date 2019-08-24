@@ -116,11 +116,3 @@ if Meteor.isClient
             Session.set 'view_mode', 'edit'
         'click .set_configure_page': ->
             Session.set 'view_mode', 'configure'
-
-
-
-if Meteor.isServer
-    Meteor.publish 'tribe_docs', (tribe_slug, model)->
-        Docs.find
-            tribe_slug:tribe_slug
-            model:model

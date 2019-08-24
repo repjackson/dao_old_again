@@ -11,8 +11,53 @@ template(name='admin_dashboard')
                     .ui.header events
                     .ui.header longest time since last update
                     
+template(name='admin_dashboard_summary')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |dashboard_summary
+                    
+template(name='admin_dashboard_account')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |admin_dashboard_account
+                    
+template(name='admin_dashboard_organization')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |admin_dashboard_organization
+                    
+template(name='admin_dashboard_referrals')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |admin_dashboard_referrals
+                    
+template(name='admin_dashboard_getting_started')
+    with tribe_by_slug
+        .ui.stackable.padded.grid
+            .row
+                .sixteeen.wide.column
+                    .ui.header 
+                        +i name='dashboard'
+                        |admin_dashboard_getting_started
+                    
 template(name='te_dashboard_nav')
-    .ui.attached.borderless.inverted.small.menu
+    .ui.attached.borderless.inverted.small.grey.menu
         a.item(href="/t/#{current_tribe.slug}/admin/dashboard/summary")
             +i name='overview-pages-2' classes='ui avatar image'
             | overview

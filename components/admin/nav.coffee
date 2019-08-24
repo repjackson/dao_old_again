@@ -70,15 +70,16 @@ if Meteor.isClient
                 current_tribe = Docs.findOne Meteor.user().current_tribe_id
                 if current_tribe
                     "inverted #{current_tribe.nav_color}"
+        current_tribe_slug: () ->
+            Router.current().params.tribe_slug
+        current_tribe: ->
+            Docs.findOne
+                model:'tribe'
+                slug: Router.current().params.tribe_slug
 
         notifications: ->
             Docs.find
                 model:'notification'
-        # current_tribe: ->
-        #     if Meteor.user() and Meteor.user().current_tribe_id
-        #         Docs.findOne
-        #             model:'tribe'
-        #             _id:Meteor.user().current_tribe_id
 
         tribe_role_models: ->
             match = {}
@@ -141,12 +142,10 @@ if Meteor.isServer
                 model:'model'
                 bookmark_ids:$in:[Meteor.userId()]
 
-    Meteor.publish 'current_tribe', ->
-        if Meteor.userId()
-            if Meteor.user().current_tribe_id
-                Docs.find
-                    _id: Meteor.user().current_tribe_id
-
+    Meteor.publish 'current_tribe', (tribe_slug)->
+        Docs.find
+            model:'tribe'
+            slug: tribe_slug
     Meteor.publish 'tribe_pages', ->
         if Meteor.userId()
             if Meteor.user().current_tribe_slug

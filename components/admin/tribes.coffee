@@ -9,10 +9,11 @@ if Meteor.isClient
 
     Template.tribes.events
         'click .enter': ->
-            Meteor.users.update Meteor.userId(),
-                $set:
-                    current_tribe_id:@_id
-                    current_tribe_slug:@slug
+            if Meteor.user()
+                Meteor.users.update Meteor.userId(),
+                    $set:
+                        current_tribe_id:@_id
+                        current_tribe_slug:@slug
             Docs.update @_id,
                 $inc: views: 1
             Router.go "/t/#{@slug}/dashboard"

@@ -38,9 +38,8 @@ template(name='admin_website')
                 .ui.inline.header 
                     +i name='template'
                     |tribe website
-                .ui.button.add_page(title='add page')
+                .ui.icon.button.add_page(title='add page')
                     i.plus.icon
-                    |add page
                 .ui.vertical.fluid.large.menu
                     each pages
                         .item.pointer.set_page #{title}

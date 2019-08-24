@@ -10,13 +10,11 @@ force_loggedin =  ()->
     else
         @next()
 
-Router.onBeforeAction(force_loggedin, {
-  # only: ['admin']
-  # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
-  except: ['register', 'front','forgot_password','reset_password','delta','doc_view','verify-email','download_rules_pdf']
-});
-
-Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
+# Router.onBeforeAction(force_loggedin, {
+#   # only: ['admin']
+#   # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
+#   except: ['register', 'front','forgot_password','reset_password','delta','doc_view','tribe''verify-email','download_rules_pdf']
+# });
 
 # Router.route '/chat', -> @render 'view_chats'
 # Router.route '/inbox', -> @render 'inbox'

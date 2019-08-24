@@ -6,7 +6,7 @@ Router.route '/picture/:doc_id/edit', -> @render 'picture_edit'
 
 if Meteor.isClient
     Template.gallery.onCreated ->
-        # @autorun => Meteor.subscribe 'tribe_docs', Router.current().params.tribe_slug, 'picture'
+        @autorun => Meteor.subscribe 'tribe_by_slug', Router.current().params.tribe_slug
         @autorun => Meteor.subscribe 'docs', selected_tags.array(), Router.current().params.tribe_slug, 'picture'
 
     Template.picture_view.onCreated ->
