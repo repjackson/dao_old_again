@@ -1,0 +1,26 @@
+template(name='te_donations_nav')
+    .ui.attached.borderless.inverted.menu
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary") 
+            +i name='list' classes='ui avatar image'
+            | donations
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | donors
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | donation settings
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | donation receipt
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | donation confirmation email
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | settings
+                   
+
+
+template(name='admin_donations')
+    .ui.stackable.padded.grid
+        .ui.header admin donations

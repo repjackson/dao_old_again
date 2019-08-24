@@ -1,10 +1,10 @@
 if Meteor.isClient
-    Template.admin_website.onCreated ->
+    Template.admin_website_system_pages.onCreated ->
         @autorun => Meteor.subscribe 'tribe_docs', Router.current().params.tribe_slug, 'page'
     Template.tribe_page_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Session.get('current_page')
 
-    Template.admin_website.events
+    Template.admin_website_system_pages.events
         'click .add_page': ->
             Docs.insert
                 tribe_slug:Router.current().params.tribe_slug
@@ -13,7 +13,7 @@ if Meteor.isClient
             Session.set 'current_page', @_id
 
 
-    Template.admin_website.helpers
+    Template.admin_website_system_pages.helpers
         pages: ->
             Docs.find
                 tribe_slug:Router.current().params.tribe_slug

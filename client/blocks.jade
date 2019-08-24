@@ -232,12 +232,14 @@ template(name='user_list_toggle')
 template(name='voting')
     if points
         strong #{points}
-    .dark.pointer.upvote(class=upvote_class title='upvote')
-        +i name='facebook-like'
+    .ui.button
+        .dark.pointer.upvote(class=upvote_class title='upvote')
+            +i name='facebook-like'
     //- each upvoter_ids
     //-     +user_info
-    .dark.pointer.downvote(title='downvote' class=downvote_class)
-        +i name='thumbs-down'
+    .ui.button
+        .dark.pointer.downvote(title='downvote' class=downvote_class)
+            +i name='thumbs-down'
     //- each downvoter_ids
     //-     +user_info
 
@@ -247,12 +249,14 @@ template(name='voting_full')
     .ui.header voting
     if points
         strong #{points}
-    .dark.pointer.upvote(class=upvote_class title='upvote')
-        i.thumbs.up.icon
-        |like
-    .dark.pointer.downvote(title='downvote' class=downvote_class)
-        i.thumbs.down.icon
-        |dislike
+    .ui.button
+        .dark.pointer.upvote(class=upvote_class title='upvote')
+            i.thumbs.up.icon
+            |like
+    .ui.button
+        .dark.pointer.downvote(title='downvote' class=downvote_class)
+            i.thumbs.down.icon
+            |dislike
     if upvoter_ids
         .ui.small.header upvoters
         each upvoter_ids
@@ -265,8 +269,7 @@ template(name='voting_full')
 
 
 template(name='view_button')
-    a.ui.icon.compact.basic.button.view(title='view' href="/t/#{current_tribe.slug}/m/#{model}/#{_id}/view")
-        //- i.right.chevron.large.icon
+    a.ui.icon.compact.basic.button.view(title='view' href="/t/#{current_tribe.slug}/#{model}/#{_id}/view")
         +i name='chevron right' classes='ui mini inline image'
 
 
@@ -282,12 +285,6 @@ template(name='add_button')
             |#{label}
         //- |#{model}
 
-
-
-//- template(name='edit_button')
-//-     a.ui.basic.button.icon.edit(title='Edit' href="/m/#{model}/#{_id}/edit")
-//-         i.blue.pencil.icon
-//-         |Edit
 
 
 template(name='save_button')
@@ -335,4 +332,44 @@ template(name='email_validation_check')
         if is_staff
             .ui.button.toggle_email_verified
                 |mark email verified
+        
+
+
+template(name='session_edit_button')
+    if currentUser
+        unless is_editing
+            .edit_this.ui.blue.small.button(title="Edit #{tags}" class=button_classes)
+                i.pencil.icon
+                |Edit
+        else
+            .save_doc.ui.green.button(class=button_classes)
+                i.check.icon
+                |Save
+
+
+template(name='detect')
+    .ui.icon.big.circular.button.detect_fields(title='detect fields')
+        i.dna.icon
+        //- |Detect Fields
+
+template(name='clone')
+    .ui.icon.big.circular.button.clone_doc(title='clone_doc')
+        i.fork.icon
+
+
+template(name='session_edit_icon')
+    if currentUser
+        unless is_editing
+            .ui.inline.button.edit_this
+                i.blue.pencil.link.icon(title=tags class=button_classes)
+                |edit
+        else
+            .save_doc.ui.button(class=button_classes)
+                i.green.check.icon
+                |Save
+
+template(name='edit_button')
+    a.dark.pointer(href="/t/#{tribe_slug}/#{model}/#{_id}/edit" title='edit')
+        +i name='pencil' classes='ui inline mini image'
+        //- i.pencil.icon
         

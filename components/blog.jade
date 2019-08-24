@@ -1,12 +1,14 @@
 template(name='blog')
     .ui.stackable.padded.grid
         .sixteen.wide.column
-            .ui.header blog
+            .ui.inline.header 
+                +i name='blog'
+                |blog
+            .ui.button.add_post
+                i.plus.icon
+                | post
         .row
             .six.wide.column
-                .ui.button.add_post
-                    i.plus.icon
-                    | post
                 +cloud filter='post'
             .ten.wide.column
                 each posts
@@ -19,9 +21,10 @@ template(name='post')
         |!{content}
         each tags
             .ui.basic.label #{this}
-        +edit_button
-        +view_button
-
+        a.ui.icon.button(href="/t/#{tribe_slug}/post/#{_id}/edit")
+            i.pencil.icon
+        a.ui.icon.button(href="/t/#{tribe_slug}/post/#{_id}/view")
+            i.right.chevron.icon
 
 
 
@@ -35,13 +38,13 @@ template(name='post_edit')
                     .ui.header 
                         i.pencil.icon
                         |edit post
-                    a.ui.big.icon.fluid.button(href="/post/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/t/#{tribe_slug}/post/#{_id}/view" title='save')
                         i.green.checkmark.icon
                     +remove_button
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                 .twelve.wide.column 
                     +text_edit key='title' label='title' icon='title' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
+                    +html_edit key='content' label='content' icon='content' direct=true
                     +boolean_edit key='published' label='published' icon='checkmark' direct=true
                      
                      
@@ -51,7 +54,7 @@ template(name='post_view')
             .row
                 .four.wide.column 
                     a.ui.fluid.button(href="/t/#{tribe_slug}/blog")
-                        +i name='posts' classes='ui avatar image'
+                        +i name='blog' classes='ui avatar image'
                         |posts
                     .ui.header view post
                     a.ui.big.icon.button(href="/post/#{_id}/edit")
@@ -61,6 +64,7 @@ template(name='post_view')
                 .twelve.wide.column 
                     +text_view key='title' label='title' direct=true
                     +array_view key='tags' label='tags' icon='tags' direct=true
-                    +html_view key='description' icon='content' label='description' direct=true
+                    .ui.segment
+                        +html_view key='description' icon='content' label='description' direct=true
                     +boolean_view key='published' label='published' direct=true
                     +comments

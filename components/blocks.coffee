@@ -263,37 +263,6 @@ if Meteor.isClient
 
 
 
-    Template.lease_expiration_check.helpers
-        lease_expiring: ->
-            if @expiration_date
-                # console.log @expiration_date
-                today = moment(Date.now())
-                expiration_moment = moment(@expiration_date)
-                # diff = today-@expiration_date
-                # console.log diff
-                # console.log moment(@expiration_date).subtract(30, 'd').calendar()
-                # console.log moment(@expiration_date).fromNow()
-                # console.log moment(@expiration_date).calendar()
-                expiration_moment.from(today)
-                # date1_ms = @expiration_date.getTime()
-                # date2_ms = today.getTime()
-                #
-                # # // Calculate the difference in milliseconds
-                # difference_ms = Math.abs(date1_ms - date2_ms)
-                #
-                # # // Convert back to days and return
-                # console.log Math.round(difference_ms/ONE_DAY)
-
-
-                # minute_difference = diff/1000/60
-                # if minute_difference>60
-                    # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
-
-
-
-
-
-
 
     Template.email_validation_check.events
         'click .send_verification': ->
@@ -341,18 +310,6 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'rules_signed_username', (username)->
-        Docs.find
-            model:'rules_and_regs_signing'
-            resident:username
-            # agree:true
-
-    Meteor.publish 'member_guidelines_username', (username)->
-        Docs.find
-            model:'member_guidelines_signing'
-            # resident:username
-            # agree:true
-
     Meteor.publish 'guests', ()->
         Meteor.users.find
             roles:$in:['guest']

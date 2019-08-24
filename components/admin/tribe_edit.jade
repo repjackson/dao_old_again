@@ -7,39 +7,38 @@ template(name='tribe_edit_layout')
 
 
 template(name='tribe_edit_nav')
-    .ui.attached.borderless.inverted.menu
-        a.item(href="/t/#{current_tribe.slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") dashboard
-        a.item(href="/t/#{current_tribe.slug}/admin/contacts" class="isActiveRoute regex='admin_contacts'") contacts
-        a.item(href="/t/#{current_tribe.slug}/admin/website" class="isActiveRoute regex='admin_website'") website
-        a.item(href="/t/#{current_tribe.slug}/admin/events" class="isActiveRoute regex='admin_events'") events
-        a.item(href="/t/#{current_tribe.slug}/admin/members" class="isActiveRoute regex='admin_members'") members
-        a.item(href="/t/#{current_tribe.slug}/admin/store" class="isActiveRoute regex='admin_store'") store
-        a.item(href="/t/#{current_tribe.slug}/admin/donations" class="isActiveRoute regex='admin_donations'") donations
-        a.item(href="/t/#{current_tribe.slug}/admin/finances" class="isActiveRoute regex='admin_finances'") finances
-        a.item(href="/t/#{current_tribe.slug}/admin/email" class="isActiveRoute regex='admin_emails'") email
-        a.item(href="/t/#{current_tribe.slug}/admin/settings" class="isActiveRoute regex='admin_settings'") settings
+    .ui.attached.borderless.inverted.small.menu.topnav
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") 
+            +i name='dashboard' classes='ui avatar image'
+            |dashboard
+        a.item(href="/t/#{current_tribe.slug}/admin/contacts" class="isActiveRoute regex='admin_contacts'") 
+            +i name='groups' classes='ui avatar image'
+            |contacts
+        a.item(href="/t/#{current_tribe.slug}/admin/website" class="isActiveRoute regex='admin_website'") 
+            +i name='template' classes='ui avatar image'
+            |website
+        a.item(href="/t/#{current_tribe.slug}/admin/events" class="isActiveRoute regex='admin_events'") 
+            +i name='calendar' classes='ui avatar image'
+            |events
+        a.item(href="/t/#{current_tribe.slug}/admin/members" class="isActiveRoute regex='admin_members'") 
+            +i name='groups' classes='ui avatar image'
+            |members
+        a.item(href="/t/#{current_tribe.slug}/admin/store" class="isActiveRoute regex='admin_store'") 
+            +i name='shop' classes='ui avatar image'
+            |store
+        a.item(href="/t/#{current_tribe.slug}/admin/donations" class="isActiveRoute regex='admin_donations'") 
+            +i name='money' classes='ui avatar image'
+            |donations
+        a.item(href="/t/#{current_tribe.slug}/admin/finances" class="isActiveRoute regex='admin_finances'") 
+            +i name='money' classes='ui avatar image'
+            |finances
+        a.item(href="/t/#{current_tribe.slug}/admin/email" class="isActiveRoute regex='admin_emails'") 
+            +i name='envelope' classes='ui avatar image'
+            |email
+        a.item(href="/t/#{current_tribe.slug}/admin/settings" class="isActiveRoute regex='admin_settings'") 
+            +i name='settings' classes='ui avatar image'
+            |settings
          
-template(name='te_dashboard_nav')
-    .ui.attached.borderless.inverted.menu
-        .item overview
-        .item account
-        .item organization
-        .item referrals
-        .item getting started
-          
-
-template(name='te_website_nav')
-    .ui.attached.borderless.inverted.menu
-        .item site pages
-        .item page templates
-        .item system pages
-        .item files
-        .item colors and styles
-        .item theme
-        .item css
-        .item theme overrides
-        .item trash
-                   
 
 template(name='tribe_edit')
     with tribe_by_slug

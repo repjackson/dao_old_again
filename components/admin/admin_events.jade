@@ -1,3 +1,16 @@
+template(name='te_events_nav')
+    .ui.attached.borderless.inverted.menu
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary") 
+            +i name='list' classes='ui avatar image'
+            | event list
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary")
+            +i name='envelope' classes='ui avatar image'
+            | event emails
+                   
+
+
+
+
 template(name='admin_events')
     .ui.stackable.padded.grid
         .ui.header admin events

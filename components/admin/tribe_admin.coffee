@@ -13,13 +13,6 @@ if Meteor.isClient
         @render 'admin_dashboard'
         ), name:'admin_dashboard'
 
-    Router.route '/t/:tribe_slug/admin/website', (->
-        @layout 'tribe_edit_layout'
-        @render 'tribe_edit_nav', {to:'sub_nav'}
-        @render 'te_website_nav', {to:'sub_sub_nav'}
-        @render 'admin_website'
-        ), name:'admin_website'
-
 
     Template.admin_contacts.onCreated ->
         @autorun => Meteor.subscribe 'tribe_contacts', 'stat'

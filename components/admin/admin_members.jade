@@ -1,3 +1,38 @@
+template(name='te_members_nav')
+    .ui.attached.borderless.inverted.grey.tiny.menu.topnav
+        a.item(href="/t/#{current_tribe.slug}/admin/members/summary") 
+            +i name='dashboard' classes='ui avatar image'
+            |summary
+        a.item(href="/t/#{current_tribe.slug}/admin/members/list") 
+            +i name='list' classes='ui avatar image'
+            |list
+        a.item(href="/t/#{current_tribe.slug}/admin/members/saved_searches") 
+            +i name='search' classes='ui avatar image'
+            |saved searches
+        a.item(href="/t/#{current_tribe.slug}/admin/members/levels") 
+            +i name='signal' classes='ui avatar image'
+            |levels
+        a.item(href="/t/#{current_tribe.slug}/admin/members/groups") 
+            +i name='groups' classes='ui avatar image'
+            |groups
+        a.item(href="/t/#{current_tribe.slug}/admin/members/membership_fields") 
+            +i name='user-female' classes='ui avatar image'
+            |membership fields
+        a.item(href="/t/#{current_tribe.slug}/admin/members/member_emails") 
+            +i name='envelope' classes='ui avatar image'
+            |member emails
+        a.item(href="/t/#{current_tribe.slug}/admin/members/card") 
+            +i name='id-card' classes='ui avatar image'
+            |card
+        a.item(href="/t/#{current_tribe.slug}/admin/members/polls") 
+            +i name='poll' classes='ui avatar image'
+            |polls
+        a.item(href="/t/#{current_tribe.slug}/admin/members/other_settings") 
+            +i name='settings' classes='ui avatar image'
+            |other settings
+     
+
+
 template(name='admin_members')
     a#add_user.ui.basic.button(href='/user/add')
         i.plus.icon
@@ -49,3 +84,48 @@ template(name='admin_contacts')
         
     
     
+template(name='admin_members_other_settings')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members other settings
+template(name='admin_members_list')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members list
+template(name='admin_members_saved_searches')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members saved searches
+template(name='admin_members_levels')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members levels
+template(name='admin_members_groups')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members groups
+template(name='admin_members_membership_fields')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header members membership fields
+template(name='admin_members_member_emails')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header member emails
+template(name='admin_members_card')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header member card
+template(name='admin_members_polls')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+        .ui.header member polls

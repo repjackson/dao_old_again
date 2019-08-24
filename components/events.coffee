@@ -19,7 +19,8 @@ if Meteor.isClient
                 model:'event'
     Template.events.events
         'click .add_event': ->
+            tribe_slug = Router.current().params.tribe_slug
             new_id = Docs.insert
                 model:'event'
-                tribe_slug:Router.current().params.tribe_slug
-            Router.go "/event/#{new_id}/edit"
+                tribe_slug:tribe_slug
+            Router.go "/t/#{tribe_slug}/event/#{new_id}/edit"

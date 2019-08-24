@@ -11,3 +11,21 @@ template(name='admin_dashboard')
                     .ui.header events
                     .ui.header longest time since last update
                     
+template(name='te_dashboard_nav')
+    .ui.attached.borderless.inverted.small.menu
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard/summary")
+            +i name='overview-pages-2' classes='ui avatar image'
+            | overview
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard/account")
+            +i name='account' classes='ui avatar image'
+            | account
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard/organization")
+            +i name='building' classes='ui avatar image'
+            | organization
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard/referrals")
+            +i name='alert' classes='ui avatar image'
+            | referrals
+        a.item(href="/t/#{current_tribe.slug}/admin/dashboard/getting_started")
+            +i name='clock' classes='ui avatar image'
+            | getting started
+          

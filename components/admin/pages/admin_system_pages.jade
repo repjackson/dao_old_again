@@ -1,0 +1,23 @@
+template(name='admin_website_system_pages')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.inline.header 
+                    +i name='system-information'
+                    |system pages
+                .ui.button.add_page(title='add page')
+                    i.plus.icon
+                    |add page
+                .ui.vertical.fluid.large.menu
+                    each pages
+                        .item.pointer.set_page #{title}
+                            if home
+                                i.home.icon
+                .ui.small.header System pages
+                .ui.small.header System pages are pages that perform routine functions, such as displaying messages or requesting information.
+                .ui.small.header You can customize system pages by adding or removing text, layouts, and gadgets.
+                .ui.small.header Each system page has a required gadget that you cannot remove.
+                .ui.small.header To view or edit a system page, click it within the list.
+                                                     
+            .twelve.wide.column
+                +tribe_page_view slug=slug
