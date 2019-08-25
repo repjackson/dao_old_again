@@ -18,7 +18,6 @@ Router.configure
 Docs.before.insert (userId, doc)->
     timestamp = Date.now()
     doc._author_id = Meteor.userId()
-    doc.tribe_slug = Meteor.user().current_tribe_slug
     doc._author_username = Meteor.user().username
     doc._timestamp = timestamp
     doc._timestamp_long = moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a")

@@ -26,11 +26,11 @@ Meteor.methods
 
 
 if Meteor.isClient
-    Template.view_chats.onCreated ->
+    Template.chat.onCreated ->
         # @autorun -> Meteor.subscribe('chats', selected_theme_tags.array(), selected_participant_ids.array())
         @view_published = new ReactiveVar(true)
 
-    Template.view_chats.helpers
+    Template.chat.helpers
         chats: ->
             if Template.instance().view_published.get() is true
                 Docs.find {
@@ -69,7 +69,7 @@ if Meteor.isClient
 
 
 
-    Template.view_chats.events
+    Template.chat.events
         'click #create_chat': ->
             Meteor.call 'create_chat', (err,id)->
                 Session.set 'current_chat_id', id
