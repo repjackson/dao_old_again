@@ -81,19 +81,3 @@ if Meteor.isServer
         Docs.find
             model:'tribe'
             slug:tribe_slug
-    Meteor.methods
-        calculate_tribe_stats: ->
-            tribe_stat_doc = Docs.findOne(model:'tribe_stats')
-            unless tribe_stat_doc
-                new_id = Docs.insert
-                    model:'tribe_stats'
-                tribe_stat_doc = Docs.findOne(model:'tribe_stats')
-            console.log tribe_stat_doc
-            total_count = Docs.find(model:'tribe').count()
-            complete_count = Docs.find(model:'tribe', complete:true).count()
-            incomplete_count = Docs.find(model:'tribe', complete:false).count()
-            Docs.update tribe_stat_doc._id,
-                $set:
-                    total_count:total_count
-                    complete_count:complete_count
-                    incomplete_count:incomplete_count

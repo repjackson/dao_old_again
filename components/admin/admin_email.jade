@@ -1,5 +1,5 @@
 template(name='te_emails_nav')
-    .ui.attached.borderless.inverted.grey.tiny.menu.topnav
+    .ui.attached.borderless.inverted.tiny.menu.topnav(style="background:#{current_tribe.nav_color}80")
         a.item(href="/t/#{current_tribe.slug}/admin/emails/summary") 
             +i name='dashboard' classes='ui avatar image'
             |summary

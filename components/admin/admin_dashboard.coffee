@@ -43,6 +43,7 @@ if Meteor.isClient
 
     Template.admin_dashboard.onCreated ->
         @autorun => Meteor.subscribe 'tribe_docs', Router.current().params.tribe_slug, 'donation'
+        @autorun => Meteor.subscribe 'tribe_stats_doc', Router.current().params.tribe_slug
 
     Template.admin_dashboard.events
         'click .add_donation': ->
@@ -52,12 +53,19 @@ if Meteor.isClient
         'click .set_donation': ->
             Session.set 'current_donation', @_id
 
+        'click .calculate_tribe_stats': ->
+            Meteor.call 'calculate_tribe_stats', Router.current().params.tribe_slug
+
 
     Template.admin_dashboard.helpers
         dashboard: ->
             Docs.find
                 tribe_slug:Router.current().params.tribe_slug
                 model:'donation'
+
+        tribe_stats_doc: ->
+            Docs.findOne
+                model:'tribe_stats'
 
         donation_menu_item_class: ->
             console.log @_id
@@ -66,3 +74,78 @@ if Meteor.isClient
                 console.log 'this is active'
                 return 'active'
             else ''
+
+
+if Meteor.isServer
+    Meteor.publish 'tribe_stats_doc', (tribe_slug)->
+        Docs.find(
+            model:'tribe_stats'
+            tribe_slug:tribe_slug
+            )
+
+
+    Meteor.methods
+        calculate_tribe_stats: (tribe_slug)->
+            tribe_doc =
+                Docs.findOne
+                    model:'tribe'
+                    slug:tribe_slug
+            tribe_stat_doc = Docs.findOne(
+                model:'tribe_stats'
+                tribe_slug:tribe_slug
+                )
+            unless tribe_stat_doc
+                new_id = Docs.insert
+                    model:'tribe_stats'
+                    tribe_slug:tribe_slug
+                tribe_stat_doc = Docs.findOne(
+                    model:'tribe_stats'
+                    tribe_slug:tribe_slug
+                    )
+            console.log tribe_stat_doc
+            post_count = Docs.find(
+                model:'post'
+                tribe_slug:tribe_slug
+                ).count()
+            event_count = Docs.find(
+                model:'event'
+                tribe_slug:tribe_slug
+                ).count()
+            products_count = Docs.find(
+                model:'product'
+                tribe_slug:tribe_slug
+                ).count()
+            task_count = Docs.find(
+                model:'task'
+                tribe_slug:tribe_slug
+                ).count()
+            page_count = Docs.find(
+                model:'page'
+                tribe_slug:tribe_slug
+                ).count()
+            model_count = Docs.find(
+                model:'page'
+                tribe_slug:tribe_slug
+                ).count()
+            doc_count = Docs.find(
+                tribe_slug:tribe_slug
+                ).count()
+            course_count = Docs.find(
+                model:'course'
+                tribe_slug:tribe_slug
+                ).count()
+            chat_count = Docs.find(
+                model:'chat'
+                tribe_slug:tribe_slug
+                ).count()
+            Docs.update tribe_doc._id,
+                $set:
+                    post_count:post_count
+                    event_count:event_count
+                    task_count:task_count
+                    page_count:page_count
+                    model_count:model_count
+                    course_count:course_count
+                    chat_count:chat_count
+                    products_count:products_count
+                    doc_count:doc_count

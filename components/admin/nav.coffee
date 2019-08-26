@@ -73,9 +73,10 @@ if Meteor.isClient
         current_tribe_slug: () ->
             Router.current().params.tribe_slug
         current_tribe: ->
-            Docs.findOne
-                model:'tribe'
-                slug: Router.current().params.tribe_slug
+            if Router.current().params.tribe_slug
+                Docs.findOne
+                    model:'tribe'
+                    slug: Router.current().params.tribe_slug
 
         notifications: ->
             Docs.find

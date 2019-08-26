@@ -42,9 +42,11 @@ template(name='admin_website')
                     i.plus.icon
                 .ui.vertical.fluid.large.menu
                     each pages
-                        .item.pointer.set_page #{title}
+                        .item.pointer.set_page(class=page_menu_item_class) #{title}
                             if home
-                                i.home.icon
+                                i.home.icon(title='homepage')
+                            if in_nav
+                                i.list.icon(title='in navigation')
             .twelve.wide.column
                 +tribe_page_view slug=slug
 
@@ -66,9 +68,14 @@ template(name='tribe_page_view')
             +text_view key='title' label='title' direct=true
             +html_view key='content' label='content' direct=true
             +boolean_view key='home' label='home' direct=true
+            +array_view key='tags' label='tags' direct=true
         else if editing
             +text_edit key='title' label='title' direct=true
+            +slug_edit key='slug' label='slug' direct=true
+            +text_edit key='subtitle' label='subtitle' direct=true
             +html_edit key='content' label='content' direct=true
+            +array_edit key='tags' label='tags' direct=true            
+            +boolean_edit key='in_nav' label='in top navigation' direct=true
             +boolean_edit key='home' label='home' direct=true
         else if configuring
             .ui.header 

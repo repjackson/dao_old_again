@@ -1,13 +1,15 @@
 template(name='tribe_edit_layout')
+    img.ui.fluid.image.checkin_banner(src="{{c.url tribe_background width=1000 height=1000 crop='crop'}}")
     +nav
-    +yield 'sub_nav'
-    +yield 'sub_sub_nav'
-    +yield
-    +footer 
+    .global_container
+        +yield 'sub_nav'
+        +yield 'sub_sub_nav'
+        +yield
+        +footer 
 
 
 template(name='tribe_edit_nav')
-    .ui.attached.borderless.inverted.small.menu.topnav
+    .ui.attached.borderless.inverted.small.menu.topnav(style="background:#{current_tribe.nav_color}80")
         a.item(href="/t/#{current_tribe_slug}/admin/dashboard" class="isActiveRoute regex='admin_dashboard'") 
             +i name='dashboard' classes='ui avatar image'
             |dashboard
@@ -45,18 +47,21 @@ template(name='tribe_edit')
                     .ui.header 
                         i.pencil.icon
                         |edit '#{title}' tribe
-                    a.ui.big.icon.fluid.button(href="/tribe/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/t/#{slug}/dashboard" title='save')
                         i.green.large.checkmark.icon
                     +image_edit key='image_id' label='image' icon='image' direct=true
                     +image_edit key='background' label='background' icon='image' direct=true
                     +remove_button
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                .eight.wide.column 
+                .six.wide.column 
                     +text_edit key='title' label='title' icon='title' direct=true
                     +slug_edit key='slug' label='slug' icon='slug' direct=true
+                    +text_edit key='tagline' label='tagline' icon='signature' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
-                .four.wide.column 
-                    .ui.header features
+                .six.wide.column 
+                    .ui.header 
+                        +i name='tiles'
+                        |features
                     +boolean_edit key='chat' label='chat' icon='chat' direct=true
                     +boolean_edit key='mail' label='mail' icon='envelope' direct=true
                     +boolean_edit key='tasks' label='tasks' icon='tasks' direct=true
@@ -64,7 +69,9 @@ template(name='tribe_edit')
                     +boolean_edit key='blog' label='blog' icon='blog' direct=true
                     +boolean_edit key='shop' label='shop' icon='shop' direct=true
                     +boolean_edit key='events' label='events' icon='calendar' direct=true
-                    +boolean_edit key='gallery' label='gallery' icon='gallery' direct=true
                     .ui.header theming
                     +color_edit key='nav_color' label='color' direct=true
+                    +boolean_edit key='show_nav_title' label='show nav title' icon='title' direct=true
+                    div
+                    +text_edit key='icon_style' label='icon style' icon='content' direct=true
                      

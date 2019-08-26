@@ -1,5 +1,5 @@
 template(name='te_donations_nav')
-    .ui.attached.borderless.inverted.small.grey.menu
+    .ui.attached.borderless.inverted.small.menu(style="background:#{current_tribe.nav_color}80")
         a.item(href="/t/#{current_tribe.slug}/admin/donations") 
             +i name='list' classes='ui avatar image'
             | donations

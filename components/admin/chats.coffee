@@ -1,7 +1,7 @@
 Meteor.methods
-    create_chat: (tags=[])->
+    create_chat: (tribe_slug)->
         Docs.insert
-            tags: tags
+            tribe_slug:tribe_slug
             model: 'chat'
             subscribers: [Meteor.userId()]
             participant_ids: [Meteor.userId()]
@@ -71,7 +71,7 @@ if Meteor.isClient
 
     Template.chat.events
         'click #create_chat': ->
-            Meteor.call 'create_chat', (err,id)->
+            Meteor.call 'create_chat', Router.current().params.tribe_slug, (err,id)->
                 Session.set 'current_chat_id', id
 
         'click #create_dm': ->
@@ -80,12 +80,6 @@ if Meteor.isClient
 
                 # Router.go "/view/#{id}"
 
-
-    # 'click #create_chat': ->
-    #     id = Docs.insert
-    #         model: 'chat'
-    #         participant_ids: [Meteor.userId()]
-    #     Router.go "/chat/#{id}"
 
 
         'click #view_private_chats': (e,t)->

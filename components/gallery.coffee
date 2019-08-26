@@ -1,7 +1,7 @@
 # Router.route '/tasks', -> @render 'tasks'
 Router.route '/t/:tribe_slug/gallery/', -> @render 'gallery_view'
-Router.route '/picture/:doc_id/view', -> @render 'picture_view'
-Router.route '/picture/:doc_id/edit', -> @render 'picture_edit'
+Router.route '/t/:tribe_slug/picture/:doc_id/view', -> @render 'picture_view'
+Router.route '/t/:tribe_slug/picture/:doc_id/edit', -> @render 'picture_edit'
 
 
 if Meteor.isClient
@@ -19,7 +19,8 @@ if Meteor.isClient
                 model:'picture'
     Template.gallery.events
         'click .add_picture': ->
+            tribe_slug = Router.current().params.tribe_slug
             new_id = Docs.insert
                 model:'picture'
-                tribe_slug:Router.current().params.tribe_slug
-            Router.go "/picture/#{new_id}/edit"
+                tribe_slug:tribe_slug
+            Router.go "/t/#{tribe_slug}/picture/#{new_id}/edit"

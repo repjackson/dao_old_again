@@ -3,19 +3,19 @@ template(name='delta')
         .ui.stackable.padded.grid
             .row
                 .six.wide.column.scrolling
-                    +i name=icon classes='ui avatar image dark pointer inline'
+                    +i name=icon classes='ui avatar image pointer inline'
                     .ui.inline.header
                         | #{title}
                     unless is_loading
                         if currentUser
                             .add_model_doc.inline(title="add #{title}")
-                                +i name='plus' classes='ui mini image dark pointer inline'
+                                +i name='plus' classes='ui mini image pointer inline'
                         //- if can_edit
                             //- +edit_circular.button
                         if is_dev
                             //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
                             .edit_model.inline
-                                +i name='settings' classes='ui mini image dark pointer inline'
+                                +i name='settings' classes='ui mini image pointer inline'
                                 //- | Configure #{plural}
                         // .ui.divider
                         // // each sessions
@@ -24,14 +24,14 @@ template(name='delta')
                         if current_delta
                             if is_dev
                                 .print_delta.inline(title='print session doc')
-                                    +i name='code' classes='ui mini image dark pointer inline'
+                                    +i name='code' classes='ui mini image pointer inline'
                             .reset.inline(title='reload session')
-                                +i name='refresh' classes='ui mini image dark pointer inline'
+                                +i name='refresh' classes='ui mini image pointer inline'
                             .delete_delta.inline(title='delete session')
-                                +i name='trash' classes='ui mini image dark pointer inline'
+                                +i name='trash' classes='ui mini image pointer inline'
                         else
                             .create_delta.ui.large.button(title='new session')
-                                +i name='plus' classes='ui mini image dark pointer block'
+                                +i name='plus' classes='ui mini inline image'
                                 |session
                         if description
                             .ui.segment
@@ -61,7 +61,7 @@ template(name='facet')
             .active.title
                 if icon
                     //- i.small.icon(class=icon)
-                    +i name=icon classes='ui avatar image dark pointer inline'   
+                    +i name=icon classes='ui avatar image pointer inline'   
                 .ui.inline.header 
                     if title
                         |#{title}
@@ -111,7 +111,7 @@ template(name='delta_result')
                     .extra
                         if is_model
                             +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            a.ui.button.route_model(href="/m/#{slug}")
+                            a.ui.button.route_model(href="/t/#{current_model.tribe_slug}/m/#{slug}")
                                 i.sitemap.teal.icon
                                 |view model
                             if is_admin
@@ -119,9 +119,9 @@ template(name='delta_result')
                                     i.edit.blue.icon
                                     |edit model
                         if can_edit
-                            a.dark.pointer(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                            a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/edit" title='edit')
                                 +i name='pencil'
-                        a.dark.pointer(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                        a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/view" title='view')
                             +i name='chevron-right'
                         if _author_id
                             +author_info
@@ -133,8 +133,8 @@ template(name='delta_result')
                         .ui.inline.header light fields
                         each _keys
                             .ui.label #{this}
-                        .ui.inline.header dark fields
-                        each _dark_fields
+                        .ui.inline.header fields
+                        each _fields
                             .ui.label #{this}
                         //- +call_method name='detect_fields'
                         +call_method name='key' icon='key'

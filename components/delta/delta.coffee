@@ -83,7 +83,7 @@ if Meteor.isClient
                             $set:
                                 first_name:first_name
                                 last_name:last_name
-                        Router.go "/m/#{model.slug}/#{res}/edit"
+                        Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{res}/edit"
             else if model.slug is 'shop'
                 new_doc_id = Docs.insert
                     model:model.slug
@@ -96,7 +96,7 @@ if Meteor.isClient
                 new_doc_id = Docs.insert
                     model:model.slug
                     tribe_slug:Router.current().params.tribe_slug
-                Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
+                Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{new_doc_id}/edit"
 
 
         'click .edit_model': ->

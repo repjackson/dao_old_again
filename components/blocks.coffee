@@ -34,8 +34,6 @@ if Meteor.isClient
                 _id: $in: @follower_ids
 
         following: -> @follower_ids and Meteor.userId() in @follower_ids
-
-
     Template.follow.events
         'click .follow': ->
             Docs.update @_id,
@@ -45,10 +43,11 @@ if Meteor.isClient
             Docs.update @_id,
                 $pull:follower_ids:Meteor.userId()
 
+
+
     Template.voting.helpers
         upvote_class: -> if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
         downvote_class: -> if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
-
     Template.voting.events
         'click .upvote': ->
             if @downvoter_ids and Meteor.userId() in @downvoter_ids
@@ -92,6 +91,53 @@ if Meteor.isClient
                 Meteor.call @name, parent._id
             else
                 Meteor.call @name
+
+    Template.call_watson.events
+        'click .autotag': ->
+            doc = Docs.findOne Router.current().params.doc_id
+            console.log doc
+            console.log @
+
+            Meteor.call 'call_watson', doc._id, @key, @mode
+
+
+    Template.voting_small.helpers
+        upvote_class: -> if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
+        downvote_class: -> if @downvoter_ids and Meteor.userId() in @downvoter_ids then 'red' else 'outline'
+    Template.voting_small.events
+        'click .upvote': ->
+            if @downvoter_ids and Meteor.userId() in @downvoter_ids
+                Docs.update @_id,
+                    $pull: downvoter_ids:Meteor.userId()
+                    $addToSet: upvoter_ids:Meteor.userId()
+                    $inc:points:2
+            else if @upvoter_ids and Meteor.userId() in @upvoter_ids
+                Docs.update @_id,
+                    $pull: upvoter_ids:Meteor.userId()
+                    $inc:points:-1
+            else
+                Docs.update @_id,
+                    $addToSet: upvoter_ids:Meteor.userId()
+                    $inc:points:1
+            # Meteor.users.update @_author_id,
+            #     $inc:karma:1
+        'click .downvote': ->
+            if @upvoter_ids and Meteor.userId() in @upvoter_ids
+                Docs.update @_id,
+                    $pull: upvoter_ids:Meteor.userId()
+                    $addToSet: downvoter_ids:Meteor.userId()
+                    $inc:points:-2
+            else if @downvoter_ids and Meteor.userId() in @downvoter_ids
+                Docs.update @_id,
+                    $pull: downvoter_ids:Meteor.userId()
+                    $inc:points:1
+            else
+                Docs.update @_id,
+                    $addToSet: downvoter_ids:Meteor.userId()
+                    $inc:points:-1
+            # Meteor.users.update @_author_id,
+            #     $inc:karma:-1
+
 
 
 

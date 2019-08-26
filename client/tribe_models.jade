@@ -1,19 +1,42 @@
 template(name='tribe_models')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
-                h1.ui.center.aligned.grey.header 
+            .eight.wide.column
+                h1.ui.center.aligned.inline.header 
                     |#{current_tribe.title}
-                    |portal
-            .four.wide.column
-                .ui.big.button.add_model
+                .ui.big.icon.button.add_model(title='add model')
                     i.plus.icon
-                    | model
             .eight.wide.column
                 .ui.left.icon.input
                     i.search.icon
                     input.model_filter(type='text' placeholder='filter...' autofocus='autofocus')
     .ui.stackable.four.column.padded.grid
+        if current_tribe.chat
+            .column
+                a.ui.inline.pointer.header(href="/t/#{current_tribe.slug}/chat")
+                    +i name='chat'
+                    |chat
+        if current_tribe.mail
+            .column
+                .ui.inline.pointer.header 
+                    +i name='envelope'
+                    |mail
+        if current_tribe.blog
+            .column
+                .ui.inline.pointer.header 
+                    +i name='blog'
+                    |blog
+        if current_tribe.gallery
+            .column
+                .ui.inline.pointer.header 
+                    +i name='gallery'
+                    |gallery
+        if current_tribe.events
+            .column
+                .ui.inline.pointer.header 
+                    +i name='calendar'
+                    |calendar
+        
         each tribe_role_models
             .column
                 .ui.segment.home_segment
@@ -21,7 +44,7 @@ template(name='tribe_models')
                         +i name=icon
                         |#{title}
                     |#{description}
-                    a.ui.icon.big.button.set_model(href="/m/#{slug}")
+                    a.ui.icon.big.button.set_model(href="/t/#{current_tribe.slug}/m/#{slug}")
                         i.right.chevron.icon
                     //- +call_method name='detect_objectid'
                     //- +call_method name='find_string_id'

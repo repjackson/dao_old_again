@@ -1,12 +1,13 @@
 template(name='gallery')
     .ui.stackable.padded.grid
         .sixteen.wide.column
-            .ui.header gallery
+            .ui.inline.header 
+                +i name='gallery' classes='ui avatar image'
+                |gallery
+            .ui.big.icon.button.add_picture(title='add picture')
+                i.plus.icon
         .row
             .six.wide.column
-                .ui.button.add_picture
-                    i.plus.icon
-                    | picture
                 +cloud filter='picture'
             .ten.wide.column
                 each pictures
@@ -36,7 +37,7 @@ template(name='picture_edit')
                     .ui.header 
                         i.pencil.icon
                         |edit picture
-                    a.ui.big.icon.fluid.button(href="/picture/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/t/#{tribe_slug}/picture/#{_id}/view" title='save')
                         i.green.checkmark.icon
                     +remove_button
                     +array_edit key='tags' label='tags' icon='tags' direct=true
@@ -53,10 +54,10 @@ template(name='picture_view')
             .row
                 .four.wide.column 
                     a.ui.fluid.button(href="/t/#{tribe_slug}/gallery")
-                        +i name='pictures' classes='ui avatar picture'
+                        +i name='gallery' classes='ui avatar image'
                         |pictures
                     .ui.header view picture
-                    a.ui.big.icon.button(href="/picture/#{_id}/edit")
+                    a.ui.big.icon.button(href="/t/#{tribe_slug}/picture/#{_id}/edit")
                         i.pencil.icon
                     +voting_full
                     +viewing

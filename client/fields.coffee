@@ -165,7 +165,7 @@ Template.html_edit.helpers
             toolbarButtonsXS: ['bold', 'italic', 'underline']
             imageInsertButtons: ['imageBack', '|', 'imageByURL']
             tabSpaces: false
-            height: 200
+            height: 500
         }
 
 
@@ -351,6 +351,26 @@ Template.textarea_edit.events
             Meteor.users.update parent._id,
                 $set:"#{@key}":textarea_val
 
+Template.html_plain_edit.events
+    # 'click .toggle_edit': (e,t)->
+    #     t.editing.set !t.editing.get()
+
+    'blur .edit_textarea': (e,t)->
+        textarea_val = t.$('.edit_textarea').val()
+        if @direct
+            parent = Template.parentData()
+        else
+            parent = Template.parentData(5)
+
+        doc = Docs.findOne parent._id
+        user = Meteor.users.findOne parent._id
+        if doc
+            Docs.update parent._id,
+                $set:"#{@key}":textarea_val
+        else if user
+            Meteor.users.update parent._id,
+                $set:"#{@key}":textarea_val
+
 
 
 Template.text_edit.events
@@ -391,14 +411,17 @@ Template.slug_edit.events
 
     'click .slugify_title': (e,t)->
         page_doc = Docs.findOne Router.current().params.doc_id
+        console.log page_doc
+        console.log @
+        console.log Template.parentData()
         # val = t.$('.edit_text').val()
         if @direct
             parent = Template.parentData()
         else
             parent = Template.parentData(5)
         doc = Docs.findOne parent._id
-        Meteor.call 'slugify', page_doc._id, (err,res)=>
-            Docs.update page_doc._id,
+        Meteor.call 'slugify', parent._id, (err,res)=>
+            Docs.update parent._id,
                 $set:slug:res
 
 Template.phone_edit.events

@@ -33,8 +33,8 @@ if Meteor.isClient
 
 
     Template.model_doc_view.onCreated ->
-        @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug,Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug,Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug, Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug, Router.current().params.model_slug
         # console.log Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun -> Meteor.subscribe 'upvoters', Router.current().params.doc_id
@@ -44,11 +44,11 @@ if Meteor.isClient
         'click #delete_doc': ->
             if confirm 'confirm delete doc'
                 Docs.remove @_id
-                Router.go "/m/#{@model}"
+                Router.go "/t/#{@tribe_slug}/m/#{@model}"
 
     Template.model_doc_view.events
         'click .back_to_model': ->
             Session.set 'loading', true
             Meteor.call 'set_facets', Router.current().params.tribe_slug, Router.current().params.model_slug, ->
                 Session.set 'loading', false
-            Router.go "/m/#{@model}"
+            Router.go "/t/#{@tribe_slug}/m/#{@model}"

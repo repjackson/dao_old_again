@@ -1,3 +1,41 @@
+template(name='html_plain_edit')
+    .ui.form
+        .field
+            label 
+                if icon
+                    +i name=icon classes='ui avatar image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+            textarea.edit_textarea(rows='5') #{field_value}
+        |!{field_value}
+
+
+
+template(name='html_plain_view')
+    if field_value
+        div
+        if icon
+            +i name=icon classes='ui avatar image'
+        .ui.inline.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
+            else
+                |#{this}            
+        |!{field_value}
+
+
+
+
 template(name='color_edit')
         .ui.input
             label 
@@ -11,8 +49,6 @@ template(name='color_edit')
                     |#{this}
             input.edit_color(type='color' value=field_value placeholder='color' autocomplete="off")
             .ui.big.label(style="background:#{field_value}")
-
-
 
 template(name='color_view')
     .ui.form
@@ -74,7 +110,13 @@ template(name='icon_view')
 
 
 template(name='i')
-    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+    if current_tribe
+        if current_tribe.icon_style
+            img(src="https://img.icons8.com/#{current_tribe.icon_style}/48/000000/#{name}.png" class=classes title=title)
+        else
+            img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+    else
+        img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/carbon-copy/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/ultraviolet/48/000000/#{name}.png" class=classes title=title)
@@ -95,7 +137,7 @@ template(name='ioffice')
 template(name='link_edit')
     div
     if icon
-        +i name=icon classes='ui mini inline image'
+        +i name=icon classes='ui avatar image'
     .ui.inline.header
         |#{title}
     .ui.input
@@ -239,7 +281,7 @@ template(name='textarea_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui mini inline image'
+                    +i name=icon classes='ui avatar image'
                 if title
                     |#{title}
                 else if label
@@ -249,7 +291,7 @@ template(name='textarea_edit')
                 else
                     |#{this}
             textarea.edit_textarea(rows='5') #{field_value}
-        //- +call_watson mode='text' key=key
+        +call_watson mode='text' key=key
 
 
 template(name='html_edit')
@@ -257,7 +299,7 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui mini inline image'
+                    +i name=icon classes='ui avatar image'
                 if title
                     |#{title}
                 else if key
@@ -267,7 +309,7 @@ template(name='html_edit')
     .froala-container
         +froalaReactive getFEContext
     //- if is_dev
-    //- +call_watson mode='html'
+    +call_watson mode='html' key=key
     div
     //- +tone mode='html'
     //- if watson
@@ -278,7 +320,7 @@ template(name='html_view')
     if field_value
         div
         if icon
-            //- +i name=icon classes='ui mini inline image'
+            //- +i name=icon classes='ui avatar image'
             i.icon(class=icon)
         //- if title
         //-     |#{title}
@@ -323,9 +365,9 @@ template(name='document_view')
         
 template(name='text_edit')
     unless view_title
+        if icon
+            +i name=icon classes='ui avatar image'
         .ui.inline.header
-            if icon
-                +i name=icon classes='ui avatar image'
             if title
                 |#{title}
             else if label
@@ -333,21 +375,21 @@ template(name='text_edit')
             else if key
                 |#{key}
                 //- +clear_value
-    .ui.icon.input
+    .ui.icon.fluid.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
 
 template(name='slug_edit')
+    .dark.pointer.slugify_title
+        +i name='slug' classes='ui avatar image'
+        .ui.inline.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            else if key
+                |#{key}
     .ui.fluid.icon.input
-        .dark.pointer.slugify_title
-            +i name='slug' classes='ui avatar image'
-            .ui.inline.header
-                if title
-                    |#{title}
-                else if label
-                    |#{label}
-                else if key
-                    |#{key}
         //- +clear_value
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
 
@@ -621,7 +663,7 @@ template(name='datetime_edit')
 template(name='datetime_view')
     div
     if icon
-        +i name=icon classes='ui mini inline image'
+        +i name=icon classes='ui avatar image'
     if title
         |#{title}
     else if label
@@ -808,30 +850,50 @@ template(name='signature_view')
 
 
 template(name='boolean_edit')
-    div
-    if icon
-        +i name=icon classes='ui inline mini image'
-    .ui.inline.header
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-        else
-            |#{this}
+    //- div
+    //- if icon
+    //-     +i name=icon classes='ui inline mini image'
+    //- .ui.inline.header
+    //-     if title
+    //-         |#{title}
+    //-     else if label
+    //-         |#{label}
+    //-     else if key
+    //-         |#{key}
+    //-     else
+    //-         |#{this}
     //- .ui.icon.button.toggle_boolean
     .ui.circular.button.toggle_boolean(class=boolean_toggle_class)
         if field_value
             if true_icon
                 i.large.green.icon(class=true_icon)
             else
-                |yes
+                if icon
+                    +i name=icon classes='ui avatar image'                
+                .ui.inline.header
+                    if title
+                        |#{title}
+                    else if label
+                        |#{label}
+                    else if key
+                        |#{key}
+                    else
+                        |#{this}
         else
             if false_icon
                 i.large.red.icon(class=false_icon)
             else
-                |no
+                if icon
+                    +i name=icon classes='ui avatar image'                
+                .ui.inline.header
+                    if title
+                        |#{title}
+                    else if label
+                        |#{label}
+                    else if key
+                        |#{key}
+                    else
+                        |#{this}
 
 
 template(name='boolean_view')
@@ -875,7 +937,7 @@ template(name='single_doc_edit')
         .ui.circular.compact.button.select_choice(class=choice_class)
             if icon
                 +i name=icon classes='ui avatar image'
-                //- +i name=icon classes='ui mini inline image'
+                //- +i name=icon classes='ui avatar image'
             |#{calculated_label}
             |#{title}
 
@@ -883,7 +945,7 @@ template(name='single_doc_edit')
 template(name='multi_doc_edit')
     div
     if icon
-        +i name=icon classes='ui mini inline image'
+        +i name=icon classes='ui avatar image'
     .ui.inline.header(title=key)
         |#{title} #{label}    
     each choices
@@ -917,7 +979,7 @@ template(name='multi_doc_edit')
 template(name='multi_doc_view')
     div
     if icon
-        +i name=icon classes='ui mini inline image'
+        +i name=icon classes='ui avatar image'
     if field_value
         .ui.inline.header(title=key)
             |#{title}

@@ -1,5 +1,5 @@
 if Meteor.isClient
-    @selected_theme_tags = new ReactiveArray []
+    # @selected_theme_tags = new ReactiveArray []
     @selected_participant_ids = new ReactiveArray []
 
     Template.view_chat.events
@@ -163,7 +163,7 @@ if Meteor.isServer
 if Meteor.isClient
     Template.chat_list.onCreated ->
         # @autorun => Meteor.subscribe 'my_chats'
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'chat'
+        @autorun => Meteor.subscribe 'docs', selected_tags.array(), Router.current().params.tribe_slug, 'chat'
     Template.chat_list_item.onCreated ->
         @autorun => Meteor.subscribe 'group_docs', @data._id
         @autorun => Meteor.subscribe 'people_list', @data._id

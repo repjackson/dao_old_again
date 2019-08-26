@@ -6,7 +6,7 @@ template(name='model_doc_edit')
                     .ui.header(title="model: #{model}")
                         |edit #{model}
                     +creation_info
-                    a.ui.big.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/view")
+                    a.ui.big.icon.basic.button(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/view")
                         i.big.green.checkmark.icon
                     #delete_doc.ui.icon.basic.button
                         i.red.trash.icon
@@ -27,12 +27,13 @@ template(name='model_doc_view')
         .ui.stackable.padded.grid
             .row
                 .six.wide.column
-                    .ui.basic.button.back_to_model
+                    a.ui.basic.button.back_to_model
                         i.chevron.left.icon
                         +i name=current_model.icon classes='ui avatar image'
                         |#{current_model.title}
+                    div
                     if can_edit
-                        a.dark.pointer(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                        a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/edit" title='edit')
                             +i name='edit'
                     if is_admin
                         .ui.header 

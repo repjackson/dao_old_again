@@ -49,7 +49,7 @@ template(name='model_view')
             .row
                 .sixteen.wide.column
                     .ui.breadcrumb
-                        a.section(href="/m/#{current_model.slug}" title=current_model.plural)
+                        a.section(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}" title=current_model.plural)
                             .ui.compact.button
                                 |#{current_model.title}
                         .divider

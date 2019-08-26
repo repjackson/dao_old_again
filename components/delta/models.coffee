@@ -65,15 +65,17 @@ if Meteor.isClient
                 parent_id: Router.current().params.doc_id
 
 if Meteor.isServer
-    Meteor.publish 'model', (slug)->
+    Meteor.publish 'model', (tribe_slug, slug)->
         Docs.find
             model:'model'
             slug:slug
+            tribe_slug:tribe_slugs
 
-    Meteor.publish 'model_fields', (slug)->
+    Meteor.publish 'model_fields', (tribe_slug, slug)->
         model = Docs.findOne
             model:'model'
             slug:slug
+            tribe_slug:tribe_slug
         Docs.find
             model:'field'
             parent_id:model._id

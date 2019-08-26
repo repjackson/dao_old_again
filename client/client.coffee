@@ -69,10 +69,10 @@ Template.registerHelper 'current_tribe', () ->
     # console.log Router.current().params.tribe_slug
     slug = Router.current().params.tribe_slug
     # console.log Meteor.user().current_tribe_slug
-    # if slug
-    Docs.findOne
-        model:'tribe'
-        slug: slug
+    if slug
+        Docs.findOne
+            model:'tribe'
+            slug: slug
 
 # Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 

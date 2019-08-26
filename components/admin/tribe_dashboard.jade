@@ -5,9 +5,9 @@ template(name='tribe_dashboard')
                 .four.wide.column 
                     .ui.header
                         +i name='dashboard' classes='ui avatar image'
-                        |#{title} tribe dashboard
-                    a.ui.big.icon.button(href="/tribe/#{_id}/edit")
-                        i.pencil.icon
+                        |#{title} dashboard
+                    a.item.pointer(href="/t/#{current_tribe_slug}/edit" title='edit')
+                        +i name='edit' classes='ui avatar image pointer'
                     +voting_full
                     +viewing
                 .twelve.wide.column 

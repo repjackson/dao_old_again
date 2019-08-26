@@ -9,13 +9,17 @@ body {
 
 .button, .label {
     margin-bottom: 4px !important;
+    /* opacity: .5 !important; */
     /* border-radius: 10px !important; */
     /* color: white !important; */
     /* background-color: grey !important; */
 }
 
 .menu > .item {
-    border-radius:25px !important;
+    border-radius:20px !important;
+}
+.menu {
+    border-radius:10px !important;
 }
 .spaced {
     padding:10px !important;
@@ -30,10 +34,15 @@ body {
 .button:active {
     color: black !important;
     /* background-color: darkgrey !important; */
+   box-shadow: inset 5px 5px 10px #333 !important;
+}}
+/* .button:active {
+    color: black !important;
+    /* background-color: darkgrey !important; */
     -webkit-transform: translate(0, 4px) rotateX(20deg) !important;
     -moz-transform: translate(0, 4px) !important;
     transform: translate(0, 4px) !important;
-}
+} */
 .pointer:active {
     color: black !important;
     /* background-color: darkgrey !important; */
@@ -312,9 +321,9 @@ input.username_search{
 
 
 .button {
-    /* background-color: rgba(200, 200, 200, 0.5) !important; */
+    background-color: rgba(250, 250, 250, 0.9) !important;
     box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important;
-    background-color: white !important;
+    /* background-color: white !important; */
     /* transform: translate(0, 4px); */
 }
 
@@ -405,7 +414,7 @@ input.username_search{
 
 .ui.header{
     /* font-family: 'Lusitana', sans-serif !important; */
-    /* font-family: 'Ubuntu', sans-serif !important; */
+    font-family: 'Ubuntu', sans-serif !important;
 }
 h1.ui.header{
     /* font-family: 'Ubuntu', sans-serif !important; */
@@ -698,6 +707,7 @@ a {
 	overflow-x:scroll;
 	/*max-height:1000px;*/
 	/*max-height:85vh;*/
+    /* opacity:.5 !important; */
 	/*padding: 1em;*/
     /* -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,.9)), to(rgba(0,0,0,1))); */
     /* mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); */

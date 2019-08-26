@@ -1,7 +1,7 @@
 template(name='tribes')
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
+            .four.wide.column
                 if currentUser
                     .add_tribe.inline
                         +i name='plus' classes='ui avater pointer image inline'
@@ -9,23 +9,43 @@ template(name='tribes')
                     +i name='fire'
                     |tribes
                 +cloud filter='tribe'
+            .twelve.wide.column
                 .ui.left.icon.input
                     i.search.icon
                     input.tribe_filter(type='text' placeholder='filter...' autofocus='autofocus')
-        .five.column.row
-            each tribes
-                .column
-                    .ui.segment.home_segment.pointer.enter
-                        if icon
-                            +i name=icon
-                        img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='fill'}}")                
-                        .ui.header 
-                            |#{title}
-                        |#{tagline}
-                        if is_dev
-                            +text_edit key='slug' direct=true
-                            +edit_button
-                        //- +enter_tribe
+                .ui.stackable.grid.scrolling
+                    .four.column.row
+                        each tribes
+                            .column
+                                .ui.segment.home_segment.pointer.enter
+                                    if icon
+                                        +i name=icon
+                                    img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='lpad'}}")                
+                                    .ui.header 
+                                        |#{title}
+                                    |#{tagline}
+                                    |#{task_count}
+                                    i.tasks.grey.icon(title='tasks')
+                                    |#{page_count}
+                                    i.clone.outline.grey.icon(title='pages')
+                                    |#{model_count}
+                                    i.cubes.grey.icon(title='models')
+                                    |#{post_count}
+                                    i.newspaper.grey.icon(title='posts')
+                                    |#{event_count}
+                                    i.calendar.grey.icon(title='events')
+                                    |#{chat_count}
+                                    i.chat.grey.icon(title='chats')
+                                    |#{product_count}
+                                    i.cart.grey.icon(title='products')
+                                    |#{points}
+                                    i.thumbs.up.grey.icon(title='points')
+                                    |#{doc_count}
+                                    i.document.icon(title='documents')
+                                    if is_dev
+                                        +text_edit key='slug' direct=true
+                                        +edit_button
+                                    //- +enter_tribe
                             
                     
 template(name='tribe_card_template')

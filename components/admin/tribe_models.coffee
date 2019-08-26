@@ -35,7 +35,7 @@ if Meteor.isClient
     Template.tribe_models.helpers
         tribe_role_models: ->
             if Meteor.user()
-                tribe_slug = Router.current().params.current_tribe_slug
+                tribe_slug = Router.current().params.tribe_slug
                 model_filter = Session.get('model_filter')
                 if 'dev' in Meteor.user().roles
                     if model_filter
@@ -54,12 +54,12 @@ if Meteor.isClient
                         Docs.find {
                             title: {$regex:"#{model_filter}", $options: 'i'}
                             model:'model'
-                            view_roles:$in:Meteor.user().roles
+                            # view_roles:$in:Meteor.user().roles
                         }, sort:title:1
                     else
                         Docs.find {
                             model:'model'
-                            view_roles:$in:Meteor.user().roles
+                            # view_roles:$in:Meteor.user().roles
                         }, sort:title:1
 
 
