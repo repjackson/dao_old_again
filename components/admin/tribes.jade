@@ -49,26 +49,37 @@ template(name='tribes')
                             
                     
 template(name='tribe_card_template')
-    .ui.segment                    
-        .ui.inline.header #{title}
-            if complete
-                i.large.green.checkmark.icon
-        .ui.basic.segment
-            +html_view key='description' label='description' direct=true
-        each tags
-            .ui.basic.large.label #{this}
-        if is_admin
-            +boolean_edit key='complete' label='complete' direct=true
-        +boolean_view key='complete' label='complete' direct=true
-        div
-        a.ui.button(href="/tribe/#{_id}/view")
-            |view
-            i.chevron.right.icon
-        if can_edit
-            a.ui.button(href="/tribe/#{_id}/edit")
-                i.pencil.icon
-                |edit
-            +remove_button
+    .ui.segment.home_segment.pointer.enter.grid
+        .eight.wide.column
+            if icon
+                +i name=icon
+            img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='lpad'}}")                
+            .ui.header 
+                |#{title}
+        .eight.wide.column
+            |#{tagline}
+            |#{task_count}
+            i.tasks.grey.icon(title='tasks')
+            |#{page_count}
+            i.clone.outline.grey.icon(title='pages')
+            |#{model_count}
+            i.cubes.grey.icon(title='models')
+            |#{post_count}
+            i.newspaper.grey.icon(title='posts')
+            |#{event_count}
+            i.calendar.grey.icon(title='events')
+            |#{chat_count}
+            i.chat.grey.icon(title='chats')
+            |#{product_count}
+            i.cart.grey.icon(title='products')
+            |#{points}
+            i.thumbs.up.grey.icon(title='points')
+            |#{doc_count}
+            i.document.icon(title='documents')
+            if is_dev
+                +text_edit key='slug' direct=true
+                +edit_button
+            //- +enter_tribe
 
 
 template(name='tribe_view')

@@ -75,7 +75,7 @@ template(name='facet')
                 //- div
                 each filtering_res
                     if name
-                        .selector.ui.compact.button.toggle_selection(class=toggle_value_class)
+                        .selector.ui.large.compact.button.toggle_selection(class=toggle_value_class)
                             strong #{name}
                             if is_admin
                                 small #{cal_count} #{count}
@@ -109,6 +109,9 @@ template(name='delta_result')
                     each actions
                         +Template.dynamic template=this data=current_doc
                     .extra
+                        if is_tribe
+                            .ui.header this is a tribe
+                            +enter_tribe
                         if is_model
                             +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
                             a.ui.button.route_model(href="/t/#{current_model.tribe_slug}/m/#{slug}")

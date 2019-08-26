@@ -224,6 +224,7 @@ Template.registerHelper 'is_current_user', () ->  Meteor.user().username is Rout
 Template.registerHelper 'view_template', -> "#{@field_type}_view"
 Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
 Template.registerHelper 'is_model', -> @model is 'model'
+Template.registerHelper 'is_tribe', -> @model is 'tribe'
 
 
 # Template.body.events

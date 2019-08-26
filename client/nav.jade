@@ -13,7 +13,7 @@ template(name='nav')
                     if current_tribe.show_nav_title
                         .mobile.hidden.inline #{current_tribe.title}
             else 
-                .icon.item
+                a.icon.item(href="/t/dao/m/tribe")
                     i.big.yin.yang.icon
             each tribe_role_models
                 a.icon.item.pointer.set_model(href="/t/#{current_tribe_slug}/m/#{slug}/" title=title)
@@ -23,8 +23,9 @@ template(name='nav')
                 a.item.pointer.set_models(href='/m/model' class="{{isActivePath '/m/model'}}")
                     +i name='active-directory' classes='ui mini inline image pointer'
             if current_tribe
-                a.item.pointer(href="/t/#{current_tribe_slug}/admin/dashboard" title='tribe dashboard')
-                    +i name='dashboard' classes='ui mini inline image pointer'
+                if currentUser
+                    a.item.pointer(href="/t/#{current_tribe_slug}/admin/dashboard" title='tribe dashboard')
+                        +i name='dashboard' classes='ui mini inline image pointer'
             if current_tribe.courses
                 a.icon.item.pointer(href="/t/#{current_tribe_slug}/courses" class="{{isActiveRoute regex='tribe_school'}}" title='school')
                     +i name='university' classes='ui mini inline image pointer'
@@ -37,15 +38,15 @@ template(name='nav')
             if current_tribe.events
                 a.icon.item.pointer(href="/t/#{current_tribe_slug}/events" class="{{isActiveRoute regex='tribe_events'}}" title='events')
                     +i name='calendar' classes='ui mini inline image pointer'
-            if current_tribe.tasks
+            if current_tribe.shop
                 a.icon.item.pointer(href="/t/#{current_tribe_slug}/shop" class="{{isActiveRoute regex='tribe_shop'}}" title='shop')
                     +i name='shop' classes='ui mini inline image pointer'
             if current_tribe.tasks
                 a.icon.item.pointer(href="/t/#{current_tribe_slug}/tasks" class="{{isActiveRoute regex='tribe_tasks'}}" title='tasks')
                     +i name='tasks' classes='ui mini inline image pointer'
-            if current_tribe.mail
-                a.icon.item.pointer(href="/t/#{current_tribe_slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
-                    +i name='inbox' classes='ui mini inline image pointer'
+            //- if current_tribe.mail
+            //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
+            //-         +i name='inbox' classes='ui mini inline image pointer'
             if current_tribe.chat
                 a.icon.item.pointer(href="/t/#{current_tribe_slug}/chat" class="{{isActiveRoute regex='tribe_chat'}}" title='chat')
                     +i name='chat' classes='ui mini inline image pointer'
@@ -62,7 +63,7 @@ template(name='nav')
                     +i name='groups' classes='ui avatar image pointer'
                     .mobile.hidden.inline &nbsp; users
             .right.menu
-                a.item.pointer(href='/tribes' class="{{isActivePath '/tribes'}}" title='tribes')
+                a.item.pointer(href="/t/dao/m/tribe" class="{{isActivePath '/t/dao/m/tribe'}}" title='tribes')
                     +i name='fire' classes='ui avatar image pointer'
                 .item.pointer.toggle_model_nav(title='toggle model nav')
                     +i name='chevron-down' classes='ui avatar image pointer'

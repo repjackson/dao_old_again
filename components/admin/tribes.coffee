@@ -7,7 +7,7 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_fields_from_child_id', Router.current().params.doc_id
         Session.set 'tribe_filter',null
 
-    Template.tribes.events
+    Template.tribe_card_template.events
         'click .enter': ->
             if Meteor.user()
                 Meteor.users.update Meteor.userId(),
@@ -16,11 +16,12 @@ if Meteor.isClient
                         current_tribe_slug:@slug
             Docs.update @_id,
                 $inc: views: 1
-            Router.go "/t/#{@slug}/dashboard"
+            Router.go "/t/#{@slug}/models"
             # if Meteor.isDevelopment
             #     Router.go "#{@slug}.dao2.com:3000"
                 # window.location.replace("#{@slug}.localhost:3000");
 
+    Template.tribes.events
         'click .calculate_tribe_stats': ->
             Meteor.call 'calculate_tribe_stats'
 

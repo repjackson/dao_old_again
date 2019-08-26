@@ -1,8 +1,14 @@
 Meteor.methods
     set_facets: (tribe_slug, model_slug)->
-        delta = Docs.findOne
-            model:'delta'
-            _author_id:Meteor.userId()
+        if Meteor.userId()
+            delta = Docs.findOne
+                model:'delta'
+                _author_id:Meteor.userId()
+        else
+            delta = Docs.findOne
+                model:'delta'
+                _author_id:null
+
         model = Docs.findOne
             model:'model'
             slug:model_slug
@@ -50,11 +56,14 @@ Meteor.methods
             model:'model'
             slug:delta.model_filter
 
-        current_tribe_slug = Meteor.user().current_tribe_slug
-        unless 'dev' in Meteor.user().roles
+        current_tribe_slug = delta.tribe_slug
+        unless Meteor.user() and Meteor.user().roles and 'dev' in Meteor.user().roles
             built_query = {tribe_slug:current_tribe_slug}
         else
-            built_query = {}
+            unless current_tribe_slug is 'dao'
+                built_query = {}
+            else
+                built_query = {}
 
         fields =
             Docs.find

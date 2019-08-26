@@ -172,12 +172,15 @@ if Meteor.isClient
             if e.which is 13
                 delta = Docs.findOne model:'delta'
                 facet = Template.currentData()
+                model_slug = Router.current().params.model_slug
+                tribe_slug = Router.current().params.tribe_slug
+
                 if @field_type is 'number'
                     filter = parseInt t.$('.add_filter').val()
                 else
                     filter = t.$('.add_filter').val()
                 Session.set 'loading', true
-                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, tribe_slug, model_slug, ->
+                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, delta.tribe_slug, model_slug, ->
                     Session.set 'loading', false
                 t.$('.add_filter').val('')
 

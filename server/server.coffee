@@ -1,5 +1,9 @@
 Docs.allow
-    insert: (userId, doc) -> doc._author_id is userId
+    insert: (userId, doc) ->
+        unless doc.model is 'delta'
+            doc._author_id is userId
+        else
+            true
     update: (userId, doc) -> true
     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
     remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
