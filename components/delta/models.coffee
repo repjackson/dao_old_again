@@ -72,10 +72,14 @@ if Meteor.isServer
             tribe_slug:tribe_slugs
 
     Meteor.publish 'model_fields', (tribe_slug, slug)->
-        model = Docs.findOne
-            model:'model'
-            slug:slug
-            tribe_slug:tribe_slug
+        if slug is 'model'
+            model = Docs.findOne
+                model:'model'
+                slug:'model'
+        else
+            model = Docs.findOne
+                model:'model'
+                tribe_slug:tribe_slug
         Docs.find
             model:'field'
             parent_id:model._id

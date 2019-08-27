@@ -115,17 +115,15 @@ Template.registerHelper 'is_product', () -> @shop_type is 'product'
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
 Template.registerHelper 'tribe_background', () ->
-    if Meteor.user() and Meteor.user().current_tribe_slug
-        tribe = Docs.findOne
-            model:'tribe'
-            slug:Meteor.user().current_tribe_slug
-        if tribe
-            tribe.background
+    tribe = Docs.findOne
+        model:'tribe'
+        slug:Router.current().params.tribe_slug
+    if tribe
+        tribe.background
 
 
 
 
-Meteor.methods
 Template.registerHelper 'referenced_product', () ->
     Docs.findOne
         _id:@product_id
@@ -148,7 +146,7 @@ Template.registerHelper 'fields', () ->
         Docs.find {
             model:'field'
             parent_id:model._id
-            view_roles:$in:Meteor.user().roles
+            # view_roles:$in:Meteor.user().roles
         }, sort:rank:1
 
 Template.registerHelper 'edit_fields', () ->
@@ -233,7 +231,9 @@ Template.registerHelper 'is_tribe', -> @model is 'tribe'
 Template.registerHelper 'is_editing', () -> Session.equals 'editing_id', @_id
 
 
-Template.registerHelper 'can_edit', () -> Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
+Template.registerHelper 'can_edit', () ->
+    if Meteor.userId()
+        Meteor.userId() is @_author_id or 'admin' in Meteor.user().roles
 
 Template.registerHelper 'publish_when', () -> moment(@publish_date).fromNow()
 

@@ -54,9 +54,8 @@ template(name='tribe_card_template')
             if icon
                 +i name=icon
             img.ui.rounded.image(src="{{c.url image_id width=400 height=400 crop='lpad'}}")                
-            .ui.header 
-                |#{title}
         .eight.wide.column
+            .ui.header #{title}
             |#{tagline}
             |#{task_count}
             i.tasks.grey.icon(title='tasks')

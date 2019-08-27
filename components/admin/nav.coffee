@@ -8,7 +8,7 @@ if Meteor.isClient
 
         'click .set_models': ->
             Session.set 'loading', true
-            Meteor.call 'set_facets', 'model', ->
+            Meteor.call 'set_facets', Router.current().params.tribe_slug, 'model', ->
                 Session.set 'loading', false
 
         'click .toggle_model_nav': ->
@@ -16,12 +16,12 @@ if Meteor.isClient
                 $set:view_model_bar:!Meteor.user().view_model_bar
         'click .set_tribes': ->
             Session.set 'loading', true
-            Meteor.call 'set_facets', 'tribe', ->
+            Meteor.call 'set_facets', 'dao', 'tribe', ->
                 Session.set 'loading', false
 
         'click .set_model': ->
             Session.set 'loading', true
-            Meteor.call 'set_facets', @slug, ->
+            Meteor.call 'set_facets', Router.current().params.tribe_slug, @slug, ->
                 Session.set 'loading', false
 
     Template.nav.onRendered ->
@@ -89,11 +89,15 @@ if Meteor.isClient
                 if Meteor.user() and Meteor.user().current_tribe_slug
                     # tribe = Meteor.user().current_tribe_slug
                     match.tribe_slug = Meteor.user().current_tribe_slug
-                unless 'dev' in Meteor.user().roles
-                    match.view_roles = $in:Meteor.user().roles
+                # unless 'dev' in Meteor.user().roles
+                #     match.view_roles = $in:Meteor.user().roles
                 # console.log match
                 Docs.find match,
                     {sort:title:1}
+            else
+                Docs.find
+                    model:'model'
+                    tribe_slug: Router.current().params.tribe_slug
         models: ->
             Docs.find
                 model:'model'

@@ -16,7 +16,7 @@ if Meteor.isClient
                         current_tribe_slug:@slug
             Docs.update @_id,
                 $inc: views: 1
-            Router.go "/t/#{@slug}/models"
+            Router.go "/t/#{@slug}/m/model"
             # if Meteor.isDevelopment
             #     Router.go "#{@slug}.dao2.com:3000"
                 # window.location.replace("#{@slug}.localhost:3000");

@@ -80,7 +80,7 @@ Router.route '/reset_password/:token', (->
 
 Router.route '/login', -> @render 'login'
 
-# Router.route '/', -> @redirect '/m/model'
+Router.route '/', -> @redirect '/t/dao/m/tribe'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/home', -> @render 'home'
 Router.route '/t/:tribe_slug/models', (->
@@ -89,10 +89,10 @@ Router.route '/t/:tribe_slug/models', (->
     ), name:'tribe_models'
 
 
-Router.route '/', (->
-    @layout 'layout'
-    @render 'tribes'
-    ), name:'root'
+# Router.route '/', (->
+#     @layout 'layout'
+#     @render 'tribes'
+#     ), name:'root'
 
 
 Router.route '/user/:username', (->

@@ -3,6 +3,7 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
+        Session.set 'title_filter',null
 
     Template.delta.helpers
         selected_tags: -> selected_tags.list()
@@ -32,11 +33,21 @@ if Meteor.isClient
 
 
     Template.delta.events
+        'keyup .title_filter': (e,t)->
+            title_filter = $('.title_filter').val()
+            if e.which is 8
+                if title_filter.length is 0
+                    Session.set 'title_filter',null
+                else
+                    Session.set 'title_filter',title_filter
+            else
+                Session.set 'title_filter',title_filter
+
         'click .create_delta': (e,t)->
             Docs.insert
                 model:'delta'
                 model_filter: Router.current().params.model_slug
-                tribe_slug: Router.current().tribe_slug
+                tribe_slug: Router.current().params.tribe_slug
 
         'keyup .import_subreddit': (e,t)->
             if e.which is 13
@@ -266,18 +277,19 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.publish 'model_from_slug', (tribe_slug, model_slug)->
-        # if model_slug in ['model','brick','field','tribe','block','page']
-        #     Docs.find
-        #         model:'model'
-        #         slug:model_slug
-        # else
-        match = {}
-        # if tribe_slug then match.slug = tribe_slug
-        match.model = 'model'
-        match.slug = model_slug
-        match.tribe_slug = tribe_slug
+        console.log 'publishing', tribe_slug, model_slug
+        if model_slug in ['model','brick','field','tribe','block','page']
+            Docs.find
+                model:'model'
+                slug:model_slug
+        else
+            match = {}
+            # if tribe_slug then match.slug = tribe_slug
+            match.model = 'model'
+            match.slug = model_slug
+            match.tribe_slug = tribe_slug
 
-        Docs.find match
+            Docs.find match
 
 
     Meteor.publish 'my_delta', ->

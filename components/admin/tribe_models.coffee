@@ -34,9 +34,9 @@ if Meteor.isClient
 
     Template.tribe_models.helpers
         tribe_role_models: ->
+            model_filter = Session.get('model_filter')
+            tribe_slug = Router.current().params.tribe_slug
             if Meteor.user()
-                tribe_slug = Router.current().params.tribe_slug
-                model_filter = Session.get('model_filter')
                 if 'dev' in Meteor.user().roles
                     if model_filter
                         Docs.find {
@@ -61,6 +61,18 @@ if Meteor.isClient
                             model:'model'
                             # view_roles:$in:Meteor.user().roles
                         }, sort:title:1
+            else
+                if model_filter
+                    Docs.find {
+                        title: {$regex:"#{model_filter}", $options: 'i'}
+                        model:'model'
+                        # view_roles:$in:Meteor.user().roles
+                    }, sort:title:1
+                else
+                    Docs.find {
+                        model:'model'
+                        # view_roles:$in:Meteor.user().roles
+                    }, sort:title:1
 
 
 if Meteor.isServer

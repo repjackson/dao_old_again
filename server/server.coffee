@@ -6,8 +6,11 @@ Docs.allow
             true
     update: (userId, doc) -> true
     # update: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-    remove: (userId, doc) -> doc._author_id is userId or 'admin' in Meteor.user().roles
-
+    remove: (userId, doc) ->
+        unless doc.model is 'delta'
+            doc._author_id is userId or 'admin' in Meteor.user().roles
+        else
+            true
 Meteor.users.allow
     update: (userId, doc, fields, modifier) ->
         true
@@ -36,7 +39,7 @@ Meteor.publish 'docs', (selected_tags, tribe_filter, model_filter)->
         match.tribe_slug = tribe_filter
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
-    Docs.find(match, sort:_timestamp:-1)
+    Docs.find(match, {sort:{_timestamp:-1}, limit:4})
     # Docs.find({},limit:10)
 
 
