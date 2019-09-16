@@ -18,7 +18,13 @@ force_loggedin =  ()->
 
 # Router.route '/chat', -> @render 'view_chats'
 # Router.route '/inbox', -> @render 'inbox'
+Router.route '/inbox', -> @render 'inbox'
 Router.route '/register', -> @render 'register'
+Router.route '/grid', -> @render 'grid'
+Router.route '/timecard', -> @render 'timecard'
+Router.route '/manager', -> @render 'manager'
+Router.route '/shift_checklist', -> @render 'shift_checklist'
+
 Router.route '/admin', -> @render 'admin'
 # Router.route '/timecard', -> @render 'timecard'
 Router.route '/stats', -> @render 'stats'
@@ -51,11 +57,14 @@ Router.route('verify-email', {
                 Router.go "/verification_confirmation/"
         )
 })
-Router.route '/t/:tribe_slug/m/:model_slug', (->
+# Router.route '/t/:tribe_slug/m/:model_slug', (->
+Router.route '/m/:model_slug', (->
     @render 'delta'
     ), name:'delta'
-Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
-Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/view', (->
+Router.route '/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
+# Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
+# Router.route '/t/:tribe_slug/m/:model_slug/:doc_id/view', (->
+Router.route '/m/:model_slug/:doc_id/view', (->
     @render 'model_doc_view'
     ), name:'doc_view'
 Router.route '/model/edit/:doc_id', -> @render 'model_edit'
@@ -80,10 +89,11 @@ Router.route '/reset_password/:token', (->
 
 Router.route '/login', -> @render 'login'
 
-Router.route '/', -> @redirect '/t/dao/m/tribe'
+Router.route '/', -> @redirect '/m/tribe'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/home', -> @render 'home'
-Router.route '/t/:tribe_slug/models', (->
+# Router.route '/t/:tribe_slug/models', (->
+Router.route '/models', (->
     @layout 'layout'
     @render 'tribe_models'
     ), name:'tribe_models'

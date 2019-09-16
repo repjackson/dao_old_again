@@ -153,18 +153,21 @@ Template.registerHelper 'edit_fields', () ->
     model = Docs.findOne
         model:'model'
         slug:Router.current().params.model_slug
+    console.log 'found model from edit fields', model
     if model
-        if 'dev' in Meteor.user().roles
-            Docs.find {
-                model:'field'
-                parent_id:model._id
-            }, sort:rank:1
-        else
-            Docs.find {
-                model:'field'
-                parent_id:model._id
-                edit_roles:$in:Meteor.user().roles
-            }, sort:rank:1
+        # if 'dev' in Meteor.user().roles
+        #     Docs.find {
+        #         model:'field'
+        #         parent_id:model._id
+        #     }, sort:rank:1
+        # else
+        model_fields = Docs.find {
+            model:'field'
+            parent_id:model._id
+            # edit_roles:$in:Meteor.user().roles
+        }, sort:rank:1
+        console.log model_fields.fetch()
+        model_fields
 
 Template.registerHelper 'current_user', (input) ->
     Meteor.user() and Meteor.user().username is Router.current().params.username
@@ -197,10 +200,6 @@ Template.registerHelper 'is_admin', () ->
         # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
         if 'admin' in Meteor.user().roles then true else false
 
-Template.registerHelper 'is_staff', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'staff' in Meteor.user().roles then true else false
 Template.registerHelper 'is_dev', () ->
     if Meteor.user() and Meteor.user().roles
         if 'dev' in Meteor.user().roles then true else false

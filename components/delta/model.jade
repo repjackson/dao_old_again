@@ -5,7 +5,8 @@ template(name='model_edit')
                 .six.wide.column
                     h1.ui.header edit model #{title}
                     +creation_info
-                    a.ui.huge.icon.basic.button(href="/t/#{tribe_slug}/m/#{slug}")
+                    //- a.ui.huge.icon.basic.button(href="/t/#{tribe_slug}/m/#{slug}")
+                    a.ui.huge.icon.basic.button(href="/m/#{slug}")
                         i.big.green.checkmark.icon
                     #delete_model.ui.icon.basic.button
                         i.red.trash.icon
@@ -49,7 +50,8 @@ template(name='model_view')
             .row
                 .sixteen.wide.column
                     .ui.breadcrumb
-                        a.section(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}" title=current_model.plural)
+                        //- a.section(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}" title=current_model.plural)
+                        a.section(href="/m/#{current_model.slug}" title=current_model.plural)
                             .ui.compact.button
                                 |#{current_model.title}
                         .divider

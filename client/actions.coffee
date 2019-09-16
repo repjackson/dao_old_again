@@ -8,5 +8,5 @@ Template.enter_tribe.events
                 $set:
                     current_tribe_id:@_id
                     current_tribe_slug:@slug
-        Router.go "/t/#{@slug}/home"
+        Router.go "/t/#{@slug}/m/model"
         # location.reload()

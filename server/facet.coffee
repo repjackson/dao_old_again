@@ -1,7 +1,8 @@
 Meteor.methods
-    set_facets: (tribe_slug, model_slug)->
-        console.log 'setting facets tribe slug', tribe_slug
-        console.log 'setting facets model slug', model_slug
+    # set_facets: (tribe_slug, model_slug)->
+    set_facets: (model_slug)->
+        # console.log 'setting facets tribe slug', tribe_slug
+        # console.log 'setting facets model slug', model_slug
         if Meteor.userId()
             delta = Docs.findOne
                 model:'delta'
@@ -19,8 +20,8 @@ Meteor.methods
             model = Docs.findOne
                 model:'model'
                 slug:model_slug
-                tribe_slug: tribe_slug
-        console.log 'found model for set facets', model
+                # tribe_slug: tribe_slug
+        # console.log 'found model for set facets', model
         fields =
             Docs.find
                 model:'field'
@@ -68,17 +69,19 @@ Meteor.methods
             model = Docs.findOne
                 model:'model'
                 slug:delta.model_filter
-                tribe_slug:delta.tribe_slug
+                # tribe_slug:delta.tribe_slug
         # console.log 'found model for fum', model
 
         unless Meteor.user() and Meteor.user().roles and 'dev' in Meteor.user().roles
-            built_query = {tribe_slug:delta.tribe_slug}
+            # built_query = {tribe_slug:delta.tribe_slug}
+            built_query = {}
         else
             # if delta.model_filter in ['tribe','model']
             if delta.model_filter in ['tribe']
                 built_query = {}
             else
-                built_query = {tribe_slug:delta.tribe_slug}
+                # built_query = {tribe_slug:delta.tribe_slug}
+                built_query = {}
 
         fields =
             Docs.find
@@ -98,7 +101,7 @@ Meteor.methods
             if facet.filters.length > 0
                 built_query["#{facet.key}"] = $all: facet.filters
 
-        console.log 'built query', built_query
+        # console.log 'built query', built_query
 
         if model.collection and model.collection is 'users'
             total = Meteor.users.find(built_query).count()
@@ -153,9 +156,9 @@ Meteor.methods
         # delta = Docs.findOne delta_id
 
     agg: (query, key, collection)->
-        console.log 'agg query', query
-        console.log 'agg key', key
-        console.log 'agg collection', collection
+        # console.log 'agg query', query
+        # console.log 'agg key', key
+        # console.log 'agg collection', collection
         limit=42
         options = { explain:false }
         pipe =  [

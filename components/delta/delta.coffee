@@ -1,7 +1,9 @@
 if Meteor.isClient
     Template.delta.onCreated ->
-        @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug, Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug, Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
+        # @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug, Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
+        # @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
         Session.set 'title_filter',null
 
@@ -47,7 +49,7 @@ if Meteor.isClient
             Docs.insert
                 model:'delta'
                 model_filter: Router.current().params.model_slug
-                tribe_slug: Router.current().params.tribe_slug
+                # tribe_slug: Router.current().params.tribe_slug
 
         'keyup .import_subreddit': (e,t)->
             if e.which is 13
@@ -61,10 +63,11 @@ if Meteor.isClient
             console.log delta
 
         'click .reset': ->
-            tribe_slug =  Router.current().params.tribe_slug
+            # tribe_slug =  Router.current().params.tribe_slug
             model_slug =  Router.current().params.model_slug
             Session.set 'loading', true
-            Meteor.call 'set_facets', tribe_slug, model_slug, ->
+            # Meteor.call 'set_facets', tribe_slug, model_slug, ->
+            Meteor.call 'set_facets', model_slug, ->
                 Session.set 'loading', false
 
         'click .delete_delta': (e,t)->
@@ -74,10 +77,16 @@ if Meteor.isClient
                     Docs.remove delta._id
 
         'click .add_model_doc': ->
-            model = Docs.findOne
-                model:'model'
-                slug: Router.current().params.model_slug
-                tribe_slug: Router.current().params.tribe_slug
+            if Router.current().params.model_slug is 'model'
+                model = Docs.findOne
+                    model:'model'
+                    slug: Router.current().params.model_slug
+                    # tribe_slug: 'dao'
+            else
+                model = Docs.findOne
+                    model:'model'
+                    slug: Router.current().params.model_slug
+                    # tribe_slug: Router.current().params.tribe_slug
             # console.log model
             if model.collection and model.collection is 'users'
                 name = prompt 'first and last name'
@@ -95,19 +104,17 @@ if Meteor.isClient
                                 first_name:first_name
                                 last_name:last_name
                         Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{res}/edit"
-            else if model.slug is 'shop'
-                new_doc_id = Docs.insert
-                    model:model.slug
-                Router.go "/shop/#{new_doc_id}/edit"
             else if model.slug is 'model'
                 new_doc_id = Docs.insert
                     model:model.slug
+                    # tribe_slug:Router.current().params.tribe_slug
                 Router.go "/model/edit/#{new_doc_id}"
             else
                 new_doc_id = Docs.insert
                     model:model.slug
                     tribe_slug:Router.current().params.tribe_slug
-                Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{new_doc_id}/edit"
+                # Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{new_doc_id}/edit"
+                Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
 
 
         'click .edit_model': ->
@@ -172,10 +179,12 @@ if Meteor.isClient
 
             Session.set 'loading', true
             if facet.filters and @name in facet.filters
-                Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
+                # Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
+                Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, model_slug, ->
                     Session.set 'loading', false
             else
-                Meteor.call 'add_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
+                # Meteor.call 'add_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
+                Meteor.call 'add_facet_filter', delta._id, facet.key, @name, model_slug, ->
                     Session.set 'loading', false
 
         'keyup .add_filter': (e,t)->
@@ -184,14 +193,15 @@ if Meteor.isClient
                 delta = Docs.findOne model:'delta'
                 facet = Template.currentData()
                 model_slug = Router.current().params.model_slug
-                tribe_slug = Router.current().params.tribe_slug
+                # tribe_slug = Router.current().params.tribe_slug
 
                 if @field_type is 'number'
                     filter = parseInt t.$('.add_filter').val()
                 else
                     filter = t.$('.add_filter').val()
                 Session.set 'loading', true
-                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, delta.tribe_slug, model_slug, ->
+                # Meteor.call 'add_facet_filter', delta._id, facet.key, filter, delta.tribe_slug, model_slug, ->
+                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, model_slug, ->
                     Session.set 'loading', false
                 t.$('.add_filter').val('')
 
@@ -211,8 +221,6 @@ if Meteor.isClient
                     else if filter.name in @filters
                         filtering_res.push filter
                 filtering_res
-
-
 
         toggle_value_class: ->
             facet = Template.parentData()
@@ -287,7 +295,7 @@ if Meteor.isServer
             # if tribe_slug then match.slug = tribe_slug
             match.model = 'model'
             match.slug = model_slug
-            match.tribe_slug = tribe_slug
+            # match.tribe_slug = tribe_slug
 
             Docs.find match
 

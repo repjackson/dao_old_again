@@ -1,75 +1,113 @@
 template(name='nav')
-    //- .ui.borderless.attached.big.inverted.menu.topnav
-    //- .ui.attached.borderless.inverted.large.menu.topnav.grgold
+    //- .ui.attached.borderless.inverted.menu.topnav
     //- .ui.attached.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}CC")
-    .ui.attached.borderless.inverted.menu.topnav
-        if current_tribe
-            a.header.item.pointer.set_models(href="/t/#{current_tribe_slug}/m/model" class="{{isActiveRoute 'tribe_models'}}")
-                if is_loading
-                    i.big.loading.yin.yang.icon
-                else
-                    if current_tribe.image_id
-                        img.ui.avatar.inline.image(src="{{c.url current_tribe.image_id height=100 crop='fill'}}")
-                if current_tribe.show_nav_title
-                    .mobile.hidden.inline #{current_tribe.title}
-        else 
-            a.icon.item(href="/t/dao/m/tribe")
-                i.big.yin.yang.icon
-        each tribe_role_models
-            a.icon.item.pointer.set_model(href="/t/#{current_tribe_slug}/m/#{slug}/" title=title)
-                +i name=icon classes='ui mini inline image pointer'
-        //- if is_dev
-        //-     a.item.pointer.set_models(href='/t/dao/m/model' class="{{isActivePath '/m/model'}}")
-        //-         +i name='active-directory' classes='ui mini inline image pointer'
-        if current_tribe
+    #topnav.topnav.ui.borderless.large.attached.menu
+        if is_loading
+            .item
+                i.big.loading.yin.yang.grey.cancel.icon
+        unless is_loading
             if currentUser
-                a.item.pointer(href="/t/#{current_tribe_slug}/admin/dashboard" title='tribe dashboard')
-                    +i name='dashboard' classes='ui mini inline image pointer'
-        if current_tribe.courses
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/courses" class="{{isActiveRoute regex='tribe_school'}}" title='school')
-                +i name='university' classes='ui mini inline image pointer'
-        if current_tribe.blog
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/blog" class="{{isActiveRoute regex='tribe_blog'}}" title='blog')
-                +i name='blog' classes='ui mini inline image pointer'
-        if current_tribe.gallery
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/gallery" class="{{isActiveRoute regex='tribe_gallery'}}" title='gallery')
-                +i name='gallery' classes='ui mini inline image pointer'
-        if current_tribe.events
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/events" class="{{isActiveRoute regex='tribe_events'}}" title='events')
-                +i name='calendar' classes='ui mini inline image pointer'
-        if current_tribe.shop
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/shop" class="{{isActiveRoute regex='tribe_shop'}}" title='shop')
-                +i name='shop' classes='ui mini inline image pointer'
-        if current_tribe.tasks
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/tasks" class="{{isActiveRoute regex='tribe_tasks'}}" title='tasks')
-                +i name='tasks' classes='ui mini inline image pointer'
-        //- if current_tribe.mail
-        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
-        //-         +i name='inbox' classes='ui mini inline image pointer'
-        if current_tribe.chat
-            a.icon.item.pointer(href="/t/#{current_tribe_slug}/chat" class="{{isActiveRoute regex='tribe_chat'}}" title='chat')
-                +i name='chat' classes='ui mini inline image pointer'
-                
-        //- a.icon.item.pointer(href='/home' class="{{isActivePath '/home'}}")
-        //-     +i name='activity-grid-2' classes='ui avatar image pointer'
-        //- if is_user
-        //- a.icon.item.pointer(href='/front' class="{{isActivePath '/front'}}")
-        //-     +i name='home' classes='ui avatar image pointer'
-        //- a.icon.item.pointer(href='/dashboard' class="{{isActivePath '/dashboard'}}")
-        //-     +i name='dashboard' classes='ui avatar image pointer'
+                a.ui.item(href='/grid' class="{{isActivePath '/grid'}}" title='models')
+                    i.th.icon
+                    //- +i name='grid-view'
+        a.ui.item(href='/' class="{{isActivePath '/'}}" title='home')
+            i.home.icon 
+            //- |home
+            //- | gro
+            //- img.ui.mini.inline.centered.circular.image(src="{{c.url 'gold_run_logo' }}")
+        a.ui.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
+            i.fork.icon
+        a.ui.item(href='/shop' class="{{isActivePath '/shop'}}")
+            i.store.icon
+            |shop
+        a.ui.item(href='/work' class="{{isActivePath '/work'}}")
+            i.tasks.icon
+            .mobile.hidden.inline &nbsp; work
+            
+        a.ui.item.set_service(href='/m/service' class="{{isActivePath '/m/service'}}" title='services')
+            i.wrench.icon
+            .mobile.hidden.inline &nbsp; services
+        a.ui.item.set_request(href='/m/request' class="{{isActivePath '/m/request'}}" title='request')
+            i.hand.holding.usd.icon
+            .mobile.hidden.inline &nbsp; requests
+        a.ui.item.set_offer(href='/m/offer' class="{{isActivePath '/m/offer'}}" title='offer')
+            i.hand.holding.usd.icon
+            .mobile.hidden.inline &nbsp; offers
+        a.ui.item.set_rental(href='/m/rental' class="{{isActivePath '/m/rental'}}" title='rentals')
+            i.money.icon
+            .mobile.hidden.inline &nbsp; rentals
+        a.ui.item.set_shop(href='/m/shop' class="{{isActivePath '/m/shop'}}" title='shop')
+            i.shop.icon
+            .mobile.hidden.inline &nbsp; shop
+        a.ui.item.set_food(href='/m/food' class="{{isActivePath '/m/food'}}" title='food')
+            i.food.icon
+            .mobile.hidden.inline &nbsp; food
+
+        //- if current_tribe
+        //-     a.header.item.pointer.set_models(href="/t/#{current_tribe_slug}/m/model" class="{{isActiveRoute 'tribe_models'}}")
+        //-         if is_loading
+        //-             i.big.loading.yin.yang.icon
+        //-         else
+        //-             if current_tribe.image_id
+        //-                 img.ui.avatar.inline.image(src="{{c.url current_tribe.image_id height=100 crop='fill'}}")
+        //-         if current_tribe.show_nav_title
+        //-             .mobile.hidden.inline #{current_tribe.title}
+        //- else 
+        //-     a.icon.item(href="/t/dao/m/tribe")
+        //-         i.big.yin.yang.icon
+        //- each tribe_role_models
+        //-     a.icon.item.pointer.set_model(href="/t/#{current_tribe_slug}/m/#{slug}/" title=title)
+        //-         +i name=icon classes='ui mini inline image pointer'
+        //- //- if is_dev
+        //- //-     a.item.pointer.set_models(href='/t/dao/m/model' class="{{isActivePath '/m/model'}}")
+        //- //-         +i name='active-directory' classes='ui mini inline image pointer'
+        //- if current_tribe
+        //-     if currentUser
+        //-         a.item.pointer(href="/t/#{current_tribe_slug}/admin/dashboard" title='tribe dashboard')
+        //-             +i name='dashboard' classes='ui mini inline image pointer'
+        //- if current_tribe.courses
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/courses" class="{{isActiveRoute regex='tribe_school'}}" title='school')
+        //-         +i name='university' classes='ui mini inline image pointer'
+        //- if current_tribe.blog
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/blog" class="{{isActiveRoute regex='tribe_blog'}}" title='blog')
+        //-         +i name='blog' classes='ui mini inline image pointer'
+        //- if current_tribe.gallery
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/gallery" class="{{isActiveRoute regex='tribe_gallery'}}" title='gallery')
+        //-         +i name='gallery' classes='ui mini inline image pointer'
+        //- if current_tribe.events
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/events" class="{{isActiveRoute regex='tribe_events'}}" title='events')
+        //-         +i name='calendar' classes='ui mini inline image pointer'
+        //- if current_tribe.shop
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/shop" class="{{isActiveRoute regex='tribe_shop'}}" title='shop')
+        //-         +i name='shop' classes='ui mini inline image pointer'
+        //- if current_tribe.tasks
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/tasks" class="{{isActiveRoute regex='tribe_tasks'}}" title='tasks')
+        //-         +i name='tasks' classes='ui mini inline image pointer'
+        //- //- if current_tribe.mail
+        //- //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/inbox" class="{{isActiveRoute regex='tribe_mail'}}" title='mail')
+        //- //-         +i name='inbox' classes='ui mini inline image pointer'
+        //- if current_tribe.chat
+        //-     a.icon.item.pointer(href="/t/#{current_tribe_slug}/chat" class="{{isActiveRoute regex='tribe_chat'}}" title='chat')
+        //-         +i name='chat' classes='ui mini inline image pointer'
+        //- 
+        //- //- a.icon.item.pointer(href='/home' class="{{isActivePath '/home'}}")
+        //- //-     +i name='activity-grid-2' classes='ui avatar image pointer'
+        //- //- if is_user
+        //- //- a.icon.item.pointer(href='/front' class="{{isActivePath '/front'}}")
+        //- //-     +i name='home' classes='ui avatar image pointer'
+        //- //- a.icon.item.pointer(href='/dashboard' class="{{isActivePath '/dashboard'}}")
+        //- //-     +i name='dashboard' classes='ui avatar image pointer'
         if is_admin
             a.icon.item.pointer(href='/users' class="{{isActivePath '/users'}}")
                 +i name='groups' classes='ui avatar image pointer'
                 .mobile.hidden.inline &nbsp; users
         .right.menu
-            a.item.pointer.set_tribes(href="/t/dao/m/tribe" class="{{isActivePath '/t/dao/m/tribe'}}" title='tribes')
-                +i name='fire' classes='ui avatar image pointer'
             if currentUser
                 .item.pointer.toggle_model_nav(title='toggle model nav')
                     +i name='chevron-down' classes='ui avatar image pointer'
-            if currentUser
-                a.item.pointer(href="/t/#{current_tribe_slug}/edit" title='edit')
-                    +i name='edit' classes='ui avatar image pointer'
+            //- if currentUser
+            //-     a.item.pointer(href="/t/#{current_tribe_slug}/edit" title='edit')
+            //-         +i name='edit' classes='ui avatar image pointer'
             if is_dev
                 a.icon.item.pointer(href='/dev' class="{{isActivePath '/dev'}}" title='dev')
                     +i name='code' classes='ui avatar image pointer'
@@ -95,12 +133,12 @@ template(name='nav')
                 a.item.pointer(href='/login' title='login') 
                     +i name='internal'
                     |login
-    if currentUser.view_model_bar
-        .ui.attached.small.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}CC")
-            each tribe_pages
-                a.item.pointer(href="/t/#{current_tribe_slug}/p/#{slug}/")
-                    //- +i name=icon classes='ui avatar image pointer'
-                    |#{title}
+    //- if currentUser.view_model_bar
+    //-     .ui.attached.small.borderless.inverted.menu.topnav(style="background:#{current_tribe.nav_color}CC")
+    //-         each tribe_pages
+    //-             a.item.pointer(href="/t/#{current_tribe_slug}/p/#{slug}/")
+    //-                 //- +i name=icon classes='ui avatar image pointer'
+    //-                 |#{title}
 
 
 

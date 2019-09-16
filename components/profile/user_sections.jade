@@ -161,6 +161,9 @@ template(name='user_gallery')
     .ui.header 
         +i name='gallery'
         |gallery
+    +cloud filter='image'
+    each user_photos
+        img.ui.small.image(src='')
 
 template(name='user_contact')
     .ui.header 

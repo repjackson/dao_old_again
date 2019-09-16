@@ -49,7 +49,7 @@ template(name='tribes')
                             
                     
 template(name='tribe_card_template')
-    .ui.segment.home_segment.pointer.enter.grid
+    .ui.segment.home_segment.pointer.grid
         .eight.wide.column
             if icon
                 +i name=icon
@@ -75,6 +75,7 @@ template(name='tribe_card_template')
             i.thumbs.up.grey.icon(title='points')
             |#{doc_count}
             i.document.icon(title='documents')
+            +remove_button
             if is_dev
                 +text_edit key='slug' direct=true
                 +edit_button

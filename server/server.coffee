@@ -30,13 +30,14 @@ Meteor.publish 'doc', (doc_id)->
 Meteor.publish 'me', ()->
     Meteor.users.find Meteor.userId()
 
-Meteor.publish 'docs', (selected_tags, tribe_filter, model_filter)->
+# Meteor.publish 'docs', (selected_tags, tribe_filter, model_filter)->
+Meteor.publish 'docs', (selected_tags, model_filter)->
     # self = @
     match = {}
     if model_filter
         match.model = model_filter
-    if tribe_filter
-        match.tribe_slug = tribe_filter
+    # if tribe_filter
+    #     match.tribe_slug = tribe_filter
     if selected_tags.length > 0 then match.tags = $all: selected_tags
 
     Docs.find(match, {sort:{_timestamp:-1}, limit:4})

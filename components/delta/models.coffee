@@ -1,6 +1,7 @@
 if Meteor.isClient
     Template.model_view.onCreated ->
-        @autorun -> Meteor.subscribe 'model', Router.current().params.tribe_slug, Router.current().params.model_slug
+        # @autorun -> Meteor.subscribe 'model', Router.current().params.tribe_slug, Router.current().params.model_slug
+        @autorun -> Meteor.subscribe 'model', Router.current().params.model_slug
         # @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'docs', selected_tags.array(), Router.current().params.model_slug
 
@@ -69,17 +70,21 @@ if Meteor.isServer
         Docs.find
             model:'model'
             slug:slug
-            tribe_slug:tribe_slugs
+            # tribe_slug:tribe_slugs
 
-    Meteor.publish 'model_fields', (tribe_slug, slug)->
-        if slug is 'model'
+    # Meteor.publish 'model_fields', (tribe_slug, model_slug)->
+    Meteor.publish 'model_fields', (model_slug)->
+        console.log 'looking for model fields', tribe_slug, model_slug
+        if model_slug is 'model'
             model = Docs.findOne
                 model:'model'
                 slug:'model'
         else
             model = Docs.findOne
                 model:'model'
-                tribe_slug:tribe_slug
+                # tribe_slug:tribe_slug
+                slug:model_slug
+        console.log model
         Docs.find
             model:'field'
             parent_id:model._id

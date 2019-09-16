@@ -18,11 +18,11 @@ template(name='delta')
                                 +i name='settings' classes='ui mini image pointer inline'
                         .print_delta.inline(title='print session doc')
                             +i name='code' classes='ui mini image pointer inline'
-                        //- if is_dev
-                        .reset.inline(title='reload session')
-                            +i name='refresh' classes='ui mini image pointer inline'
-                        .delete_delta.inline(title='delete session')
-                            +i name='trash' classes='ui mini image pointer inline'
+                        if current_delta
+                            .reset.inline(title='reload session')
+                                +i name='refresh' classes='ui mini image pointer inline'
+                            .delete_delta.inline(title='delete session')
+                                +i name='trash' classes='ui mini image pointer inline'
                         unless current_delta
                             .create_delta.ui.large.button(title='new session')
                                 +i name='plus' classes='ui mini inline image'
@@ -108,10 +108,10 @@ template(name='delta_result')
                         +Template.dynamic template=this data=current_doc
                     .extra
                         if is_tribe
-                            .ui.header this is a tribe
+                            .ui.header #{title}
                             +enter_tribe
                         if is_model
-                            +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
                             a.ui.button.route_model(href="/t/#{current_model.tribe_slug}/m/#{slug}")
                                 i.sitemap.teal.icon
                                 |view model

@@ -3,7 +3,7 @@ template(name='html_plain_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui avatar image'
+                    +ismall name=icon
                 if title
                     |#{title}
                 else if label
@@ -21,7 +21,7 @@ template(name='html_plain_view')
     if field_value
         div
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -84,7 +84,7 @@ template(name='icon_edit')
     div
     .ui.right.icon.fluid.input
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -114,7 +114,7 @@ template(name='i')
         if current_tribe.icon_style
             img(src="https://img.icons8.com/#{current_tribe.icon_style}/48/000000/#{name}.png" class=classes title=title)
         else
-            img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+            img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
     else
         img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
@@ -148,7 +148,7 @@ template(name='link_view')
     if field_value
         div
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header 
             |#{title}
         a(href=field_value target='_window') #{field_value}
@@ -222,7 +222,7 @@ template(name='pdf_view')
 template(name='image_edit')
     .ui.form
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -264,7 +264,7 @@ template(name='textarea_view')
     if field_value
         div
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -281,7 +281,7 @@ template(name='textarea_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui avatar image'
+                    +ismall name=icon
                 if title
                     |#{title}
                 else if label
@@ -299,7 +299,7 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui avatar image'
+                    +ismall name=icon
                 if title
                     |#{title}
                 else if key
@@ -366,7 +366,7 @@ template(name='document_view')
 template(name='text_edit')
     unless view_title
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -446,7 +446,7 @@ template(name='parent_edit')
         .ui.inline.header
             |parent edit
             if icon
-                +i name=icon classes='ui avatar image'
+                +ismall name=icon
             if title
                 |#{title}
             else if label
@@ -600,7 +600,7 @@ template(name='date_view')
     if field_value
         div
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -677,17 +677,18 @@ template(name='datetime_view')
 
 template(name='array_edit')
     div
-    .ui.fluid.input
-        if icon
-            +i name=icon classes='ui avatar image'
-        .ui.inline.header
-            if title
-                |#{title}
-            else if label
-                |#{label}
-            else if key
-                |#{key}
-        input.new_element(type='text' placeholder='+' autocomplete="off")
+    if icon
+        +ismall name=icon
+    .ui.inline.header
+        if title
+            |#{title}
+        else if label
+            |#{label}
+        else if key
+            |#{key}
+    .ui.icon.input
+        i.plus.icon
+        input.new_element(type='text' autocomplete="off")
         //- +clear_value                
     div
     if field_value
@@ -700,7 +701,7 @@ template(name='array_view')
     if field_value
         div
         if icon
-            +i name=icon classes='ui avatar image'
+            +ismall name=icon
         .ui.inline.header
             if title
                 |#{title}
@@ -923,7 +924,7 @@ template(name='single_doc_view')
             |#{title}
         .ui.basic.label
             if icon
-                +i name=icon classes='ui avatar image'
+                +ismall name=icon
             |#{field_value}
 
 
@@ -936,7 +937,7 @@ template(name='single_doc_edit')
     each choices
         .ui.circular.compact.button.select_choice(class=choice_class)
             if icon
-                +i name=icon classes='ui avatar image'
+                +ismall name=icon
                 //- +i name=icon classes='ui avatar image'
             |#{calculated_label}
             |#{title}
@@ -951,7 +952,7 @@ template(name='multi_doc_edit')
     each choices
         .ui.circular.compact.small.button.select_choice(class=choice_class)
             if icon
-                +i name=icon classes='ui avatar image'
+                +ismall name=icon
             //- |#{title} #{slug}
             |#{slug}
     //- .ui.sub.header 
