@@ -83,14 +83,14 @@ if Meteor.isClient
             # Meteor.users.update @_author_id,
             #     $inc:karma:-1
 
-    Template.call_method.events
-        'click .call_method': ->
-            parent = Template.parentData()
-            console.log Template.currentData()
-            if parent
-                Meteor.call @name, parent._id
-            else
-                Meteor.call @name
+    # Template.call_method.events
+    #     'click .call_method': ->
+    #         parent = Template.parentData()
+    #         console.log Template.currentData()
+    #         if parent
+    #             Meteor.call @name, parent._id
+    #         else
+    #             Meteor.call @name
 
     Template.call_watson.events
         'click .autotag': ->
