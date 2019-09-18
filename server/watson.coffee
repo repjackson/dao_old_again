@@ -1,8 +1,7 @@
 NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
 
-
-console.log Meteor.settings.private.language.apikey
-console.log Meteor.settings.private.language.url
+# console.log Meteor.settings.private.language.apikey
+# console.log Meteor.settings.private.language.url
 natural_language_understanding = new NaturalLanguageUnderstandingV1(
     version: '2019-07-12'
     iam_apikey: Meteor.settings.private.language.apikey
@@ -13,9 +12,9 @@ natural_language_understanding = new NaturalLanguageUnderstandingV1(
 Meteor.methods
     call_watson: (doc_id, key, mode) ->
         self = @
-        console.log doc_id
-        console.log key
-        console.log mode
+        # console.log doc_id
+        # console.log key
+        # console.log mode
         doc = Docs.findOne doc_id
         parameters =
             concepts:
@@ -54,14 +53,14 @@ Meteor.methods
                 # console.log 'categories',response.categories
                 adding_tags = []
                 for category in response.categories
-                    console.log category.label.split('/')
+                    # console.log category.label.split('/')
                     for tag in category.label.split('/')
                         if tag.length > 0 then adding_tags.push tag
-                console.log 'adding tags', adding_tags
+                # console.log 'adding tags', adding_tags
                 Docs.update { _id: doc_id },
                     $addToSet:
                         tags:$each:adding_tags
-
+                console.log response.entities
                 for entity in response.entities
                     Docs.update { _id: doc_id },
                         $addToSet:

@@ -40,7 +40,7 @@ template(name='event_edit')
                     .ui.header 
                         i.pencil.icon
                         |edit event
-                    a.ui.big.icon.fluid.button(href="/t/#{tribe_slug}/event/#{_id}/view" title='save')
+                    a.ui.big.icon.fluid.button(href="/event/#{_id}/view" title='save')
                         i.green.checkmark.icon
                     +remove_button
                     +array_edit key='tags' label='tags' icon='tags' direct=true
@@ -73,7 +73,7 @@ template(name='event_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    a.ui.fluid.button(href="/t/#{tribe_slug}/events")
+                    a.ui.fluid.button(href="/events")
                         +i name='calendar' classes='ui avatar image'
                         |events
                     .ui.header view event

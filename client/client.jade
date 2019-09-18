@@ -13,11 +13,14 @@ head
 
 template(name='layout')
     img.ui.fluid.image.checkin_banner(src="{{c.url tribe_background width=1000 height=1000 crop='crop'}}")
+    //- if is_admin
     +nav
     .global_container
         +yield
     +footer 
 
+template(name='mlayout')
+    +yield
 
 template(name='not_found')
     .ui.text.container.global_container

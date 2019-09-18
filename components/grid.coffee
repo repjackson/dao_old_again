@@ -1,26 +1,26 @@
 if Meteor.isClient
     Template.grid.onCreated ->
         # @autorun => Meteor.subscribe 'role_models', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'model'
+        # @autorun => Meteor.subscribe 'docs', selected_tags.array(), 'model'
         # @autorun => Meteor.subscribe 'role_models'
-        @autorun => Meteor.subscribe 'model_docs', 'model'
+        @autorun => Meteor.subscribe 'model_docs', 'model', 40
         # @autorun => Meteor.subscribe 'model_docs', 'post'
         # @autorun => Meteor.subscribe 'model_fields_from_child_id', Router.current().params.doc_id
         # Session.set 'model_filter',null
 
     Template.grid.events
-        'click .set_model': ->
-            Session.set 'loading', true
-            if Meteor.user()
-                Docs.update @_id,
-                    $inc: views: 1
-                    $addToSet:viewer_usernames:Meteor.user().username
-            else
-                Docs.update @_id,
-                    $inc: views: 1
-
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
+        # 'click .set_model': ->
+        #     Session.set 'loading', true
+        #     if Meteor.user()
+        #         Docs.update @_id,
+        #             $inc: views: 1
+        #             $addToSet:viewer_usernames:Meteor.user().username
+        #     else
+        #         Docs.update @_id,
+        #             $inc: views: 1
+        #
+        #     Meteor.call 'set_facets', @slug, ->
+        #         Session.set 'loading', false
 
 
 
@@ -41,34 +41,35 @@ if Meteor.isClient
             t.$(e.currentTarget).closest('.home_segment').removeClass('raised')
 
     Template.grid.helpers
-        role_models: ->
-            match = {model:'model'}
-            if selected_tags.array().length > 0
-                match.tags = $in:selected_tags.array()
-            model_filter = Session.get('model_filter')
-            if model_filter
-                match.title = {$regex:"#{model_filter}", $options: 'i'}
+        models: ->
+
+            match = {model:'model', view_roles:$in:['user']}
+            # if selected_tags.array().length > 0
+            #     match.tags = $in:selected_tags.array()
+            # model_filter = Session.get('model_filter')
+            # if model_filter
+            #     match.title = {$regex:"#{model_filter}", $options: 'i'}
             # unless Meteor.user() and Meteor.user().roles and 'dev' in Meteor.user().roles
             #     match.view_roles = $in:Meteor.user().roles
             Docs.find match, sort:views:-1
 
 
-        marketplace_items: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'marketplace'
-            }, sort:_timestamp:1
-
-        posts: ->
-            # console.log Meteor.user().roles
-            Docs.find {
-                model:'post'
-            }, sort:_timestamp:1
+        # marketplace_items: ->
+        #     # console.log Meteor.user().roles
+        #     Docs.find {
+        #         model:'marketplace'
+        #     }, sort:_timestamp:1
+        #
+        # posts: ->
+        #     # console.log Meteor.user().roles
+        #     Docs.find {
+        #         model:'post'
+        #     }, sort:_timestamp:1
 
 
 
 if Meteor.isServer
-    Meteor.publish 'role_models', ()->
+    Meteor.publish 'models', ()->
         match = {}
         match.model = 'model'
         # if Meteor.user()

@@ -1,6 +1,7 @@
 if Meteor.isClient
     Template.cloud.onCreated ->
-        @autorun -> Meteor.subscribe('tags', selected_tags.array(), Router.current().params.tribe_slug, Template.currentData().filter)
+        # @autorun -> Meteor.subscribe('tags', selected_tags.array(), Template.currentData().filter)
+        @autorun -> Meteor.subscribe('tags', selected_tags.array())
         @autorun -> Meteor.subscribe 'me'
 
 
@@ -38,7 +39,6 @@ if Meteor.isClient
         'click .unselect_tag': -> selected_tags.remove @valueOf()
         'click #clear_tags': -> selected_tags.clear()
 
-
         'keyup #search': (e,t)->
             e.preventDefault()
             val = $('#search').val().toLowerCase().trim()
@@ -62,7 +62,8 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'tags', (selected_tags, tribe_slug, model_filter)->
+    # Meteor.publish 'tags', (selected_tags, tribe_slug, model_filter)->
+    Meteor.publish 'tags', (selected_tags)->
         # user = Meteor.users.finPdOne @userId
         # current_herd = user.profile.current_herd
 
@@ -73,8 +74,7 @@ if Meteor.isServer
         # selected_tags.push current_herd
 
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        if model_filter then match.model = model_filter
-        if tribe_slug then match.tribe_slug = tribe_slug
+        match.model = $in:['restaurant']
         cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
@@ -82,7 +82,7 @@ if Meteor.isServer
             { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_tags }
             { $sort: count: -1, _id: 1 }
-            { $limit: 42 }
+            { $limit: 100 }
             { $project: _id: 0, name: '$_id', count: 1 }
             ]
 

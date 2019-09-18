@@ -1,5 +1,6 @@
 @selected_tags = new ReactiveArray []
-
+@selected_restaurant_tags = new ReactiveArray []
+@selected_rental_tags = new ReactiveArray []
 # Meteor.startup ->
 #     scheduler.init "scheduler_here", new Date()
 #     scheduler.meteor(Docs.find(model:'event'), Docs);
@@ -34,59 +35,7 @@ Template.body.events
         .transition('fade in', 250)
 
 
-Template.registerHelper 'current_tribe', () ->
-    # console.log Meteor.absoluteUrl.defaultOptions.rootUrl
-    # console.log Meteor.absoluteUrl()
-    # full = window.location.host
-    # # //window.location.host is subdomain.domain.com
-    # parts = full.split('.')
-    # sub = parts[0]
-    # domain = parts[1]
-    # type = parts[2]
-    # console.log 'sub', sub
-    # console.log 'domain', domain
-    # console.log 'type', type
-    # if sub in ['localhost:3000','dao.af','dao2.com']
-    #     console.log 'current tribe is dao root'
-    #     'dao'
-    #     tribe_doc = Docs.findOne
-    #         model:'tribe'
-    #         slug: 'dao'
-    #     console.log tribe_doc
-    #     tribe_doc
-    # else
-    #     console.log 'current tribe is ', sub
-    #     sub
-    #     tribe_doc = Docs.findOne
-    #         model:'tribe'
-    #         slug: sub
-    #     console.log tribe_doc
-    #     tribe_doc
-    #     # window.open("dao.localhost:3000");
-    #     Router.go "http://dao.localhost:3000"
-    # //sub is 'subdomain', 'domain', type is 'com'
-    # var newUrl = 'http://' + domain + '.' + type + '/your/other/path/' + subDomain
-    # console.log Router.current().params.tribe_slug
-    slug = Router.current().params.tribe_slug
-    # console.log Meteor.user().current_tribe_slug
-    if slug
-        Docs.findOne
-            model:'tribe'
-            slug: slug
-
-# Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
-
 Session.setDefault 'invert', false
-Template.registerHelper 'current_tribe_slug', () ->
-    Router.current().params.tribe_slug
-Template.registerHelper 'tribe_by_slug', () ->
-    if Router.current().params.doc_id
-        Docs.findOne Router.current().params.doc_id
-    else
-        Docs.findOne
-            model:'tribe'
-            slug:Router.current().params.tribe_slug
-Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
 Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
@@ -114,15 +63,6 @@ Template.registerHelper 'is_product', () -> @shop_type is 'product'
 
 Template.registerHelper 'current_month', () -> moment(Date.now()).format("MMMM")
 Template.registerHelper 'current_day', () -> moment(Date.now()).format("DD")
-Template.registerHelper 'tribe_background', () ->
-    tribe = Docs.findOne
-        model:'tribe'
-        slug:Router.current().params.tribe_slug
-    if tribe
-        tribe.background
-
-
-
 
 Template.registerHelper 'referenced_product', () ->
     Docs.findOne
@@ -153,7 +93,7 @@ Template.registerHelper 'edit_fields', () ->
     model = Docs.findOne
         model:'model'
         slug:Router.current().params.model_slug
-    console.log 'found model from edit fields', model
+    # console.log 'found model from edit fields', model
     if model
         # if 'dev' in Meteor.user().roles
         #     Docs.find {
@@ -166,7 +106,7 @@ Template.registerHelper 'edit_fields', () ->
             parent_id:model._id
             # edit_roles:$in:Meteor.user().roles
         }, sort:rank:1
-        console.log model_fields.fetch()
+        # console.log model_fields.fetch()
         model_fields
 
 Template.registerHelper 'current_user', (input) ->
@@ -211,7 +151,6 @@ Template.registerHelper 'is_user', () ->
 
 
 Template.registerHelper 'user_is_user', () -> if @roles and 'user' in @roles then true else false
-Template.registerHelper 'user_is_resident_or_owner', () -> if @roles and _.intersection(@roles,['resident','owner']) then true else false
 
 
 Template.registerHelper 'is_eric', () -> if Meteor.userId() and 'CFTSK5ZtNpMpZFMwi' is Meteor.userId() then true else false
@@ -221,7 +160,6 @@ Template.registerHelper 'is_current_user', () ->  Meteor.user().username is Rout
 Template.registerHelper 'view_template', -> "#{@field_type}_view"
 Template.registerHelper 'edit_template', -> "#{@field_type}_edit"
 Template.registerHelper 'is_model', -> @model is 'model'
-Template.registerHelper 'is_tribe', -> @model is 'tribe'
 
 
 # Template.body.events

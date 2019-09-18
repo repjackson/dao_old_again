@@ -1,31 +1,32 @@
 template(name='delta')
     with current_model
-        .ui.stackable.padded.grid
+        .ui.stackable.grid
             .row
-                .six.wide.column.scrolling
-                    +i name=icon classes='ui avatar image pointer inline'
+                .six.wide.column
+                    if icon
+                        i.large.grey.icon(class=icon)
                     .ui.inline.header
                         | #{title}
                     unless is_loading
                         if currentUser
-                            .add_model_doc.inline(title="add #{title}")
-                                +i name='plus' classes='ui mini image pointer inline'
+                            .add_model_doc.ui.large.icon.button(title="add #{title}")
+                                i.plus.large.icon
                         //- if can_edit
                             //- +edit_circular.button
                         if is_dev
                             //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
-                            .edit_model.inline
-                                +i name='settings' classes='ui mini image pointer inline'
-                        .print_delta.inline(title='print session doc')
-                            +i name='code' classes='ui mini image pointer inline'
+                            .edit_model.ui.compact.large.icon.button
+                                i.cog.icon
+                        .print_delta.ui.compact.large.icon.button(title='print session doc')
+                            i.code.large.icon
                         if current_delta
-                            .reset.inline(title='reload session')
-                                +i name='refresh' classes='ui mini image pointer inline'
-                            .delete_delta.inline(title='delete session')
-                                +i name='trash' classes='ui mini image pointer inline'
+                            .reset.ui.compact.large.icon.button(title='reload session')
+                                i.refresh.icon
+                            .delete_delta.ui.compact.large.icon.button(title='delete session')
+                                i.trash.icon
                         unless current_delta
                             .create_delta.ui.large.button(title='new session')
-                                +i name='plus' classes='ui mini inline image'
+                                i.plus.large.icon
                                 |session
                         if description
                             .ui.segment
@@ -43,9 +44,6 @@ template(name='delta')
                     .ui.left.icon.input
                         i.search.icon
                         input.title_filter(type='text' placeholder='filter...' autofocus='autofocus')
-        
-                    //- .ui.button
-                    //- .ui.stackable.four.column.grid
                     each current_delta.result_ids
                         //- .column
                         +delta_result
@@ -58,8 +56,8 @@ template(name='facet')
         //- .ui.accordion
         //-     .active.title
         if icon
-            //- i.small.icon(class=icon)
-            +i name=icon classes='ui avatar image pointer inline'   
+            i.grey.icon(class=icon)
+            //- +i name=icon classes='ui avatar image pointer inline'   
         .ui.inline.header 
             if title
                 |#{title}
@@ -97,48 +95,47 @@ template(name='toggle_delta_config')
 
 template(name='delta_result')
     with result 
-        if template_exists
-            +Template.dynamic template=model_template
-        else
-            .ui.result.cloud.fluid.segment(class=loading_class)
-                .content
-                    each fields
-                        +Template.dynamic template=view_template 
-                    each actions
-                        +Template.dynamic template=this data=current_doc
-                    .extra
-                        if is_tribe
-                            .ui.header #{title}
-                            +enter_tribe
-                        if is_model
-                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                            a.ui.button.route_model(href="/t/#{current_model.tribe_slug}/m/#{slug}")
-                                i.sitemap.teal.icon
-                                |view model
-                            if is_admin
-                                a.ui.button.route_model(href="/model/edit/#{_id}")
-                                    i.edit.blue.icon
-                                    |edit model
-                        if can_edit
-                            a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                                +i name='pencil'
-                        a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/view" title='view')
-                            +i name='chevron-right'
-                        if _author_id
-                            +author_info
-                        +creation_info
-                    if is_dev
-                        +text_edit key='model' direct=true
-                        +text_edit key='tribe_slug' direct=true
-                        .ui.inline.header _id: #{_id}
-                        .ui.inline.header light fields
-                        each _keys
-                            .ui.label #{this}
-                        .ui.inline.header fields
-                        each _fields
-                            .ui.label #{this}
-                        //- +call_method name='detect_fields'
-                        +call_method name='key' icon='key'
-                        +remove_button
-                        +clone
-                        
+        //- if template_exists
+        //-     +Template.dynamic template=model_template
+        //- else
+        .ui.result.cloud.fluid.segment(class=loading_class)
+            .content
+                each fields
+                    +Template.dynamic template=view_template 
+                //- each actions
+                //-     +Template.dynamic template=this data=current_doc
+                .extra
+                    if is_tribe
+                        .ui.header #{title}
+                        +enter_tribe
+                    if is_model
+                        //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                        a.ui.button.route_model(href="/m/#{slug}")
+                            i.sitemap.icon
+                            |view model
+                        if is_admin
+                            a.ui.button.route_model(href="/model/edit/#{_id}")
+                                i.edit.blue.icon
+                                |edit model
+                    if can_edit
+                        a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                    a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                        i.chevron.right.icon
+                    if _author_id
+                        +author_info
+                    +creation_info
+                if is_dev
+                    +text_edit key='model' direct=true
+                    .ui.inline.header _id: #{_id}
+                    .ui.inline.header light fields
+                    each _keys
+                        .ui.label #{this}
+                    .ui.inline.header fields
+                    each _fields
+                        .ui.label #{this}
+                    //- +call_method name='detect_fields'
+                    +call_method name='key' icon='key'
+                    +remove_button
+                    +clone
+                    

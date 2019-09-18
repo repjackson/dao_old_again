@@ -25,4 +25,4 @@ if Meteor.isClient
             new_id = Docs.insert
                 model:'event'
                 tribe_slug:tribe_slug
-            Router.go "/t/#{tribe_slug}/event/#{new_id}/edit"
+            Router.go "/event/#{new_id}/edit"

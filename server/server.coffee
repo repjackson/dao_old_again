@@ -31,11 +31,12 @@ Meteor.publish 'me', ()->
     Meteor.users.find Meteor.userId()
 
 # Meteor.publish 'docs', (selected_tags, tribe_filter, model_filter)->
-Meteor.publish 'docs', (selected_tags, model_filter)->
+Meteor.publish 'docs', (selected_tags)->
     # self = @
     match = {}
-    if model_filter
-        match.model = model_filter
+    # if model_filter
+    #     match.model = model_filter
+    match.model = $in: ['restaurant']
     # if tribe_filter
     #     match.tribe_slug = tribe_filter
     if selected_tags.length > 0 then match.tags = $all: selected_tags

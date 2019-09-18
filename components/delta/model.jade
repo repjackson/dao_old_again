@@ -5,23 +5,19 @@ template(name='model_edit')
                 .six.wide.column
                     h1.ui.header edit model #{title}
                     +creation_info
-                    //- a.ui.huge.icon.basic.button(href="/t/#{tribe_slug}/m/#{slug}")
+                    //- a.ui.huge.icon.basic.button(href="/m/#{slug}")
                     a.ui.huge.icon.basic.button(href="/m/#{slug}")
-                        i.big.green.checkmark.icon
+                        i.big.checkmark.icon
                     #delete_model.ui.icon.basic.button
-                        i.red.trash.icon
+                        i.trash.icon
                     .ui.form
                         +text_edit key='title' label='title' direct=true
                         +slug_edit key='slug' label='slug' direct=true
                         +icon_edit key='icon' label='icon' direct=true
                         +textarea_edit key='description' label='description' direct=true
                         +array_edit key='tags' label='tags' direct=true
-                        +text_edit key='collection' label='collection' direct=true
+                        //- +text_edit key='collection' label='collection' direct=true
                         +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
-                        +text_edit key='tribe_slug' label='tribe slug' direct=true
-                        //- +single_doc_edit key='tribe_id' ref_model='tribe' ref_key='_id' label='tribe' direct=true
-    
-                        +multi_doc_edit key='actions' label='actions' ref_model='action' direct=true
                 .ten.wide.column
                     //- |#{model}
                     //- each fields
@@ -29,12 +25,13 @@ template(name='model_edit')
                     //-     // .ui.header #{key} [#{field}] #{label}
                     .ui.inline.header fields
                     .ui.icon.large.basic.button.add_field
-                        i.plus.green.icon
+                        i.plus.icon
                     .ui.styled.fluid.accordion
                         each fields
                             .title 
                                 |#{rank}
-                                +i name=icon classes='ui avatar image'
+                                i.icon(class=icon)
+                                //- +i name=icon classes='ui avatar image'
                                 |#{title} (#{field_type})
                                 if faceted
                                     i.filter.icon
@@ -50,7 +47,7 @@ template(name='model_view')
             .row
                 .sixteen.wide.column
                     .ui.breadcrumb
-                        //- a.section(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}" title=current_model.plural)
+                        //- a.section(href="/m/#{current_model.slug}" title=current_model.plural)
                         a.section(href="/m/#{current_model.slug}" title=current_model.plural)
                             .ui.compact.button
                                 |#{current_model.title}
@@ -94,7 +91,7 @@ template(name='model_view')
         .ui.stackable.padded.grid
             .four.wide.column
                 h1.ui.header #{title}
-                .ui.icon.big.green.button.add_child(title="add #{slug}")
+                .ui.icon.big.button.add_child(title="add #{slug}")
                     i.plus.icon
                 a.ui.icon.blue.big.button(href="/model/edit/#{_id}")
                     i.pencil.icon
@@ -127,7 +124,7 @@ template(name='field_edit')
         +text_edit key='title' direct=true label='title'        
         +slug_edit key='key'  direct=true label='key'           
         +text_edit key='field_type' direct=true label='field type'              
-        +icon_edit key='icon' direct=true label='icon'              
+        //- +icon_edit key='icon' direct=true label='icon'              
         +number_edit key='rank' label='rank' direct=true                 
         +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
         +multi_doc_edit key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          

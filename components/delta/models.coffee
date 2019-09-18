@@ -74,7 +74,7 @@ if Meteor.isServer
 
     # Meteor.publish 'model_fields', (tribe_slug, model_slug)->
     Meteor.publish 'model_fields', (model_slug)->
-        console.log 'looking for model fields', tribe_slug, model_slug
+        # console.log 'looking for model fields', model_slug
         if model_slug is 'model'
             model = Docs.findOne
                 model:'model'
@@ -84,7 +84,8 @@ if Meteor.isServer
                 model:'model'
                 # tribe_slug:tribe_slug
                 slug:model_slug
-        console.log model
-        Docs.find
-            model:'field'
-            parent_id:model._id
+        # console.log model
+        if model
+            Docs.find
+                model:'field'
+                parent_id:model._id

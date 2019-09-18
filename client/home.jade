@@ -1,0 +1,17 @@
+template(name='home')
+    .ui.padded.stackable.grid
+        .row
+            .six.wide.column
+                //- .ui.header 
+                //-     i.food.grey.icon
+                //-     |restaurants
+                +cloud
+            .ten.wide.column.scrolling
+                each docs
+                    //- 
+                    //- .ui.segment 
+                    //-     .ui.header model: #{model}
+                    //-     each tags
+                    //-         .ui.label #{this}
+                    //-         |!{body}
+                    +restaurant_card_template

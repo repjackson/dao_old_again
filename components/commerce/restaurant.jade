@@ -1,0 +1,186 @@
+template(name='restaurants')
+    .ui.padded.stackable.grid
+        //- .row
+        //-     a.ui.big.fluid.button(href='/')
+        //-         i.left.chevron.icon
+        //-         strong back
+        .row
+            .six.wide.column
+                //- .ui.header 
+                //-     i.food.grey.icon
+                //-     |restaurants
+                +cloud
+            .ten.wide.column.scrolling
+                .ui.stackable.three.cards
+                    each restaurants
+                        +restaurant_card_template
+
+
+
+
+template(name='restaurant_card_template')
+    .ui.fluid.segment.grid
+        .row
+            .sixteen.wide.column
+                a.ui.inline.header(href="/restaurant/#{_id}/view") #{name} 
+        .row
+            .four.wide.column
+                +image_view key='logo_image' direct=true
+                +image_view key='outside_image' direct=true
+            .twelve.wide.column
+                i.grey.marker.icon 
+                |#{location}
+                each location_tags
+                    .ui.small.label #{this}
+                |!{description}
+                //- .ui.grey.inline.header location
+                //- each location_tags
+                //-     .ui.basic.label #{this}
+                div
+                //- .ui.grey.inline.header tags
+                //- each tags
+                //-     .ui.basic.label #{this}
+                    
+                //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
+    
+                //- +voting
+                div
+                //- if currentUser
+                //-     if can_edit
+                //-         a.ui.button(href="/restaurant/#{_id}/edit")
+                //-             i.pencil.icon
+                //-             |edit
+                a.ui.button(href="/restaurant/#{_id}/view")
+                    |view
+                    i.right.chevron.icon
+                unless is_frontdesk
+                    +author_info
+
+
+template(name='restaurant_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    a.ui.fluid.button(href="/")
+                        i.left.chevron.icon
+                        |back
+                    .ui.header view restaurant
+                    if can_edit
+                        a.ui.big.button(href="/restaurant/#{_id}/edit")
+                            //- i.pencil.icon
+                            |edit
+                    +image_view key='image' label='image' direct=true
+                    +voting_full
+                    //- +viewing
+                .eight.wide.column
+                    h1.ui.header #{name} 
+                    +textarea_view key='description' icon='content' label='description' direct=true
+                    +array_view key='location_tags' label='location tags' icon='marker' direct=true
+                    +array_view key='tags' label='tags' icon='tags' direct=true
+                    //- +single_user_view key='resident' label='resident' direct=true
+                    +text_view key='location' label='location' icon='info' direct=true
+                    +comments
+                .four.wide.column 
+                    //- +boolean_view key='set_duration' label='set duration' direct=true
+                    //- if set_duration
+                    //-     +number_view key='duration_hours' label='duration hours' direct=true
+                    //- +number_view key='hourly_rate' label='hourly rate' direct=true
+                    //- +boolean_view key='variable_price' label='variable price' direct=true
+                    //- div
+                    //- +restaurant_history
+                    //- +restaurant_subscription
+                    //- +restaurant_time
+                    
+template(name='restaurant_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        //- +ismall name='add'
+                        i.plus.icon
+                        |add restaurant
+                    a.ui.big.fluid.button(href="/restaurant/#{_id}/view" title='save')
+                        //- i.checkmark.icon
+                        |save
+                    +remove_button
+                    +image_edit key='image' label='image' direct=true
+                .eight.wide.column 
+                    +text_edit key='title' direct=true
+                    +textarea_edit key='description' label='content' icon='content' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                    +text_edit key='contact_info' label='contact info' icon='info' direct=true
+                    
+                    
+template(name='kiosk_restaurant_view')
+    with current_doc
+        .ui.padded.grid
+            a.ui.fluid.big.button(href="/healthclub")
+                i.left.chevron.large.icon
+                |back
+            .eight.wide.column
+                +image_view key='image' direct=true
+                +image_view key='picture' direct=true
+            .eight.wide.column.scrolling
+                h1.ui.header #{title}
+                .f7 !{description}
+                .ui.hidden.divider
+                .ui.header #{views} views
+                //- if is_admin
+                //-     +edit_button
+                //- +voting
+                //- div
+                //- +kiosk_send_message
+                
+                
+template(name='restaurant_cloud')
+    //- #cloud
+        //- .ui.left.icon.input
+        //-     i.search.icon
+        //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+        // .ui.hidden.fitted.divider
+    if selected_restaurant_tags
+        #clear_tags.ui.active.icon.tiny.circular.big.button
+            i.remove.icon
+        each selected_restaurant_tags
+            .unselect_restaurant_tag.ui.active.circular.kiosk_facet_button.big.button
+                strong #{this}
+    each all_restaurant_tags
+        .ui.compact.circular.basic.big.button.kiosk_facet_button.select_restaurant_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+template(name='restaurant_small')
+    div
+    a.ui.fluid.button(href="/restaurants")
+        .ui.inline.header
+            //- +i name='work'
+            //- i.wrench.grey.icon
+            |restaurants
+    //- +restaurant_cloud filter='restaurant'
+    .ui.relaxed.list.smallscroll
+        each restaurants
+            .item.log_restaurant_view
+                //- if image
+                //-     img.ui.mini.inline.image(src="{{c.url image width=300 height=300 gravity='face' crop='fill'}}")
+                //- if picture
+                //-     img.ui.mini.inline.image(src="{{c.url picture width=300 height=300 gravity='face' crop='fill'}}")
+                .content
+                    .header
+                        a(href="/kiosk_restaurant_view/#{_id}")
+                            .ui.small.grey.inline.header 
+                                |#{title}
+                                small $#{hourly_rate}/hr
+                    //- .description
+                    //-     .ui.horizontal.list
+                    //-         .item
+                    //-             span(title='transactions')
+                    //-                 i.route.icon
+                    //-                 |#{transaction_count}
+                    //-         .item
+                    //-             span(title='money earned')
+                    //-                 i.money.icon
+                    //-                 |#{money_earned}

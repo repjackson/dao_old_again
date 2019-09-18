@@ -20,7 +20,6 @@ Meteor.methods
             model = Docs.findOne
                 model:'model'
                 slug:model_slug
-                # tribe_slug: tribe_slug
         # console.log 'found model for set facets', model
         fields =
             Docs.find
@@ -41,20 +40,19 @@ Meteor.methods
         Docs.update delta._id,
             $set:facets:[]
         for field in fields.fetch()
-            unless field.field_type in ['textarea','image','youtube','html']
-                # unless field.key in ['slug','icon']
-                    if field.faceted is true
-                        Docs.update delta._id,
-                            $addToSet:
-                                facets: {
-                                    title:field.title
-                                    icon:field.icon
-                                    key:field.key
-                                    rank:field.rank
-                                    field_type:field.field_type
-                                    filters:[]
-                                    res:[]
-                                }
+            # unless field.field_type in ['textarea','image','youtube','html']
+            if field.faceted is true
+                Docs.update delta._id,
+                    $addToSet:
+                        facets: {
+                            title:field.title
+                            icon:field.icon
+                            key:field.key
+                            rank:field.rank
+                            field_type:field.field_type
+                            filters:[]
+                            res:[]
+                        }
         Meteor.call 'fum', delta._id
 
 
@@ -69,29 +67,23 @@ Meteor.methods
             model = Docs.findOne
                 model:'model'
                 slug:delta.model_filter
-                # tribe_slug:delta.tribe_slug
         # console.log 'found model for fum', model
 
-        unless Meteor.user() and Meteor.user().roles and 'dev' in Meteor.user().roles
-            # built_query = {tribe_slug:delta.tribe_slug}
-            built_query = {}
-        else
-            # if delta.model_filter in ['tribe','model']
-            if delta.model_filter in ['tribe']
-                built_query = {}
-            else
-                # built_query = {tribe_slug:delta.tribe_slug}
-                built_query = {}
+        # unless Meteor.user() and Meteor.user().roles and 'dev' in Meteor.user().roles
+        #     # built_query = {tribe_slug:delta.tribe_slug}
+        #     built_query = {}
+        # else
+        built_query = {}
 
         fields =
             Docs.find
                 model:'field'
                 parent_id:model._id
-        if model.collection and model.collection is 'users'
-            built_query.roles = $in:[delta.model_filter]
-        else
-            unless delta.model_filter is 'all'
-                built_query.model = delta.model_filter
+        # if model.collection and model.collection is 'users'
+        #     built_query.roles = $in:[delta.model_filter]
+        # else
+        unless delta.model_filter is 'all'
+            built_query.model = delta.model_filter
 
         # if delta.model_filter is 'model'
         #     # unless 'dev' in Meteor.user().roles
@@ -159,7 +151,7 @@ Meteor.methods
         # console.log 'agg query', query
         # console.log 'agg key', key
         # console.log 'agg collection', collection
-        limit=42
+        limit=100
         options = { explain:false }
         pipe =  [
             { $match: query }

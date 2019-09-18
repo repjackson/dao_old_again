@@ -4,18 +4,22 @@ template(name='model_doc_edit')
             .centered.row
                 .four.wide.column
                     .ui.header(title="model: #{model}")
-                        |edit #{model}
+                        |edit #{model} #{title} #{name}
                     +creation_info
-                    a.ui.big.icon.basic.button(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/view")
-                        i.big.green.checkmark.icon
+                    a.ui.big.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/view")
+                        i.big.checkmark.icon
                     #delete_doc.ui.icon.basic.button
-                        i.red.trash.icon
-                    if is_user
-                        +boolean_edit key='private' direct=true
+                        i.trash.icon
+                    //- if is_user
+                    //-     +boolean_edit key='private' direct=true
                 .twelve.wide.column
                     //- |#{model}
-                    each edit_fields
-                        +Template.dynamic template=edit_template 
+                    .ui.fluid.styled.accordion
+                        each edit_fields
+                            .title 
+                                .ui.header #{title}
+                            .content
+                                +Template.dynamic template=edit_template 
                         // .ui.header #{key} [#{field}] #{label}
             //- if watson 
             //-     .row
@@ -29,19 +33,17 @@ template(name='model_doc_view')
                 .six.wide.column
                     a.ui.basic.button.back_to_model
                         i.chevron.left.icon
-                        +i name=current_model.icon classes='ui avatar image'
                         |#{current_model.title}
                     div
                     if can_edit
-                        a.pointer(href="/t/#{current_model.tribe_slug}/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                            +i name='edit'
-                    if is_admin
-                        .ui.header 
-                            +i name='clock'
-                            |timestamp tags
-                        each _timestamp_tags
-                            .ui.basic.label #{this}
-                    +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                        a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                            i.pencil.icon
+                    //- if is_admin
+                    //-     .ui.header 
+                    //-         |timestamp tags
+                    //-     each _timestamp_tags
+                    //-         .ui.basic.label #{this}
+                    //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
                     div
                     .ui.header
                         |by

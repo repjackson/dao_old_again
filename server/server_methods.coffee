@@ -53,25 +53,17 @@ Meteor.methods
     change_username:  (user_id, new_username) ->
         user = Meteor.users.findOne user_id
         Accounts.setUsername(user._id, new_username)
-        return "Updated Username to #{new_username}."
+        return "updated username to #{new_username}."
 
 
     add_email: (user_id, new_email) ->
         Accounts.addEmail(user_id, new_email);
         Accounts.sendVerificationEmail(user_id, new_email)
-        return "Updated Email to #{new_email}"
+        return "updated email to #{new_email}"
 
     remove_email: (user_id, email)->
         # user = Meteor.users.findOne username:username
         Accounts.removeEmail user_id, email
-
-
-    check_lease_status: ->
-        residents =
-            Meteor.users.find(
-                roles:$in:['resident']
-            ).fetch()
-
 
 
     verify_email: (user_id, email)->
@@ -94,65 +86,10 @@ Meteor.methods
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
                 from:"relay@goldrun.online"
-                subject:"Gold Run Message Notification from #{message._author_username}"
-                html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
-                    "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
+                subject:"dao message from #{message._author_username}"
+                html: "<h3> #{message._author_username} sent:</h3>"+"<h2> #{message.body}.</h2>"+
+                    "<br><h4>view your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
-
-    checkout_members: ()->
-        now = Date.now()
-        # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-        checkedin_sessions = Docs.find(
-            model:'healthclub_session',
-            active:true
-            garden_key:$ne:true
-            ).fetch()
-
-
-        for session in checkedin_sessions
-            # checkedin_doc =
-            #     Docs.findOne
-            #         user_id:member._id
-            #         model:'healthclub_checkin'
-            #         active:true
-            diff = now-session._timestamp
-            minute_difference = diff/1000/60
-            if minute_difference>60
-                # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
-                Docs.update session._id,
-                    $set:
-                        active:false
-                        logout_timestamp:Date.now()
-                # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
-
-    check_resident_status: (user_id)->
-        user = Meteor.users.findOne user_id
-
-
-
-    checkout_user: (user_id)->
-        Meteor.users.update user_id,
-            $set:
-                healthclub_checkedin:false
-        checkedin_doc =
-            Docs.findOne
-                user_id:user_id
-                model:'healthclub_checkin'
-                active:true
-        if checkedin_doc
-            Docs.update checkedin_doc._id,
-                $set:
-                    active:false
-                    logout_timestamp:Date.now()
-
-        Docs.insert
-            model:'log_event'
-            parent_id:user_id
-            object_id:user_id
-            user_id:user_id
-            body: "#{@first_name} #{@last_name} checked out."
-
-
 
     lookup_user: (username_query, role_filter)->
         if role_filter
@@ -204,8 +141,6 @@ Meteor.methods
 
     set_password: (user_id, new_password)->
         Accounts.setPassword(user_id, new_password)
-
-
 
     keys: (specific_key)->
         start = Date.now()
@@ -266,9 +201,6 @@ Meteor.methods
     count_key: (key)->
         count = Docs.find({"#{key}":$exists:true}).count()
 
-
-
-
     slugify: (doc_id)->
         doc = Docs.findOne doc_id
         slug = doc.title.toString().toLowerCase().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '_').replace(/^-+/, '').replace(/-+$/,'')
@@ -279,12 +211,9 @@ Meteor.methods
 
 
     rename: (old, newk)->
-
         old_count = Docs.find({"#{old}":$exists:true}).count()
 
         new_count = Docs.find({"#{newk}":$exists:true}).count()
-
-
         result = Docs.update({"#{old}":$exists:true}, {$rename:"#{old}":"#{newk}"}, {multi:true})
         result2 = Docs.update({"#{old}":$exists:true}, {$rename:"_#{old}":"_#{newk}"}, {multi:true})
 

@@ -1,6 +1,8 @@
 @Docs = new Meteor.Collection 'docs'
+# @Restaurant_tags = new Meteor.Collection 'restaurant_tags'
+# @Rental_tags = new Meteor.Collection 'rental_tags'
 @Tags = new Meteor.Collection 'tags'
-@Usernames = new Meteor.Collection 'usernames'
+# @Usernames = new Meteor.Collection 'usernames'
 Router.configure
     layoutTemplate: 'layout'
     notFoundTemplate: 'not_found'

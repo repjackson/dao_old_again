@@ -22,8 +22,6 @@ Router.route '/inbox', -> @render 'inbox'
 Router.route '/register', -> @render 'register'
 Router.route '/grid', -> @render 'grid'
 Router.route '/timecard', -> @render 'timecard'
-Router.route '/manager', -> @render 'manager'
-Router.route '/shift_checklist', -> @render 'shift_checklist'
 
 Router.route '/admin', -> @render 'admin'
 # Router.route '/timecard', -> @render 'timecard'
@@ -89,14 +87,12 @@ Router.route '/reset_password/:token', (->
 
 Router.route '/login', -> @render 'login'
 
-Router.route '/', -> @redirect '/m/tribe'
-# Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
+Router.route '/', (->
+    @layout 'mlayout'
+    @render 'home'
+    ), name:'home'
+# Router.route '/', -> @redirect '/home'
 # Router.route '/home', -> @render 'home'
-# Router.route '/t/:tribe_slug/models', (->
-Router.route '/models', (->
-    @layout 'layout'
-    @render 'tribe_models'
-    ), name:'tribe_models'
 
 
 # Router.route '/', (->

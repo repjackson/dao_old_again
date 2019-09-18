@@ -2,7 +2,7 @@ template(name='comments')
     .ui.fluid.accordion
         .active.title
             .ui.header
-                +i name='chat'
+                //- +i name='chat'
                 |comments
         .active.content
             if currentUser
@@ -270,7 +270,7 @@ template(name='voting_full')
 
 
 template(name='view_button')
-    a.ui.icon.compact.basic.button.view(title='view' href="/t/#{current_tribe.slug}/#{model}/#{_id}/view")
+    a.ui.icon.compact.basic.button.view(title='view' href="/#{model}/#{_id}/view")
         +i name='chevron right' classes='ui mini inline image'
 
 
@@ -289,7 +289,7 @@ template(name='add_button')
 
 
 template(name='save_button')
-    a.ui.basic.button.large.icon.save(title='Save' href="/t/#{current_tribe.slug}/m/#{model}/#{_id}/view")
+    a.ui.basic.button.large.icon.save(title='save' href="/m/#{model}/#{_id}/view")
         i.checkmark.green.icon
         |save
 
@@ -374,7 +374,7 @@ template(name='session_edit_icon')
                 |Save
 
 template(name='edit_button')
-    a.dark.pointer(href="/t/#{tribe_slug}/#{model}/#{_id}/edit" title='edit')
+    a.dark.pointer(href="/#{model}/#{_id}/edit" title='edit')
         +i name='pencil' classes='ui inline mini image'
         //- i.pencil.icon
         

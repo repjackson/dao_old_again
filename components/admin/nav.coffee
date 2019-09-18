@@ -5,24 +5,8 @@ if Meteor.isClient
             Meteor.logout ->
                 Session.set 'logging_out', false
                 Router.go '/'
-
-        'click .set_models': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', Router.current().params.tribe_slug, 'model', ->
-                Session.set 'loading', false
-
-        'click .toggle_model_nav': ->
-            Meteor.users.update Meteor.userId(),
-                $set:view_model_bar:!Meteor.user().view_model_bar
-        'click .set_tribes': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'dao', 'tribe', ->
-                Session.set 'loading', false
-
-        'click .set_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', Router.current().params.tribe_slug, @slug, ->
-                Session.set 'loading', false
+        'click .cancel': ->
+            Session.set 'loading', false
 
     Template.nav.onRendered ->
         # @autorun =>
@@ -31,73 +15,19 @@ if Meteor.isClient
         #             $('.dropdown').dropdown()
         #         , 3000
 
-        Meteor.setTimeout ->
-            $('.item').popup(
-                preserve:true;
-                hoverable:true;
-            )
-        , 3000
-
-
 
     # Template.mlayout.onCreated ->
     #     @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-        @autorun -> Meteor.subscribe 'current_tribe', Router.current().params.tribe_slug
-        @autorun -> Meteor.subscribe 'tribe_role_models', Router.current().params.tribe_slug, Router.current().params.model_slug
-        @autorun -> Meteor.subscribe 'tribe_pages'
-
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
-        # nav_color: ->
-        #     {
-        #         background: url(/image/signup-bg.png) center no-repeat;
-        #         /*height: 100%;*/
-        #         width: 100%;
-        #         height: 100vh;
-        #         background-repeat: no-repeat;
-        #         background-position: center center;
-        #         background-size: cover;
-        #         background-attachment: fixed;
-        #         position: relative;
-        #     }
-
-        nav_class: ->
-            if Meteor.user() and Meteor.user().current_tribe_id
-                current_tribe = Docs.findOne Meteor.user().current_tribe_id
-                if current_tribe
-                    "inverted #{current_tribe.nav_color}"
-        current_tribe_slug: () ->
-            Router.current().params.tribe_slug
-        current_tribe: ->
-            if Router.current().params.tribe_slug
-                Docs.findOne
-                    model:'tribe'
-                    slug: Router.current().params.tribe_slug
-
         notifications: ->
             Docs.find
                 model:'notification'
 
-        tribe_role_models: ->
-            match = {}
-            match.model = 'model'
-            if Meteor.user()
-                if Meteor.user() and Meteor.user().current_tribe_slug
-                    # tribe = Meteor.user().current_tribe_slug
-                    match.tribe_slug = Meteor.user().current_tribe_slug
-                # unless 'dev' in Meteor.user().roles
-                #     match.view_roles = $in:Meteor.user().roles
-                # console.log match
-                Docs.find match,
-                    {sort:title:1}
-            else
-                Docs.find
-                    model:'model'
-                    tribe_slug: Router.current().params.tribe_slug
         models: ->
             Docs.find
                 model:'model'
@@ -146,24 +76,6 @@ if Meteor.isServer
             Docs.find
                 model:'model'
                 bookmark_ids:$in:[Meteor.userId()]
-
-    Meteor.publish 'current_tribe', (tribe_slug)->
-        Docs.find
-            model:'tribe'
-            slug: tribe_slug
-    Meteor.publish 'tribe_pages', ->
-        if Meteor.userId()
-            if Meteor.user().current_tribe_slug
-                Docs.find
-                    model:'page'
-                    tribe_slug:Meteor.user().current_tribe_slug
-
-    Meteor.publish 'tribe_role_models', (tribe_slug, model_slug)->
-        Docs.find
-            model:'model'
-            tribe_slug: tribe_slug
-            slug:model_slug
-
 
     Meteor.publish 'my_cart', ->
         if Meteor.userId()

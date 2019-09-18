@@ -49,20 +49,6 @@ if Meteor.isClient
 
 
 
-    Template.user_tribes.onCreated ->
-        @autorun => Meteor.subscribe 'user_tribes', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'tribe'
-    Template.user_tribes.helpers
-        my_tribes: ->
-            current_user = Meteor.users.findOne username:Router.current().params.username
-            Docs.find {
-                model:'tribe'
-                member_ids:$in:[current_user._id]
-            }, sort:_timestamp:-1
-        tribes: ->
-            Docs.find {
-                model:'tribe'
-            }, sort:_timestamp:-1
     Template.toggle_tribe_membership.helpers
         is_member: ->
             if Meteor.user()

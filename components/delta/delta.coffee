@@ -1,14 +1,19 @@
 if Meteor.isClient
     Template.delta.onCreated ->
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
-        # @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
-        # @autorun -> Meteor.subscribe 'model_fields', Router.current().params.tribe_slug, Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'my_delta'
+        # @autorun -> Meteor.subscribe 'model_docs', Router.current().params.model_slug, 20
         Session.set 'title_filter',null
+        Session.set 'loading', true
+        Meteor.call 'set_facets', Router.current().params.model_slug, ->
+            Session.set 'loading', false
 
     Template.delta.helpers
         selected_tags: -> selected_tags.list()
+        model_docs: ->
+            Docs.find
+                model:Router.current().params.model_slug
 
         current_delta: ->
             Docs.findOne
@@ -51,12 +56,6 @@ if Meteor.isClient
                 model_filter: Router.current().params.model_slug
                 # tribe_slug: Router.current().params.tribe_slug
 
-        'keyup .import_subreddit': (e,t)->
-            if e.which is 13
-                val = t.$('.import_subreddit').val()
-                Meteor.call 'pull_subreddit', val, (err,res)->
-                    console.log res
-
 
         'click .print_delta': (e,t)->
             delta = Docs.findOne model:'delta'
@@ -81,39 +80,34 @@ if Meteor.isClient
                 model = Docs.findOne
                     model:'model'
                     slug: Router.current().params.model_slug
-                    # tribe_slug: 'dao'
             else
                 model = Docs.findOne
                     model:'model'
                     slug: Router.current().params.model_slug
-                    # tribe_slug: Router.current().params.tribe_slug
             # console.log model
-            if model.collection and model.collection is 'users'
-                name = prompt 'first and last name'
-                split = name.split ' '
-                first_name = split[0]
-                last_name = split[1]
-                username = name.split(' ').join('_')
-                # console.log username
-                Meteor.call 'add_user', first_name, last_name, username, 'guest', (err,res)=>
-                    if err
-                        alert err
-                    else
-                        Meteor.users.update res,
-                            $set:
-                                first_name:first_name
-                                last_name:last_name
-                        Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{res}/edit"
-            else if model.slug is 'model'
+            # if model.collection and model.collection is 'users'
+            #     name = prompt 'first and last name'
+            #     split = name.split ' '
+            #     first_name = split[0]
+            #     last_name = split[1]
+            #     username = name.split(' ').join('_')
+            #     # console.log username
+            #     Meteor.call 'add_user', first_name, last_name, username, 'guest', (err,res)=>
+            #         if err
+            #             alert err
+            #         else
+            #             Meteor.users.update res,
+            #                 $set:
+            #                     first_name:first_name
+            #                     last_name:last_name
+            #             Router.go "/m/#{model.slug}/#{res}/edit"
+            if model.slug is 'model'
                 new_doc_id = Docs.insert
                     model:model.slug
-                    # tribe_slug:Router.current().params.tribe_slug
                 Router.go "/model/edit/#{new_doc_id}"
             else
                 new_doc_id = Docs.insert
                     model:model.slug
-                    tribe_slug:Router.current().params.tribe_slug
-                # Router.go "/t/#{model.tribe_slug}/m/#{model.slug}/#{new_doc_id}/edit"
                 Router.go "/m/#{model.slug}/#{new_doc_id}/edit"
 
 
@@ -162,10 +156,10 @@ if Meteor.isClient
 
 
 
-    Template.facet.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 1500
+    # Template.facet.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('.accordion').accordion()
+    #     , 1500
 
     Template.facet.events
         # 'click .ui.accordion': ->
@@ -179,11 +173,9 @@ if Meteor.isClient
 
             Session.set 'loading', true
             if facet.filters and @name in facet.filters
-                # Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
                 Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, model_slug, ->
                     Session.set 'loading', false
             else
-                # Meteor.call 'add_facet_filter', delta._id, facet.key, @name, tribe_slug, model_slug, ->
                 Meteor.call 'add_facet_filter', delta._id, facet.key, @name, model_slug, ->
                     Session.set 'loading', false
 
@@ -200,7 +192,6 @@ if Meteor.isClient
                 else
                     filter = t.$('.add_filter').val()
                 Session.set 'loading', true
-                # Meteor.call 'add_facet_filter', delta._id, facet.key, filter, delta.tribe_slug, model_slug, ->
                 Meteor.call 'add_facet_filter', delta._id, facet.key, filter, model_slug, ->
                     Session.set 'loading', false
                 t.$('.add_filter').val('')
@@ -284,8 +275,9 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'model_from_slug', (tribe_slug, model_slug)->
-        console.log 'publishing', tribe_slug, model_slug
+    # Meteor.publish 'model_from_slug', (tribe_slug, model_slug)->
+    Meteor.publish 'model_from_slug', (model_slug)->
+        console.log 'publishing', model_slug
         if model_slug in ['model','brick','field','tribe','block','page']
             Docs.find
                 model:'model'
