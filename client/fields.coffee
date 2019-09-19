@@ -165,7 +165,7 @@ Template.html_edit.helpers
             toolbarButtonsXS: ['bold', 'italic', 'underline']
             imageInsertButtons: ['imageBack', '|', 'imageByURL']
             tabSpaces: false
-            height: 500
+            height: 300
         }
 
 

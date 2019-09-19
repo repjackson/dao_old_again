@@ -1,13 +1,16 @@
 template(name='nav')
-    #topnav.topnav.ui.borderless.large.attached.menu
+    #topnav.topnav.ui.borderless.attached.menu
         if is_loading
             .item
                 i.big.loading.yin.yang.grey.cancel.link.cancel.icon
         unless is_loading
             //- a.ui.item(href='/restaurants' class="{{isActivePath '/grid'}}" title='models')
-            a.ui.item(href='/restaurants' class="{{isActivePath '/restaurants'}}" title='models')
-                i.th.large.icon
+            a.ui.item(href='/' class="{{isActivePath '/'}}" title='models')
+                i.home.large.icon
                 //- +i name='grid-view'
+        a.ui.item(href='/grid' class="{{isActivePath '/grid'}}" title='grid')
+            i.th.large.icon
+            //- +i name='grid-view'
         a.ui.item(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
             i.fork.large.icon
         //- a.ui.item(href='/shop' class="{{isActivePath '/shop'}}")
@@ -48,20 +51,22 @@ template(name='footer')
         .ui.container.stackable.grid
             .eight.wide.column
                 +add_button label='submit bug' model='bug'
-                if is_dev    
-                    with current_user
-                        +role_switcher
+                //- if is_dev    
+                //-     with current_user
+                //-         +role_switcher
             .eight.wide.column
+                a(target="_blank" href="https://www.amazon.com/b?_encoding=UTF8&tag=daoaf-20&linkCode=ur2&linkId=3d0f1eb4de451e9f8dfb11a49ca54ebf&camp=1789&creative=9325&node=283155") textbook link
+                img(src="//ir-na.amazon-adsystem.com/e/ir?t=daoaf-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;")    
                 //- unless currentUser
                 //-     a.ui.big.basic.button(href='/login')
                 //-         i.sign.in.icon
                 //-         |login
-                if is_eric
-                    with currentUser
-                        +role_switcher
-                else if is_dev
-                    with currentUser
-                        +role_switcher
+                //- if is_eric
+                //-     with currentUser
+                //-         +role_switcher
+                //- else if is_dev
+                //-     with currentUser
+                //-         +role_switcher
         //- if is_user
         //-     .row
         //-         .ui.center.aligned.inverted.header

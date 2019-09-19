@@ -318,7 +318,9 @@ input.username_search{
     border-radius: 10px !important;
     opacity: .8 !important;
 }
-
+.rounded {
+    border-radius: 10px !important;
+}
 
 .button {
     background-color: rgba(250, 250, 250, 0.9) !important;

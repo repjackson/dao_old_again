@@ -5,7 +5,7 @@ if Meteor.isClient
     Template.home.helpers
         docs: ->
             Docs.find {
-                # model:'restaurant'
+                model:$nin:['role']
             },
                 sort: _timestamp: -1
                 # limit:7

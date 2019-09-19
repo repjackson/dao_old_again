@@ -318,17 +318,19 @@ template(name='html_edit')
         
 template(name='html_view')
     if field_value
-        div
-        if icon
-            //- +i name=icon classes='ui avatar image'
-            i.icon(class=icon)
-        //- if title
-        //-     |#{title}
-        //- else if key
-        //-     |#{key}
-        //- else
-        //-     |#{this}
-    |!{field_value}
+        .ui.segment
+            .ui.header 
+                if icon
+                    //- +i name=icon classes='ui avatar image'
+                    i.icon(class=icon)
+                if title
+                    |#{title}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+            .smallscroll    
+                |!{field_value}
     //- +call_watson mode='html'
     //- if watson
     //-     +watson_view
@@ -711,8 +713,9 @@ template(name='array_view')
                 |#{key}
             else
                 |#{this}
-        each field_value
-            .ui.large.basic.label #{this}
+        .smallscroll
+            each field_value
+                .ui.basic.label #{this}
 
 
 template(name='children_edit')

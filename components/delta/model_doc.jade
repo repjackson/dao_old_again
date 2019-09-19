@@ -14,12 +14,13 @@ template(name='model_doc_edit')
                     //-     +boolean_edit key='private' direct=true
                 .twelve.wide.column
                     //- |#{model}
-                    .ui.fluid.styled.accordion
-                        each edit_fields
-                            .title 
-                                .ui.header #{title}
-                            .content
-                                +Template.dynamic template=edit_template 
+                    //- .ui.fluid.styled.accordion
+                    each edit_fields
+                        +Template.dynamic template=edit_template 
+                            //- .title 
+                            //-     .ui.inline.header #{title}
+                            //-     i.grey.dropdown.icon
+                            //- .content
                         // .ui.header #{key} [#{field}] #{label}
             //- if watson 
             //-     .row
@@ -30,11 +31,10 @@ template(name='model_doc_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column
-                    a.ui.basic.button.back_to_model
+                .four.wide.column
+                    a.ui.large.button.back_to_model
                         i.chevron.left.icon
                         |#{current_model.title}
-                    div
                     if can_edit
                         a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
                             i.pencil.icon
@@ -64,7 +64,7 @@ template(name='model_doc_view')
                     //-         .ui.header downvoters
                     //-         each downvoters
                     //-             .ui.large.label #{username}
-                .ten.wide.column
+                .twelve.wide.column
                     .ui.header
                         each fields
                             if header
@@ -72,13 +72,19 @@ template(name='model_doc_view')
                         // if icon
                         //     i.icon(class=icon)
                         // |#{title}
+                    //- .ui.large.fluid.styled.accordion
+                            .title #{title}
+                                i.dropdown.icon
+                            .content
                     each fields
-                        unless header
-                            .item
-                                +Template.dynamic template=view_template 
+                        +Template.dynamic template=view_template 
                     //- div
                     //- if watson
                     //-     +watson_view
+
+                    #amzn-assoc-ad-248bb52f-dd7b-4cdf-9d1c-a6690431408e
+
+
 
 
 template(name='karma_transaction')

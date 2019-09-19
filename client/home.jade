@@ -6,12 +6,59 @@ template(name='home')
                 //-     i.food.grey.icon
                 //-     |restaurants
                 +cloud
-            .ten.wide.column.scrolling
-                each docs
-                    //- 
-                    //- .ui.segment 
-                    //-     .ui.header model: #{model}
-                    //-     each tags
-                    //-         .ui.label #{this}
-                    //-         |!{body}
-                    +restaurant_card_template
+            .ten.wide.column
+                .ui.items
+                    each docs
+                        .ui.item(class=loading_class)
+                            if poster_image
+                                .image
+                                    img.ui.rounded.image(src="{{c.url poster_image width=400 height=400 gravity='face' crop='fill'}}")
+                                    //- +image_view key='poster_image' direct=true
+                            .content
+                                .header #{title} #{name}
+                                +html_view key='content' direct=true
+                                +array_view key='tags' direct=true
+                                .description
+                                    //- if image
+                                    //-     +image_view key='image' direct=true
+                                    .ui.fluid.styled.accordion
+                                        each fields
+                                            .title
+                                                |#{title}
+                                                i.grey.dropdown.icon
+                                            .content.smallscroll
+                                                +Template.dynamic template=view_template 
+                                //- each actions
+                                //-     +Template.dynamic template=this data=current_doc
+                                .extra
+                                    if is_model
+                                        //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                                        a.ui.button.route_model(href="/m/#{slug}")
+                                            i.sitemap.icon
+                                            |view model
+                                        if is_admin
+                                            a.ui.button.route_model(href="/model/edit/#{_id}")
+                                                i.edit.blue.icon
+                                                |edit model
+                                    if can_edit
+                                        a.ui.icon.big.button(href="/m/#{model}/#{_id}/edit" title='edit')
+                                            i.pencil.large.icon
+                                    a.ui.icon.big.button(href="/m/#{model}/#{_id}/view" title='view')
+                                        i.chevron.right.large.icon
+                                    if _author_id
+                                        +author_info
+                                    +creation_info
+                                //- if is_dev
+                                //-     +text_edit key='model' direct=true
+                                //-     .ui.inline.header _id: #{_id}
+                                //-     .ui.inline.header light fields
+                                //-     each _keys
+                                //-         .ui.label #{this}
+                                //-     .ui.inline.header fields
+                                //-     each _fields
+                                //-         .ui.label #{this}
+                                //-     //- +call_method name='detect_fields'
+                                //-     //- +call_method name='key' icon='key'
+                                //-     +remove_button
+                                //-     +clone
+                                

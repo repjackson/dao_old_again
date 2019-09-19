@@ -43,7 +43,8 @@ if Meteor.isClient
     Template.grid.helpers
         models: ->
 
-            match = {model:'model', view_roles:$in:['user']}
+            # match = {model:'model', view_roles:$in:['user']}
+            match = {model:'model'}
             # if selected_tags.array().length > 0
             #     match.tags = $in:selected_tags.array()
             # model_filter = Session.get('model_filter')

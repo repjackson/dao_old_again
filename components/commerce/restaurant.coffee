@@ -1,17 +1,17 @@
 Router.route '/restaurants', (->
-    @layout 'mlayout'
+    @layout 'layout'
     @render 'restaurants'
     ), name:'restaurants'
 Router.route '/restaurant/:doc_id/view', (->
-    @layout 'mlayout'
+    @layout 'layout'
     @render 'restaurant_view'
     ), name:'restaurant_view'
 Router.route '/restaurant/:doc_id/edit', (->
-    @layout 'mlayout'
+    @layout 'layout'
     @render 'restaurant_edit'
     ), name:'restaurant_edit'
 Router.route '/kiosk_restaurant_view/:doc_id', (->
-    @layout 'mlayout'
+    @layout 'layout'
     @render 'kiosk_restaurant_view'
     ), name:'kiosk_restaurant_view'
 

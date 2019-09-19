@@ -38,15 +38,16 @@ template(name='delta')
                     div
                     each sorted_facets
                         +facet
-                .ten.wide.column.scrolling
+                .ten.wide.column
                     .ui.inline.header
                         |sort by
                     .ui.left.icon.input
                         i.search.icon
                         input.title_filter(type='text' placeholder='filter...' autofocus='autofocus')
-                    each current_delta.result_ids
-                        //- .column
-                        +delta_result
+                    .ui.items
+                        each current_delta.result_ids
+                            //- .column
+                            +delta_result
                 
 
 
@@ -69,6 +70,11 @@ template(name='facet')
             input.add_filter(type='text')
             //- .active.content
                 //- div
+        //- each filters
+        //-     .selector.ui.large.active.compact.button.toggle_selection(class=toggle_value_class)
+        //-         strong #{this}
+        //-         if is_admin
+        //-             small #{name}
         each filtering_res
             if name
                 .selector.ui.large.compact.button.toggle_selection(class=toggle_value_class)
@@ -95,47 +101,58 @@ template(name='toggle_delta_config')
 
 template(name='delta_result')
     with result 
-        //- if template_exists
-        //-     +Template.dynamic template=model_template
-        //- else
-        .ui.result.cloud.fluid.segment(class=loading_class)
-            .content
-                each fields
-                    +Template.dynamic template=view_template 
-                //- each actions
-                //-     +Template.dynamic template=this data=current_doc
-                .extra
-                    if is_tribe
-                        .ui.header #{title}
-                        +enter_tribe
-                    if is_model
-                        //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
-                        a.ui.button.route_model(href="/m/#{slug}")
-                            i.sitemap.icon
-                            |view model
-                        if is_admin
-                            a.ui.button.route_model(href="/model/edit/#{_id}")
-                                i.edit.blue.icon
-                                |edit model
-                    if can_edit
-                        a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
-                            i.pencil.icon
-                    a.ui.icon.large.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
-                        i.chevron.right.icon
-                    if _author_id
-                        +author_info
-                    +creation_info
-                if is_dev
-                    +text_edit key='model' direct=true
-                    .ui.inline.header _id: #{_id}
-                    .ui.inline.header light fields
-                    each _keys
-                        .ui.label #{this}
-                    .ui.inline.header fields
-                    each _fields
-                        .ui.label #{this}
-                    //- +call_method name='detect_fields'
-                    +call_method name='key' icon='key'
-                    +remove_button
-                    +clone
+        if template_exists
+            +Template.dynamic template=model_template
+        else
+            //- .ui.result.cloud.fluid.item(class=loading_class)
+            .ui.item(class=loading_class)
+                if poster_image
+                    .image
+                        img.ui.rounded.image(src="{{c.url poster_image width=400 height=400 gravity='face' crop='fill'}}")
+                        //- +image_view key='poster_image' direct=true
+                .content
+                    .header #{title}
+                    .description
+                        //- if image
+                        //-     +image_view key='image' direct=true
+                        //- .ui.fluid.styled.accordion
+                        each fields
+                            +Template.dynamic template=view_template 
+                                //- .title
+                                //-     |#{title}
+                                //-     i.grey.dropdown.icon
+                                //- .content.smallscroll
+                    //- each actions
+                    //-     +Template.dynamic template=this data=current_doc
+                    .extra
+                        if is_model
+                            //- +user_list_toggle key='bookmark_ids' icon='bookmark' label='bookmark' color='red'
+                            a.ui.button.route_model(href="/m/#{slug}")
+                                i.sitemap.icon
+                                |view model
+                            if is_admin
+                                a.ui.button.route_model(href="/model/edit/#{_id}")
+                                    i.edit.blue.icon
+                                    |edit model
+                        if can_edit
+                            a.ui.icon.big.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')
+                                i.pencil.large.icon
+                        a.ui.icon.big.button(href="/m/#{current_model.slug}/#{_id}/view" title='view')
+                            i.chevron.right.large.icon
+                        if _author_id
+                            +author_info
+                        +creation_info
+                    //- if is_dev
+                    //-     +text_edit key='model' direct=true
+                    //-     .ui.inline.header _id: #{_id}
+                    //-     .ui.inline.header light fields
+                    //-     each _keys
+                    //-         .ui.label #{this}
+                    //-     .ui.inline.header fields
+                    //-     each _fields
+                    //-         .ui.label #{this}
+                    //-     //- +call_method name='detect_fields'
+                    //-     //- +call_method name='key' icon='key'
+                    //-     +remove_button
+                    //-     +clone
                     

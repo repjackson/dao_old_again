@@ -35,6 +35,15 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
+    Template.model_doc_view.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+
+    Template.delta_result.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
 
     Template.model_doc_view.onCreated ->
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug

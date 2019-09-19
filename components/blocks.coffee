@@ -199,7 +199,7 @@ if Meteor.isClient
 
 
     Template.role_editor.onCreated ->
-        @autorun => Meteor.subscribe 'model', 'role'
+        # @autorun => Meteor.subscribe 'model', 'role'
 
 
 

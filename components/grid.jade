@@ -3,10 +3,10 @@ template(name='grid')
     //-     each currentUser.roles
     //-         strong #{this} &nbsp;
     //-     |portal
-    //- .ui.left.icon.transparent.input
-    //-     i.search.icon
-    //-     input.model_filter(type='text' autofocus='autofocus')
-    //- +cloud filter='model'
+    .ui.left.icon.transparent.input
+        i.search.icon
+        input.model_filter(type='text' autofocus='autofocus')
+    +cloud filter='model'
     .ui.stackable.four.column.padded.grid
         each models
             .column

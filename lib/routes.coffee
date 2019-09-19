@@ -88,7 +88,7 @@ Router.route '/reset_password/:token', (->
 Router.route '/login', -> @render 'login'
 
 Router.route '/', (->
-    @layout 'mlayout'
+    @layout 'layout'
     @render 'home'
     ), name:'home'
 # Router.route '/', -> @redirect '/home'

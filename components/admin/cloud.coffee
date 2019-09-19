@@ -74,7 +74,7 @@ if Meteor.isServer
         # selected_tags.push current_herd
 
         if selected_tags.length > 0 then match.tags = $all: selected_tags
-        match.model = $in:['restaurant']
+        match.model = $nin: ['role','field_type','model']
         cloud = Docs.aggregate [
             { $match: match }
             { $project: tags: 1 }
